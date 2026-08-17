@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* --------------------------------------------------
+   Gallery Grid
+-------------------------------------------------- */
+body {
+  font-family: var(--font-body), sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.font-display {
+  font-family: var(--font-display), serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+.gallery-grid {
+  display: grid;
+
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+
+  /*
+    Much better than 70vh.
+    Each row scales with viewport width.
+  */
+  
+
+  column-gap: 6px;
+  row-gap: 30px;
+
+  grid-auto-flow: row dense;
+}
+
+.gallery-item {
+  grid-column: span var(--desktop-col);
+  grid-row: span var(--desktop-row);
+
+  min-width: 0;
+  min-height: 0;
+
+  text-decoration: none;
+}
+
+.gallery-media {
+  min-height: 0;
+}
+
+/* -----------------------------------------------
+   Tablet
+------------------------------------------------ */
+
+@media (max-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(220px, 35vw);
+  }
+
+  .gallery-item {
+    grid-column: span min(var(--desktop-col), 4);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+/* -----------------------------------------------
+   Mobile
+------------------------------------------------ */
+
+@media (max-width: 640px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    /*
+      Smaller rows on phones
+    */
+    grid-auto-rows: minmax(180px, 48vw);
+
+    column-gap: 4px;
+    row-gap: 22px;
+  }
+
+  .gallery-item {
+    grid-column: span var(--mobile-col);
+    grid-row: span var(--mobile-row);
+  }
+
+  .gallery-caption {
+    padding-top: 7px;
+  }
+
+  .gallery-caption h2 {
+    font-size: 11px;
+  }
+
+  .gallery-caption span {
+    font-size: 8px;
+  }
+}
+
+/* -----------------------------------------------
+   Accessibility
+------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-image,
+  .gallery-caption,
+  .gallery-item {
+    transition: none !important;
+  }
 }
