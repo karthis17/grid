@@ -23,10 +23,9 @@ body {
     Much better than 70vh.
     Each row scales with viewport width.
   */
-  
 
   column-gap: 6px;
-  row-gap: 30px;
+  row-gap: 10px;
 
   grid-auto-flow: row dense;
 }
@@ -59,7 +58,6 @@ body {
     grid-column: span min(var(--desktop-col), 4);
   }
 }
-
 
 /* -----------------------------------------------
    Mobile
