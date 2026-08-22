@@ -363,6 +363,8 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
     setIntroDoneState(arg0);
   }
 
+  const priorityImageSrcs = new Set(items.slice(0, 4).map((item) => item.src));
+
   return (
     <>
       <IntroAnimation onComplete={() => setIntroDone(true)} />
@@ -373,8 +375,9 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
           className="gallery-grid px-3 pb-20 sm:px-5 md:px-7 lg:px-10"
         >
           {items.map((item, index) => {
+            const isPriority = priorityImageSrcs.has(item.src);
             const isVideo = getMediaType(item) === "video";
-
+            const isLikelyAboveFold = item.row >= 1 && index < 4;
             return (
               <a
                 key={item.id}
@@ -417,7 +420,9 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
                       alt={item.title}
                       width={1400}
                       height={900}
-                      priority={index < 2}
+                      priority={isPriority}
+                      loading={isPriority ? "eager" : "lazy"}
+                      fetchPriority={isPriority ? "high" : "auto"}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 66vw"
                       className="gallery-image object-cover h-auto w-full will-change-transform"
                     />

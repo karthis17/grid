@@ -165,6 +165,7 @@ export default function IntroAnimation({
               src={logoSrc}
               alt="Logo"
               fill
+              sizes={`${logoWidth * 1.6}px`}
               priority
               className="object-contain select-none"
             />
