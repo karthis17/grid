@@ -136,7 +136,7 @@ export default function IntroAnimation({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] pointer-events-auto"
+      className="fixed inset-0 z-9999 pointer-events-auto"
       aria-hidden="true"
     >
       {/* Curtains — two halves that split apart on reveal */}
@@ -153,7 +153,7 @@ export default function IntroAnimation({
       <div className="absolute inset-0 flex items-center justify-center">
         <div
           ref={glowRef}
-          className="absolute w-[420px] h-[420px] rounded-full bg-white/10 blur-3xl"
+          className="absolute w-105 h-105 rounded-full bg-white/10 blur-3xl"
         />
 
         <div ref={logoWrapRef} className="relative">
