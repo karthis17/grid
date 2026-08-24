@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { galleryItems, galleryItems1L, galleryItems1R } from "@/lib/GalleryItems";
-import GalleryGrid1 from "@/components/GalleryGrid1";
+import GalleryGrid from "@/components/GalleryGrid";
+import { galleryItems } from "@/lib/GalleryItems";
 
 const siteUrl = "https://luciddream.co.in";
 const ogImage = `${siteUrl}${galleryItems[0].src}`;
@@ -77,6 +77,6 @@ export const metadata: Metadata = {
     },
   },
 };
-export default function Page() {
-  return <GalleryGrid1 itemsR={galleryItems1R} itemsL={galleryItems1L} />;
+export default function DPage() {
+  return <GalleryGrid items={galleryItems} />;
 }
