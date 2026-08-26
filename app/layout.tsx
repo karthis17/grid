@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/Footer";
+import SmoothScrollProvider from "@/components/SmothScrollProvider";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -33,7 +35,11 @@ export default function RootLayout({
       lang="en"
       className={`${fraunces.variable} ${plexMono.variable} ${inter.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </body>
+
+      <Footer />
     </html>
   );
 }
