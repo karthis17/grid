@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const socialLinks = [
@@ -75,7 +76,7 @@ export default function Footer() {
 
       <div className="border-t border-white/20" />
 
-      <div className="mx-auto max-w-screen-xl px-6 py-10 md:px-10 md:py-14">
+      <div className="mx-auto max-w-screen-2xl px-6 py-10 md:px-10 md:py-14">
         <a
           href="mailto:info@luciddream.co.in"
           className="block text-center text-4xl font-extrabold tracking-tight transition-opacity hover:opacity-80 sm:text-5xl md:text-7xl"
@@ -86,13 +87,10 @@ export default function Footer() {
 
       <div className="border-t border-white/20" />
 
-      <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-6 px-6 py-8 md:flex-row md:justify-between md:px-10">
+      <div className="mx-auto flex max-w-screen-2xl flex-col items-center gap-6 px-6 py-8 md:flex-row md:justify-between md:px-10">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <LucidDreamMark className="h-8 w-8" />
-          <span className="text-xl">
-            Lucid <span className="font-bold">Dream</span>
-          </span>
+         <Image width={200} height={100} alt="luciddream" src={'/LogoWhite.png'}/>
         </Link>
 
         {/* Social icons */}
