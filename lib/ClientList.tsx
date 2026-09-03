@@ -30,12 +30,12 @@ export const ClientsList: ClientList[] = [
     src: "/clients/arED-01.jpg",
     type: "Architecture",
   },
-  {
-    id: 5,
-    name: "MOAD Studio",
-    src: "/clients/dasa.jpg",
-    type: "Architecture",
-  },
+  // {
+  //   id: 5,
+  //   name: "MOAD Studio",
+  //   src: "/clients/dasa.jpg",
+  //   type: "Architecture",
+  // },
   {
     id: 6,
     name: "AMARA Homes",
@@ -84,30 +84,30 @@ export const ClientsList: ClientList[] = [
     src: "/clients/asianp.webp",
     type: "Paints & Interiors",
   },
-  {
-    id: 14,
-    name: "KSM Architecture",
-    src: "/clients/ksm.svg",
-    type: "Architecture",
-  },
+  // {
+  //   id: 14,
+  //   name: "KSM Architecture",
+  //   src: "/clients/ksm.svg",
+  //   type: "Architecture",
+  // },
   {
     id: 15,
     name: "DLEA",
     src: "/clients/dlealogo.png",
     type: "Architecture",
   },
-  {
-    id: 16,
-    name: "KASA",
-    src: "/clients/kasa.svg",
-    type: "Architecture",
-  },
-  {
-    id: 17,
-    name: "Play Architects",
-    src: "/clients/play.svg",
-    type: "Architecture",
-  },
+  // {
+  //   id: 16,
+  //   name: "KASA",
+  //   src: "/clients/kasa.svg",
+  //   type: "Architecture",
+  // },
+  // {
+  //   id: 17,
+  //   name: "Play Architects",
+  //   src: "/clients/play.svg",
+  //   type: "Architecture",
+  // },
   {
     id: 18,
     name: "Assetz Bangalore",
@@ -123,7 +123,7 @@ export const ClientsList: ClientList[] = [
   {
     id: 20,
     name: "Brigade Properties",
-    src: "/clients/sall",
+    src: "/clients/sall.webp",
     type: "Real Estate",
   },
   {
@@ -135,7 +135,7 @@ export const ClientsList: ClientList[] = [
   {
     id: 22,
     name: "Disha Realty",
-    src: "/clients/logo.svg",
+    src: "/clients/disha.png",
     type: "Real Estate",
   },
 ];
