@@ -1,14 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import gsap from "gsap";
 import { getMediaType, type GalleryItem } from "@/lib/GalleryItems";
+
+type OriginRect = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
 
 type GalleryViewerProps = {
   items: GalleryItem[];
   initialIndex: number;
-  originRect: DOMRect | null;
+  originRect: OriginRect | null;
   onClose: () => void;
 };
 
@@ -27,7 +40,6 @@ export default function GalleryViewer({
   const activeVideoRef = useRef<HTMLVideoElement | null>(null);
 
   // Captured once on mount — only used for the very first open animation.
-  const originRectRef = useRef<DOMRect | null>(originRect);
   const isTransitioning = useRef(false);
   const isNavigating = useRef(false);
   const navDirection = useRef<1 | -1>(1);
@@ -43,7 +55,7 @@ export default function GalleryViewer({
 
     const overlay = overlayRef.current;
     const wrap = flipWrapRef.current;
-    const r = originRectRef.current;
+    const r = originRect;
 
     if (!overlay || !wrap || !r) {
       document.body.style.overflow = "";
@@ -71,75 +83,81 @@ export default function GalleryViewer({
   }, [onClose]);
 
   // ---------- Open animation (mount) / navigate transition ----------
-  useEffect(() => {
-    const wrap = flipWrapRef.current;
-    const overlay = overlayRef.current;
-    const stage = imgStageRef.current;
-    const caption = captionRef.current;
-    if (!wrap || !overlay || !stage) return;
 
-    const isFirstOpen =
-      originRectRef.current !== null && !isNavigating.current;
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const wrap = flipWrapRef.current;
+      const overlay = overlayRef.current;
+      const stage = imgStageRef.current;
+      const caption = captionRef.current;
+      if (!wrap || !overlay || !stage) return;
 
-    if (isFirstOpen) {
-      const r = originRectRef.current!;
-      document.body.style.overflow = "hidden";
-      isTransitioning.current = true;
+      const isFirstOpen = originRect !== null && !isNavigating.current;
 
-      gsap.set(overlay, { opacity: 0 });
-      gsap.set(wrap, {
-        position: "fixed",
-        top: r.top,
-        left: r.left,
-        width: r.width,
-        height: r.height,
-        borderRadius: 0,
-        overflow: "hidden",
-      });
-      gsap.set(stage, { opacity: 1, y: 0 });
-      gsap.set(caption, { opacity: 0, y: 12 });
+      if (isFirstOpen) {
+        const r = originRect;
+        document.body.style.overflow = "hidden";
+        isTransitioning.current = true;
 
-      gsap.to(overlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
-      gsap.to(wrap, {
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        duration: 0.75,
-        ease: "power3.out",
-        onComplete: () => {
-          isTransitioning.current = false;
-        },
-      });
-      gsap.to(caption, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        delay: 0.35,
-        ease: "power2.out",
-      });
-    } else {
-      const dir = navDirection.current;
-      gsap.fromTo(
-        stage,
-        { opacity: 0, yPercent: dir * 6 },
-        {
-          opacity: 1,
-          yPercent: 0,
-          duration: 0.55,
+        gsap.set(overlay, { opacity: 0 });
+        gsap.set(wrap, {
+          position: "fixed",
+          top: r.top,
+          left: r.left,
+          width: r.width,
+          height: r.height,
+          borderRadius: 0,
+          overflow: "hidden",
+        });
+        gsap.set(stage, { opacity: 1, y: 0 });
+        gsap.set(caption, { opacity: 0, y: 12 });
+
+        gsap.to(overlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
+        gsap.to(wrap, {
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          duration: 0.75,
           ease: "power3.out",
           onComplete: () => {
             isTransitioning.current = false;
           },
-        },
-      );
-      gsap.fromTo(
-        caption,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.4, delay: 0.1, ease: "power2.out" },
-      );
-      isNavigating.current = false;
-    }
+        });
+        gsap.to(caption, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          delay: 0.35,
+          ease: "power2.out",
+        });
+      } else {
+        const dir = navDirection.current;
+        gsap.fromTo(
+          stage,
+          { opacity: 0, yPercent: dir * 6 },
+          {
+            opacity: 1,
+            yPercent: 0,
+            duration: 0.55,
+            ease: "power3.out",
+            onComplete: () => {
+              isTransitioning.current = false;
+            },
+          },
+        );
+        gsap.fromTo(
+          caption,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.4, delay: 0.1, ease: "power2.out" },
+        );
+        isNavigating.current = false;
+      }
+    });
+
+    return () => {
+      ctx.revert();
+    };
   }, [activeIndex]);
 
   // ---------- Navigate to next/prev ----------
@@ -194,20 +212,44 @@ export default function GalleryViewer({
       const target = e.target as HTMLElement | null;
       if (target && target.tagName === "VIDEO") return;
 
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") goTo(1);
-      if (e.key === "ArrowUp" || e.key === "ArrowLeft") goTo(-1);
-      if (e.key === "Escape") closeOverlay();
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault();
+        goTo(1);
+      }
+
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        goTo(-1);
+      }
+
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeOverlay();
+      }
     };
 
+    let touchStartX = 0;
     let touchStartY = 0;
+
     const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    const handleTouchEnd = (e: TouchEvent) => {
-      const diff = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(diff) > 50) goTo(diff > 0 ? 1 : -1);
+      const touch = e.touches[0];
+
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
     };
 
+    const handleTouchEnd = (e: TouchEvent) => {
+      const touch = e.changedTouches[0];
+
+      const diffX = touchStartX - touch.clientX;
+      const diffY = touchStartY - touch.clientY;
+
+      if (Math.abs(diffY) < 50) return;
+
+      if (Math.abs(diffY) < Math.abs(diffX)) return;
+
+      goTo(diffY > 0 ? 1 : -1);
+    };
     const overlay = overlayRef.current;
     overlay?.addEventListener("wheel", handleWheel, { passive: false });
     overlay?.addEventListener("touchstart", handleTouchStart);
@@ -221,6 +263,24 @@ export default function GalleryViewer({
       window.removeEventListener("keydown", handleKey);
     };
   }, [goTo, closeOverlay]);
+
+  useEffect(() => {
+    const indexes = [
+      (activeIndex + 1) % items.length,
+      (activeIndex - 1 + items.length) % items.length,
+    ];
+
+    indexes.forEach((index) => {
+      const item = items[index];
+
+      if (!item) return;
+
+      if (getMediaType(item) === "image") {
+        const img = new window.Image();
+        img.src = item.src;
+      }
+    });
+  }, [activeIndex, items]);
 
   return (
     <div
@@ -240,12 +300,12 @@ export default function GalleryViewer({
           {activeIsVideo ? (
             <video
               key={active.id}
-              ref={activeVideoRef}
               src={active.src}
               poster={active.poster}
               controls
               autoPlay
               playsInline
+              preload="metadata"
               className="absolute inset-0 h-full w-full object-contain"
             />
           ) : (
@@ -256,7 +316,6 @@ export default function GalleryViewer({
               fill
               sizes="100vw"
               className="object-contain"
-              priority
             />
           )}
         </div>

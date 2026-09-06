@@ -13,7 +13,7 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
       <div className="relative mx-auto max-w-screen-xl px-4">
         <div className="mb-14 text-center lg:mb-20">
           <p className="mb-3 font-mono text-xs tracking-[0.25em] text-[#9C6B2E]">
-            // TRUSTED ACROSS THE INDUSTRY
+           { '// TRUSTED ACROSS THE INDUSTRY'}
           </p>
           <h2 className="text-3xl font-semibold tracking-tight text-[#1B2027] md:text-4xl">
             Our Clients

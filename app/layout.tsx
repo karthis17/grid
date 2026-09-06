@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono, Inter, Outfit } from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import SmoothScrollProvider from "@/components/SmothScrollProvider";
+import IntroAnimation from "@/components/IntroComponent";
 // import SmoothScrollProvider from "@/components/SmothScrollProvider";
 // import { GradualBlur } from "@/components/blur/Blurbar";
 
@@ -40,10 +41,8 @@ export default function RootLayout({
     >
       <body>
         <Header />
-<SmoothScrollProvider>
-
-        {children}
-</SmoothScrollProvider>
+              <IntroAnimation />
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
         {/* <section style={{position: 'fixed',height: 500,overflow: 'hidden', zIndex: 9999, bottom: 0, left: 0, right: 0, pointerEvents: 'none'}}>
 
 

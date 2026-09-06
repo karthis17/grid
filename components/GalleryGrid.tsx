@@ -24,11 +24,6 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const mediaRefs = useRef<Array<HTMLDivElement | null>>([]);
   const gridVideoRefs = useRef<Array<HTMLVideoElement | null>>([]);
-
-  // ---------- Viewer open/close trigger ----------
-  // openIndex just tells us *which* item to open the viewer with, and whether
-  // the viewer should be mounted at all. Once open, GalleryViewer owns its
-  // own navigation state internally.
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const originRectRef = useRef<DOMRect | null>(null);
 
@@ -179,16 +174,12 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
     return () => observer.disconnect();
   }, []);
 
-  const [introDone, setIntroDoneState] = useState(false);
-  function setIntroDone(arg0: boolean): void {
-    setIntroDoneState(arg0);
-  }
+
 
   const priorityImageSrcs = new Set(items.slice(0, 4).map((item) => item.src));
 
   return (
     <>
-      <IntroAnimation onComplete={() => setIntroDone(true)} />
       <main className="min-h-screen py-10 bg-[#f7f7f4] text-[#17170F]">
         {/* Gallery */}
         <div

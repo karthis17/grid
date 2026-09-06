@@ -100,7 +100,7 @@ export default function Footer() {
 
           {/* Social icons */}
           <div className="flex items-center gap-5">
-            {socialLinks.map(({ name, href, Icon }, i) => (
+            {socialLinks.map(({ name, href, Icon }) => (
               <a
                 key={name}
                 href={href}
@@ -168,16 +168,3 @@ function BehanceIcon({ className }: { className?: string }) {
   );
 }
 
-function LucidDreamMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 32" fill="none" className={className}>
-      <path
-        d="M2 2 L20 2 L2 26 Z"
-        stroke="white"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path d="M14 12 L38 12 L20 30 Z" fill="white" />
-    </svg>
-  );
-}

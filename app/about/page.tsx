@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import {  useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -11,11 +11,26 @@ gsap.registerPlugin(ScrollTrigger);
 export default function AboutPage() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      /* --------------------------------
-         HERO
-      -------------------------------- */
+useLayoutEffect(() => {
+  const page = pageRef.current;
+
+  if (!page) return;
+
+  const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+
+    /*
+    ============================================================
+    DESKTOP / NORMAL MOTION
+    ============================================================
+    */
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      /*
+      ------------------------------------------------------------
+      HERO
+      ------------------------------------------------------------
+      */
 
       const heroTimeline = gsap.timeline({
         defaults: {
@@ -26,288 +41,369 @@ export default function AboutPage() {
       heroTimeline
         .from(".hero-tag", {
           y: 30,
-          opacity: 0,
+          autoAlpha: 0,
           duration: 0.8,
         })
         .from(
           ".hero-title-line",
           {
             yPercent: 120,
-            opacity: 0,
-            duration: 1.2,
-            stagger: 0.15,
+            autoAlpha: 0,
+            duration: 1.1,
+            stagger: 0.12,
           },
-          "-=0.3",
+          "-=0.35",
         )
         .from(
           ".hero-description",
           {
-            y: 40,
-            opacity: 0,
-            duration: 1,
+            y: 35,
+            autoAlpha: 0,
+            duration: 0.9,
           },
           "-=0.5",
         )
         .from(
           ".hero-scroll",
           {
-            opacity: 0,
-            y: 20,
-            duration: 0.7,
+            y: 15,
+            autoAlpha: 0,
+            duration: 0.6,
           },
-          "-=0.5",
+          "-=0.45",
         );
-
-      /* --------------------------------
-         GENERAL SECTION REVEALS
-      -------------------------------- */
-
-      gsap.utils.toArray<HTMLElement>(".reveal-section").forEach((section) => {
-        gsap.from(section, {
-          y: 80,
-          opacity: 0,
-          duration: 1.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 82%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-
-      /* --------------------------------
-         SECTION LABELS
-      -------------------------------- */
-
-      gsap.utils.toArray<HTMLElement>(".section-label").forEach((label) => {
-        gsap.from(label, {
-          x: -40,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: label,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-
-      /* --------------------------------
-         BIG HEADINGS
-      -------------------------------- */
-
-      gsap.utils.toArray<HTMLElement>(".reveal-heading").forEach((heading) => {
-        gsap.from(heading, {
-          yPercent: 30,
-          opacity: 0,
-          duration: 1.1,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: heading,
-            start: "top 82%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-
-      /* --------------------------------
-         PARAGRAPHS
-      -------------------------------- */
-
-      gsap.utils.toArray<HTMLElement>(".reveal-text").forEach((text) => {
-        gsap.from(text, {
-          y: 35,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: text,
-            start: "top 88%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-
-      /* --------------------------------
-         LARGE IMAGE REVEAL
-      -------------------------------- */
-
-      gsap.utils.toArray<HTMLElement>(".image-reveal").forEach((container) => {
-        const image = container.querySelector(".reveal-image");
-
-        gsap.from(container, {
-          clipPath: "inset(100% 0% 0% 0%)",
-          duration: 1.4,
-          ease: "power4.inOut",
-          scrollTrigger: {
-            trigger: container,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        if (image) {
-          gsap.from(image, {
-            scale: 1.15,
-            duration: 1.6,
+      const reveal = (
+        selector: string,
+        options: gsap.TweenVars = {},
+      ) => {
+        gsap.utils.toArray<HTMLElement>(selector).forEach((element) => {
+          gsap.from(element, {
+            y: 50,
+            autoAlpha: 0,
+            duration: 0.9,
             ease: "power3.out",
+
+            ...options,
+
             scrollTrigger: {
-              trigger: container,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
+              trigger: element,
+              start: "top 85%",
+              once: true,
+
+              ...(typeof options.scrollTrigger === "object"
+                ? options.scrollTrigger
+                : {}),
             },
           });
-        }
+        });
+      };
+
+
+      /*
+      ------------------------------------------------------------
+      SECTION REVEALS
+      ------------------------------------------------------------
+      */
+
+      reveal(".reveal-section", {
+        y: 70,
+        duration: 1,
       });
 
-      /* --------------------------------
-         DISCIPLINES STAGGER
-      -------------------------------- */
 
-      const disciplines = gsap.utils.toArray<HTMLElement>(".discipline-item");
+      /*
+      ------------------------------------------------------------
+      SECTION LABELS
+      ------------------------------------------------------------
+      */
 
-      gsap.from(disciplines, {
-        y: 60,
-        opacity: 0,
+      reveal(".section-label", {
+        x: -30,
+        y: 0,
+        duration: 0.7,
+      });
+
+
+      /*
+      ------------------------------------------------------------
+      BIG HEADINGS
+      ------------------------------------------------------------
+      */
+
+      reveal(".reveal-heading", {
+        y: 45,
+        duration: 1,
+        ease: "power4.out",
+      });
+
+
+      /*
+      ------------------------------------------------------------
+      PARAGRAPHS
+      ------------------------------------------------------------
+      */
+
+      reveal(".reveal-text", {
+        y: 25,
         duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".disciplines-list",
-          start: "top 78%",
-          toggleActions: "play none none reverse",
-        },
       });
 
-      /* --------------------------------
-         COLLAB SECTION
-      -------------------------------- */
 
-      const collabHeading = document.querySelector(".collab-heading");
+      /*
+      ============================================================
+      IMAGE REVEALS
+      ============================================================
+      */
 
-      if (collabHeading) {
-        gsap.from(collabHeading, {
-          y: 100,
-          opacity: 0,
-          duration: 1.3,
-          ease: "power4.out",
+      gsap.utils
+        .toArray<HTMLElement>(".image-reveal")
+        .forEach((container) => {
+          const image = container.querySelector<HTMLElement>(
+            ".reveal-image",
+          );
+
+          const timeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: container,
+              start: "top 82%",
+              once: true,
+            },
+          });
+
+          timeline.from(container, {
+            clipPath: "inset(100% 0% 0% 0%)",
+            duration: 1.2,
+            ease: "power4.inOut",
+          });
+
+          if (image) {
+            timeline.from(
+              image,
+              {
+                scale: 1.08,
+                duration: 1.4,
+                ease: "power3.out",
+              },
+              "<",
+            );
+          }
+        });
+
+
+      /*
+      ============================================================
+      DISCIPLINES
+      ============================================================
+      */
+
+      const disciplines = gsap.utils.toArray<HTMLElement>(
+        ".discipline-item",
+      );
+
+      if (disciplines.length) {
+        gsap.from(disciplines, {
+          y: 40,
+          autoAlpha: 0,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: "power3.out",
+
           scrollTrigger: {
-            trigger: collabHeading,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
+            trigger: ".disciplines-list",
+            start: "top 82%",
+            once: true,
           },
         });
       }
 
-      gsap.from(".collab-copy", {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".collab-copy-wrapper",
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
 
-      /* --------------------------------
-         STATS
-      -------------------------------- */
+      /*
+      ============================================================
+      COLLABORATION
+      ============================================================
+      */
 
-      gsap.utils.toArray<HTMLElement>(".stat-number").forEach((stat) => {
-        const target = Number(stat.dataset.value);
+      const collab = document.querySelector(".collab-section");
 
-        if (!target) return;
-
-        const counter = {
-          value: 0,
-        };
-
-        gsap.to(counter, {
-          value: target,
-          duration: 2,
-          ease: "power2.out",
-          onUpdate: () => {
-            stat.textContent = `${Math.round(counter.value)}+`;
-          },
+      if (collab) {
+        const collabTimeline = gsap.timeline({
           scrollTrigger: {
-            trigger: stat,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
+            trigger: collab,
+            start: "top 80%",
+            once: true,
           },
         });
-      });
 
-      /* --------------------------------
-         FOUNDER
-      -------------------------------- */
+        collabTimeline
+          .from(".collab-heading", {
+            y: 70,
+            autoAlpha: 0,
+            duration: 1,
+            ease: "power4.out",
+          })
+          .from(
+            ".collab-copy",
+            {
+              y: 30,
+              autoAlpha: 0,
+              duration: 0.8,
+              stagger: 0.12,
+              ease: "power3.out",
+            },
+            "-=0.5",
+          );
+      }
 
-      gsap.from(".founder-image", {
-        x: -100,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".founder-section",
-          start: "top 75%",
-          toggleActions: "play none none reverse",
+
+      /*
+      ============================================================
+      STATS
+      ============================================================
+      */
+
+      gsap.utils
+        .toArray<HTMLElement>(".stat-number")
+        .forEach((stat) => {
+          const target = Number(stat.dataset.value);
+
+          if (!Number.isFinite(target)) return;
+
+          const counter = {
+            value: 0,
+          };
+
+          gsap.to(counter, {
+            value: target,
+            duration: 1.6,
+            ease: "power2.out",
+
+            onUpdate: () => {
+              stat.textContent = `${Math.round(counter.value)}+`;
+            },
+
+            scrollTrigger: {
+              trigger: stat,
+              start: "top 85%",
+              once: true,
+            },
+          });
+        });
+
+
+      /*
+      ============================================================
+      FOUNDER
+      ============================================================
+      */
+
+      const founder = document.querySelector(".founder-section");
+
+      if (founder) {
+        const founderTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: founder,
+            start: "top 78%",
+            once: true,
+          },
+        });
+
+        founderTimeline
+          .from(".founder-image", {
+            x: -70,
+            autoAlpha: 0,
+            duration: 1,
+            ease: "power4.out",
+          })
+          .from(
+            ".founder-content",
+            {
+              x: 70,
+              autoAlpha: 0,
+              duration: 1,
+              ease: "power4.out",
+            },
+            "<",
+          );
+      }
+
+
+      /*
+      ============================================================
+      CTA
+      ============================================================
+      */
+
+      const cta = document.querySelector(".cta-box");
+
+      if (cta) {
+        const ctaTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: cta,
+            start: "top 85%",
+            once: true,
+          },
+        });
+
+        ctaTimeline
+          .from(cta, {
+            y: 70,
+            autoAlpha: 0,
+            duration: 1,
+            ease: "power4.out",
+          })
+          .from(
+            ".cta-heading",
+            {
+              y: 35,
+              autoAlpha: 0,
+              duration: 0.9,
+              ease: "power4.out",
+            },
+            "-=0.55",
+          );
+      }
+    });
+
+
+    /*
+    ============================================================
+    REDUCED MOTION
+    ============================================================
+    */
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(
+        [
+          ".hero-tag",
+          ".hero-title-line",
+          ".hero-description",
+          ".hero-scroll",
+          ".reveal-section",
+          ".section-label",
+          ".reveal-heading",
+          ".reveal-text",
+          ".image-reveal",
+          ".discipline-item",
+          ".collab-heading",
+          ".collab-copy",
+          ".stat-number",
+          ".founder-image",
+          ".founder-content",
+          ".cta-box",
+          ".cta-heading",
+        ],
+        {
+          clearProps: "all",
         },
-      });
+      );
+    });
 
-      gsap.from(".founder-content", {
-        x: 100,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".founder-section",
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      });
+  }, page);
 
-      /* --------------------------------
-         CTA
-      -------------------------------- */
-
-      gsap.from(".cta-box", {
-        y: 100,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".cta-box",
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      gsap.from(".cta-heading", {
-        yPercent: 30,
-        opacity: 0,
-        duration: 1.2,
-        delay: 0.15,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".cta-box",
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      /* --------------------------------
-         REFRESH SCROLLTRIGGER
-      -------------------------------- */
-
-      ScrollTrigger.refresh();
-    }, pageRef);
-
-    return () => ctx.revert();
-  }, []);
+  return () => {
+    ctx.revert();
+  };
+}, []);
 
   return (
     <main
