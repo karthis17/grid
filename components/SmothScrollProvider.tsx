@@ -1,33 +1,42 @@
-// components/smooth-scroll-provider.tsx
 "use client";
 
-import { ReactLenis } from "lenis/react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect } from "react";
+import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function SmoothScrollProvider({ children }: { children: ReactNode }) {
-  const [enabled, setEnabled] = useState(true);
+gsap.registerPlugin(ScrollTrigger);
 
+export default function SmoothScroll({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setEnabled(!mq.matches);
-    const handler = (e: MediaQueryListEvent) => setEnabled(!e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+    const lenis = new Lenis({
+      duration: 1.05,
+      smoothWheel: true,
+      syncTouch: false,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1,
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const update = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(update);
+
+    // Don't let GSAP add its own lag smoothing
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(update);
+      lenis.destroy();
+    };
   }, []);
 
-  if (!enabled) return <>{children}</>;
-
-  return (
-    <ReactLenis
-      root
-      options={{
-        lerp: 0.1,        // lower = smoother/slower, higher = snappier
-        duration: 1.2,
-        smoothWheel: true,
-        syncTouch: false, // keep native touch feel on mobile, better perf + no jank
-      }}
-    >
-      {children}
-    </ReactLenis>
-  );
+  return <>{children}</>;
 }

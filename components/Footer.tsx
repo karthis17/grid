@@ -22,15 +22,15 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white">
-      <div className="mx-auto max-w-screen-2xl px-6 py-16 md:px-10 lg:py-24">
+    <footer className="">
+      <div className="mx-auto bg-[#f7f7f4] text-black  px-6 py-16 md:px-10 lg:py-24">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
           {/* Left column */}
           <div>
             <h2 className="text-4xl font-normal">
               We&rsquo;re Lucid<span className="font-bold">Dream</span>
             </h2>
-            <p className="mt-6  text-lg leading-relaxed text-gray-300">
+            <p className="mt-6  text-lg leading-relaxed text-gray-700">
               We are a creative company, a small and talented team crafting
               extraordinary and unique work across many disciplines - from video
               content and animation, to real time CG, branding, websites,
@@ -39,12 +39,12 @@ export default function Footer() {
               placemaking.
             </p>
             <p className="mt-8 font-bold">Arun Babu</p>
-            <p className="mt-1 text-[15px] text-gray-300">
+            <p className="mt-1 text-[15px] text-gray-700">
               Founder and Partner-Architect
             </p>
             <a
               href="mailto:arunbabu@luciddream.co.in"
-              className="mt-1 block text-[15px] text-gray-300 hover:text-white"
+              className="mt-1 block text-[15px] text-gray-700 hover:text-white"
             >
               arunbabu@luciddream.co.in
             </a>
@@ -55,7 +55,7 @@ export default function Footer() {
             <h2 className="text-3xl font-normal">
               Collab x Lucid<span className="font-bold">Dream</span>
             </h2>
-            <p className="mt-6  text-lg leading-relaxed text-gray-300">
+            <p className="mt-6  text-lg leading-relaxed text-gray-700 ">
               We have built our reputation on our ability to communicate
               visually compelling narratives and construct believable spaces
               with a strong sense of atmosphere and occasion. We have been
@@ -66,7 +66,7 @@ export default function Footer() {
             </p>
             <div className="mt-10 flex items-baseline gap-3">
               <span className="text-6xl font-extrabold leading-none">100+</span>
-              <span className="text-sm text-gray-300">
+              <span className="text-sm text-gray-700">
                 Clients use our service
               </span>
             </div>
@@ -75,44 +75,50 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/20" />
-
-      <div className="mx-auto max-w-screen-2xl px-6 py-10 md:px-10 md:py-14">
-        <a
-          href="mailto:info@luciddream.co.in"
-          className="block text-center text-4xl font-extrabold tracking-tight transition-opacity hover:opacity-80 sm:text-5xl md:text-7xl"
-        >
-          info@luciddream.co.in
-        </a>
-      </div>
-
-      <div className="border-t border-white/20" />
-
-      <div className="mx-auto flex max-w-screen-2xl flex-col items-center gap-6 px-6 py-8 md:flex-row md:justify-between md:px-10">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-         <Image width={200} height={100} alt="luciddream" src={'/LogoWhite.png'}/>
-        </Link>
-
-        {/* Social icons */}
-        <div className="flex items-center gap-5">
-          {socialLinks.map(({ name, href, Icon }, i) => (
-            <a
-              key={name}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={name}
-              className="text-white/70 transition-colors hover:text-white"
-            >
-              <Icon className="h-5 w-5" />
-            </a>
-          ))}
+      <div className="bg-black text-white px-6">
+        <div className="mx-auto  px-6 py-10 md:px-10 md:py-14">
+          <a
+            href="mailto:info@luciddream.co.in"
+            className="block text-center text-4xl font-extrabold tracking-tight transition-opacity hover:opacity-80 sm:text-5xl md:text-7xl"
+          >
+            info@luciddream.co.in
+          </a>
         </div>
 
-        {/* Copyright */}
-        <p className="text-sm text-gray-300">
-          &copy; Copyright {new Date().getFullYear()} - Luciddream
-        </p>
+        <div className="border-t border-white/20" />
+
+        <div className="mx-auto flex  flex-col items-center gap-6 px-6 py-8 md:flex-row md:justify-between md:px-10">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <Image
+              width={200}
+              height={100}
+              alt="luciddream"
+              src={"/LogoWhite.png"}
+            />
+          </Link>
+
+          {/* Social icons */}
+          <div className="flex items-center gap-5">
+            {socialLinks.map(({ name, href, Icon }, i) => (
+              <a
+                key={name}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={name}
+                className="text-white/70 transition-colors hover:text-white"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            ))}
+          </div>
+
+          {/* Copyright */}
+          <p className="text-sm text-gray-300">
+            &copy; Copyright {new Date().getFullYear()} - Luciddream
+          </p>
+        </div>
       </div>
     </footer>
   );

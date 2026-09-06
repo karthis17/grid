@@ -47,61 +47,108 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
   // ---------- Grid intro animation ----------
   useLayoutEffect(() => {
     const gallery = galleryRef.current;
+
     if (!gallery) return;
 
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray<HTMLElement>(".gallery-item");
-      const images = gsap.utils.toArray<HTMLElement>(".gallery-image");
-      const captions = gsap.utils.toArray<HTMLElement>(".gallery-caption");
 
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
+      /* --------------------------------
+       REDUCED MOTION
+    -------------------------------- */
+
       if (prefersReducedMotion) {
-        gsap.set(cards, { opacity: 1, y: 0 });
-        gsap.set(images, { scale: 1 });
-        gsap.set(captions, { opacity: 1, y: 0 });
+        gsap.set(cards, {
+          opacity: 1,
+          y: 0,
+        });
+
+        gsap.set(".gallery-image", {
+          scale: 1,
+          y: 0,
+        });
+
+        gsap.set(".gallery-caption", {
+          opacity: 1,
+          y: 0,
+        });
+
         return;
       }
 
-      gsap.set(cards, { opacity: 0, y: 70 });
-      gsap.set(images, { scale: 1.12 });
-      gsap.set(captions, { opacity: 0, y: 15 });
+      /* --------------------------------
+       INITIAL STATE
+    -------------------------------- */
 
-      cards.forEach((card, index) => {
-        const image = images[index];
-        const caption = captions[index];
+      cards.forEach((card) => {
+        const image = card.querySelector<HTMLElement>(".gallery-image");
+        const caption = card.querySelector<HTMLElement>(".gallery-caption");
 
-        gsap.to(card, {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: card, start: "top 88%", once: true },
+        gsap.set(card, {
+          opacity: 0,
+          y: 35,
         });
 
-        gsap.to(image, {
-          scale: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: { trigger: card, start: "top 88%", once: true },
+        if (image) {
+          gsap.set(image, {
+            scale: 1.04,
+          });
+        }
+
+        if (caption) {
+          gsap.set(caption, {
+            opacity: 0,
+            y: 8,
+          });
+        }
+
+        /* --------------------------------
+         ONE SCROLLTRIGGER PER CARD
+      -------------------------------- */
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: "top 92%",
+            once: true,
+            fastScrollEnd: true,
+          },
         });
 
-        gsap.to(caption, {
+        tl.to(card, {
           opacity: 1,
           y: 0,
-          duration: 0.7,
-          delay: 0.15,
+          duration: 0.65,
           ease: "power2.out",
-          scrollTrigger: { trigger: card, start: "top 88%", once: true },
-        });
+        })
+          .to(
+            image,
+            {
+              scale: 1,
+              duration: 0.9,
+              ease: "power2.out",
+            },
+            "<",
+          )
+          .to(
+            caption,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.45,
+              ease: "power2.out",
+            },
+            "-=0.35",
+          );
       });
     }, galleryRef);
 
     return () => ctx.revert();
   }, []);
-
   // ---------- Play grid video previews only while on screen (desktop only) ----------
   useEffect(() => {
     const videos = gridVideoRefs.current.filter(

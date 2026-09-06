@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono, Inter } from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import SmoothScrollProvider from "@/components/SmothScrollProvider";
 // import SmoothScrollProvider from "@/components/SmothScrollProvider";
 // import { GradualBlur } from "@/components/blur/Blurbar";
 
@@ -17,7 +18,7 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-mono",
 });
 
-const inter = Inter({
+const inter = Outfit({
   subsets: ["latin"],
   variable: "--font-body",
 });
@@ -39,8 +40,10 @@ export default function RootLayout({
     >
       <body>
         <Header />
+<SmoothScrollProvider>
 
         {children}
+</SmoothScrollProvider>
         {/* <section style={{position: 'fixed',height: 500,overflow: 'hidden', zIndex: 9999, bottom: 0, left: 0, right: 0, pointerEvents: 'none'}}>
 
 
