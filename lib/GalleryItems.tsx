@@ -31,10 +31,12 @@ export function getMediaType(item: GalleryItem): MediaType {
   return VIDEO_EXTENSIONS.test(item.src) ? "video" : "image";
 }
 
+
+
 export const galleryItems: GalleryItem[] = [
   {
     id: "01",
-    src: "/4.jpg",
+    src: "/gallery/luciddream-gallery-1.avif",
     no: "01",
     title: "Haditehrani, Office",
     meta: "Pune, 2023",
@@ -45,7 +47,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "02",
-    src: "/2.jpg",
+    src: "/gallery/luciddream-gallery-2.avif",
     no: "02",
     title: "Courtyard House",
     meta: "Pune, 2022",
@@ -56,7 +58,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "03",
-    src: "/3.jpg",
+    src: "/gallery/luciddream-gallery-3.avif",
     no: "03",
     title: "Garden Residence",
     meta: "Pune, 2022",
@@ -67,9 +69,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "04",
-    src: "/vid1.mp4",
-    type: "video",
-    poster: "/1.jpg",
+    src: "/gallery/luciddream-gallery-4.avif",
     no: "04",
     title: "Coastal Pavilion",
     meta: "Åland, 2021",
@@ -80,7 +80,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "05",
-    src: "/5.jpg",
+    src: "/gallery/luciddream-gallery-5.avif",
     no: "05",
     title: "Forest Retreat",
     meta: "Sarek, 2023",
@@ -91,7 +91,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "06",
-    src: "/6.jpg",
+    src: "/gallery/luciddream-gallery-6.avif",
     no: "06",
     title: "Stone House",
     meta: "Öland, 2020",
@@ -102,7 +102,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "07",
-    src: "/7.jpg",
+    src: "/gallery/luciddream-gallery-7.avif",
     no: "07",
     title: "Timber Pavilion",
     meta: "Öland, 2020",
@@ -113,7 +113,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "08",
-    src: "/8.jpg",
+    src: "/gallery/luciddream-gallery-8.avif",
     no: "08",
     title: "Pine Facade",
     meta: "Halland, 2019",
@@ -124,7 +124,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "09",
-    src: "/1.jpg",
+    src: "/gallery/luciddream-gallery-9.avif",
     no: "09",
     title: "Reflection House",
     meta: "Malmö, 2024",
@@ -135,7 +135,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "10",
-    src: "/2.jpg",
+    src: "/gallery/luciddream-gallery-10.avif",
     no: "10",
     title: "Brick Residence",
     meta: "Skåne, 2023",
@@ -146,7 +146,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "11",
-    src: "/3.jpg",
+    src: "/gallery/luciddream-gallery-11.avif",
     no: "11",
     title: "Lake House",
     meta: "Uppsala, 2022",
@@ -157,7 +157,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "12",
-    src: "/4.jpg",
+    src: "/gallery/luciddream-gallery-12.avif",
     no: "12",
     title: "Boat Jetty",
     meta: "Archipelago, 2021",
@@ -168,7 +168,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "13",
-    src: "/5.jpg",
+    src: "/gallery/luciddream-gallery-13.avif",
     no: "13",
     title: "Reef Pavilion",
     meta: "Coastal Site, 2024",
@@ -179,7 +179,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "14",
-    src: "/6.jpg",
+    src: "/gallery/luciddream-gallery-14.avif",
     no: "14",
     title: "Pine Residence",
     meta: "Värmland, 2022",
@@ -190,7 +190,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "15",
-    src: "/1.jpg",
+    src: "/gallery/luciddream-gallery-15.avif",
     no: "15",
     title: "Reflection House",
     meta: "Lake Site, 2020",
@@ -201,7 +201,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "16",
-    src: "/2.jpg",
+    src: "/gallery/luciddream-gallery-16.avif",
     no: "16",
     title: "Covered Porch",
     meta: "Dalarna, 2023",
@@ -209,6 +209,506 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+  },
+
+  // 17–46
+  {
+    id: "17",
+    src: "/gallery/luciddream-gallery-17.avif",
+    no: "17",
+    title: "Oak House",
+    meta: "Bangalore, 2024",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "18",
+    src: "/gallery/luciddream-gallery-18.avif",
+    no: "18",
+    title: "Linear Residence",
+    meta: "Chennai, 2023",
+    col: 3,
+    row: 2,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+  {
+    id: "19",
+    src: "/gallery/luciddream-gallery-19.avif",
+    no: "19",
+    title: "Cedar Villa",
+    meta: "Goa, 2024",
+    col: 6,
+    row: 1,
+    mobileCol: 2,
+    mobileRow: 1,
+  },
+  {
+    id: "20",
+    src: "/gallery/luciddream-gallery-20.avif",
+    no: "20",
+    title: "Atrium House",
+    meta: "Hyderabad, 2022",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "21",
+    src: "/gallery/luciddream-gallery-21.avif",
+    no: "21",
+    title: "Terrace Residence",
+    meta: "Mumbai, 2023",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+  {
+    id: "22",
+    src: "/gallery/luciddream-gallery-22.avif",
+    no: "22",
+    title: "Courtyard Villa",
+    meta: "Kochi, 2024",
+    col: 4,
+    row: 2,
+    mobileCol: 2,
+    mobileRow: 2,
+  },
+  {
+    id: "23",
+    src: "/gallery/luciddream-gallery-23.avif",
+    no: "23",
+    title: "Concrete Pavilion",
+    meta: "Pondicherry, 2022",
+    col: 2,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "24",
+    src: "/gallery/luciddream-gallery-24.avif",
+    no: "24",
+    title: "Sunken Garden",
+    meta: "Bangalore, 2023",
+    col: 2,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "25",
+    src: "/gallery/luciddream-gallery-25.avif",
+    no: "25",
+    title: "Monsoon House",
+    meta: "Kerala, 2024",
+    col: 6,
+    row: 2,
+    mobileCol: 2,
+    mobileRow: 2,
+  },
+  {
+    id: "26",
+    src: "/gallery/luciddream-gallery-26.avif",
+    no: "26",
+    title: "Quiet Courtyard",
+    meta: "Chennai, 2021",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "27",
+    src: "/gallery/luciddream-gallery-27.avif",
+    no: "27",
+    title: "Terracotta House",
+    meta: "Jaipur, 2023",
+    col: 3,
+    row: 2,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+  {
+    id: "28",
+    src: "/gallery/luciddream-gallery-28.avif",
+    no: "28",
+    title: "Limestone Villa",
+    meta: "Goa, 2022",
+    col: 3,
+    row: 1,
+    mobileCol: 2,
+    mobileRow: 1,
+  },
+  {
+    id: "29",
+    src: "/gallery/luciddream-gallery-29.avif",
+    no: "29",
+    title: "Shadow Pavilion",
+    meta: "Delhi, 2024",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "30",
+    src: "/gallery/luciddream-gallery-30.avif",
+    no: "30",
+    title: "Courtyard Studio",
+    meta: "Pune, 2024",
+    col: 6,
+    row: 1,
+    mobileCol: 2,
+    mobileRow: 1,
+  },
+  {
+    id: "31",
+    src: "/gallery/luciddream-gallery-31.avif",
+    no: "31",
+    title: "Riverside House",
+    meta: "Rishikesh, 2022",
+    col: 3,
+    row: 2,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+  {
+    id: "32",
+    src: "/gallery/luciddream-gallery-32.avif",
+    no: "32",
+    title: "Open Frame House",
+    meta: "Bangalore, 2024",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "33",
+    src: "/gallery/luciddream-gallery-33.avif",
+    no: "33",
+    title: "Tropical Retreat",
+    meta: "Goa, 2023",
+    col: 4,
+    row: 2,
+    mobileCol: 2,
+    mobileRow: 2,
+  },
+  {
+    id: "34",
+    src: "/gallery/luciddream-gallery-34.avif",
+    no: "34",
+    title: "Glass Pavilion",
+    meta: "Mumbai, 2024",
+    col: 2,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "35",
+    src: "/gallery/luciddream-gallery-35.avif",
+    no: "35",
+    title: "Granite Residence",
+    meta: "Coimbatore, 2022",
+    col: 2,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+   {
+    id: "36",
+    src: "/gallery/luciddream-gallery-36.avif",
+    no: "36",
+    title: "Forest Courtyard",
+    meta: "Munnar, 2023",
+    col: 3,
+    row: 2,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+  {
+    id: "37",
+    src: "/gallery/luciddream-gallery-37.avif",
+    no: "37",
+    title: "Stone Courtyard",
+    meta: "Ooty, 2021",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "38",
+    src: "/gallery/luciddream-gallery-38.avif",
+    no: "38",
+    title: "Skyline Residence",
+    meta: "Mumbai, 2023",
+    col: 6,
+    row: 1,
+    mobileCol: 2,
+    mobileRow: 1,
+  },
+  {
+    id: "39",
+    src: "/gallery/luciddream-gallery-39.avif",
+    no: "39",
+    title: "Palm House",
+    meta: "Goa, 2022",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+  {
+    id: "40",
+    src: "/gallery/luciddream-gallery-40.avif",
+    no: "40",
+    title: "Minimalist Villa",
+    meta: "Bangalore, 2024",
+    col: 3,
+    row: 2,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+  {
+    id: "41",
+    src: "/gallery/luciddream-gallery-41.avif",
+    no: "41",
+    title: "Lightwell House",
+    meta: "Chennai, 2023",
+    col: 4,
+    row: 2,
+    mobileCol: 2,
+    mobileRow: 2,
+  },
+  {
+    id: "42",
+    src: "/gallery/luciddream-gallery-42.avif",
+    no: "42",
+    title: "Red Earth Residence",
+    meta: "Pune, 2022",
+    col: 2,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "43",
+    src: "/gallery/luciddream-gallery-43.avif",
+    no: "43",
+    title: "Canopy House",
+    meta: "Kerala, 2024",
+    col: 2,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "44",
+    src: "/gallery/luciddream-gallery-44.avif",
+    no: "44",
+    title: "Horizon Pavilion",
+    meta: "Alibaug, 2023",
+    col: 6,
+    row: 2,
+    mobileCol: 2,
+    mobileRow: 2,
+  },
+  {
+    id: "45",
+    src: "/gallery/luciddream-gallery-45.avif",
+    no: "45",
+    title: "Courtyard Loft",
+    meta: "Hyderabad, 2024",
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+  },
+  {
+    id: "46",
+    src: "/gallery/luciddream-gallery-46.avif",
+    no: "46",
+    title: "Walled Garden",
+    meta: "Kochi, 2023",
+    col: 3,
+    row: 2,
+    mobileCol: 1,
+    mobileRow: 2,
+  },
+];
+
+export type GalleryRow={
+  rowType: string;
+  items: GalleryItem[]
+}
+
+export const galleryRows:GalleryRow[]  = [
+  {
+    rowType: "feature-left",
+    items: [
+      galleryItems[0],
+      galleryItems[1],
+      galleryItems[2],
+    ],
+  },
+
+  {
+    rowType: "hero",
+    items: [
+      galleryItems[3],
+    ],
+  },
+
+  {
+    rowType: "quad",
+    items: [
+      galleryItems[4],
+      galleryItems[5],
+      galleryItems[6],
+      galleryItems[7],
+    ],
+  },
+
+  {
+    rowType: "duo",
+    items: [
+      galleryItems[8],
+      galleryItems[9],
+    ],
+  },
+
+  {
+    rowType: "hero",
+    items: [
+      galleryItems[10],
+    ],
+  },
+
+  {
+    rowType: "trio",
+    items: [
+      galleryItems[11],
+      galleryItems[12],
+      galleryItems[13],
+    ],
+  },
+
+  {
+    rowType: "feature-right",
+    items: [
+      galleryItems[14],
+      galleryItems[15],
+      galleryItems[16],
+    ],
+  },
+
+  {
+    rowType: "duo",
+    items: [
+      galleryItems[17],
+      galleryItems[18],
+    ],
+  },
+
+  {
+    rowType: "hero",
+    items: [
+      galleryItems[19],
+    ],
+  },
+
+  {
+    rowType: "quad",
+    items: [
+      galleryItems[20],
+      galleryItems[21],
+      galleryItems[22],
+      galleryItems[23],
+    ],
+  },
+
+  {
+    rowType: "duo",
+    items: [
+      galleryItems[24],
+      galleryItems[25],
+    ],
+  },
+
+  {
+    rowType: "trio",
+    items: [
+      galleryItems[26],
+      galleryItems[27],
+      galleryItems[28],
+    ],
+  },
+
+  {
+    rowType: "feature-left",
+    items: [
+      galleryItems[29],
+      galleryItems[30],
+      galleryItems[31],
+    ],
+  },
+
+  {
+    rowType: "trio",
+    items: [
+      galleryItems[32],
+      galleryItems[33],
+      galleryItems[34],
+    ],
+  },
+
+  {
+    rowType: "duo",
+    items: [
+      galleryItems[35],
+      galleryItems[36],
+    ],
+  },
+
+  {
+    rowType: "hero",
+    items: [
+      galleryItems[37],
+    ],
+  },
+
+  {
+    rowType: "quad",
+    items: [
+      galleryItems[38],
+      galleryItems[39],
+      galleryItems[40],
+      galleryItems[41],
+    ],
+  },
+
+  {
+    rowType: "duo",
+    items: [
+      galleryItems[42],
+      galleryItems[43],
+    ],
+  },
+
+  {
+    rowType: "feature-right",
+    items: [
+      galleryItems[44],
+      galleryItems[45],
+      // galleryItems[46], // screenshot has this extra image
+    ],
   },
 ];
 
