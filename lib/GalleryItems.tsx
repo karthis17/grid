@@ -13,11 +13,12 @@ export type GalleryItem = {
 
   // Optional poster frame shown before a video plays / while it loads.
   poster?: string;
-
+  width?: number;
+  height?: number;
   // Desktop
   col: number;
   row: number;
-align?: "left" | "right"; // Optional alignment for desktop grid items
+  align?: "left" | "right"; // Optional alignment for desktop grid items
   // Mobile (unused now that mobile is forced to single column,
   // kept for reference / possible future use)
   mobileCol?: number;
@@ -31,12 +32,12 @@ export function getMediaType(item: GalleryItem): MediaType {
   return VIDEO_EXTENSIONS.test(item.src) ? "video" : "image";
 }
 
-
-
 export const galleryItems: GalleryItem[] = [
   {
     id: "01",
     src: "/gallery/luciddream-gallery-1.avif",
+    width: 1824,
+    height: 1654,
     no: "01",
     title: "Haditehrani, Office",
     meta: "Pune, 2023",
@@ -48,6 +49,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "02",
     src: "/gallery/luciddream-gallery-2.avif",
+    width: 5000,
+    height: 5000,
     no: "02",
     title: "Courtyard House",
     meta: "Pune, 2022",
@@ -59,6 +62,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "03",
     src: "/gallery/luciddream-gallery-3.avif",
+    width: 1920,
+    height: 1920,
     no: "03",
     title: "Garden Residence",
     meta: "Pune, 2022",
@@ -70,6 +75,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "04",
     src: "/gallery/luciddream-gallery-4.avif",
+    width: 1920,
+    height: 964,
     no: "04",
     title: "Coastal Pavilion",
     meta: "Åland, 2021",
@@ -81,6 +88,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "05",
     src: "/gallery/luciddream-gallery-5.avif",
+    width: 1920,
+    height: 1920,
     no: "05",
     title: "Forest Retreat",
     meta: "Sarek, 2023",
@@ -92,6 +101,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "06",
     src: "/gallery/luciddream-gallery-6.avif",
+    width: 1920,
+    height: 1920,
     no: "06",
     title: "Stone House",
     meta: "Öland, 2020",
@@ -103,6 +114,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "07",
     src: "/gallery/luciddream-gallery-7.avif",
+    width: 3198,
+    height: 3187,
     no: "07",
     title: "Timber Pavilion",
     meta: "Öland, 2020",
@@ -114,6 +127,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "08",
     src: "/gallery/luciddream-gallery-8.avif",
+    width: 3000,
+    height: 3000,
     no: "08",
     title: "Pine Facade",
     meta: "Halland, 2019",
@@ -125,6 +140,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "09",
     src: "/gallery/luciddream-gallery-9.avif",
+    width: 3995,
+    height: 2509,
     no: "09",
     title: "Reflection House",
     meta: "Malmö, 2024",
@@ -136,6 +153,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "10",
     src: "/gallery/luciddream-gallery-10.avif",
+    width: 1920,
+    height: 1184,
     no: "10",
     title: "Brick Residence",
     meta: "Skåne, 2023",
@@ -147,6 +166,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "11",
     src: "/gallery/luciddream-gallery-11.avif",
+    width: 1920,
+    height: 968,
     no: "11",
     title: "Lake House",
     meta: "Uppsala, 2022",
@@ -158,6 +179,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "12",
     src: "/gallery/luciddream-gallery-12.avif",
+    width: 2400,
+    height: 3000,
     no: "12",
     title: "Boat Jetty",
     meta: "Archipelago, 2021",
@@ -169,6 +192,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "13",
     src: "/gallery/luciddream-gallery-13.avif",
+    width: 2400,
+    height: 3000,
     no: "13",
     title: "Reef Pavilion",
     meta: "Coastal Site, 2024",
@@ -180,6 +205,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "14",
     src: "/gallery/luciddream-gallery-14.avif",
+    width: 2400,
+    height: 3000,
     no: "14",
     title: "Pine Residence",
     meta: "Värmland, 2022",
@@ -191,6 +218,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "15",
     src: "/gallery/luciddream-gallery-15.avif",
+    width: 5000,
+    height: 5000,
     no: "15",
     title: "Reflection House",
     meta: "Lake Site, 2020",
@@ -202,6 +231,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "16",
     src: "/gallery/luciddream-gallery-16.avif",
+    width: 1920,
+    height: 1920,
     no: "16",
     title: "Covered Porch",
     meta: "Dalarna, 2023",
@@ -215,6 +246,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "17",
     src: "/gallery/luciddream-gallery-17.avif",
+    width: 1920,
+    height: 1306,
     no: "17",
     title: "Oak House",
     meta: "Bangalore, 2024",
@@ -226,6 +259,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "18",
     src: "/gallery/luciddream-gallery-18.avif",
+    width: 8000,
+    height: 5120,
     no: "18",
     title: "Linear Residence",
     meta: "Chennai, 2023",
@@ -237,6 +272,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "19",
     src: "/gallery/luciddream-gallery-19.avif",
+    width: 2912,
+    height: 1892,
     no: "19",
     title: "Cedar Villa",
     meta: "Goa, 2024",
@@ -248,6 +285,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "20",
     src: "/gallery/luciddream-gallery-20.avif",
+    width: 1920,
+    height: 1152,
     no: "20",
     title: "Atrium House",
     meta: "Hyderabad, 2022",
@@ -259,6 +298,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "21",
     src: "/gallery/luciddream-gallery-21.avif",
+    width: 1920,
+    height: 1920,
     no: "21",
     title: "Terrace Residence",
     meta: "Mumbai, 2023",
@@ -270,6 +311,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "22",
     src: "/gallery/luciddream-gallery-22.avif",
+    width: 1920,
+    height: 1923,
     no: "22",
     title: "Courtyard Villa",
     meta: "Kochi, 2024",
@@ -281,6 +324,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "23",
     src: "/gallery/luciddream-gallery-23.avif",
+    width: 1920,
+    height: 1920,
     no: "23",
     title: "Concrete Pavilion",
     meta: "Pondicherry, 2022",
@@ -292,6 +337,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "24",
     src: "/gallery/luciddream-gallery-24.avif",
+    width: 1920,
+    height: 1920,
     no: "24",
     title: "Sunken Garden",
     meta: "Bangalore, 2023",
@@ -303,6 +350,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "25",
     src: "/gallery/luciddream-gallery-25.avif",
+    width: 1920,
+    height: 1281,
     no: "25",
     title: "Monsoon House",
     meta: "Kerala, 2024",
@@ -314,6 +363,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "26",
     src: "/gallery/luciddream-gallery-26.avif",
+    width: 1920,
+    height: 1285,
     no: "26",
     title: "Quiet Courtyard",
     meta: "Chennai, 2021",
@@ -325,6 +376,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "27",
     src: "/gallery/luciddream-gallery-27.avif",
+    width: 1920,
+    height: 1244,
     no: "27",
     title: "Terracotta House",
     meta: "Jaipur, 2023",
@@ -336,6 +389,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "28",
     src: "/gallery/luciddream-gallery-28.avif",
+    width: 1920,
+    height: 1280,
     no: "28",
     title: "Limestone Villa",
     meta: "Goa, 2022",
@@ -347,6 +402,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "29",
     src: "/gallery/luciddream-gallery-29.avif",
+    width: 2916,
+    height: 2018,
     no: "29",
     title: "Shadow Pavilion",
     meta: "Delhi, 2024",
@@ -358,6 +415,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "30",
     src: "/gallery/luciddream-gallery-30.avif",
+    width: 1920,
+    height: 1607,
     no: "30",
     title: "Courtyard Studio",
     meta: "Pune, 2024",
@@ -369,6 +428,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "31",
     src: "/gallery/luciddream-gallery-31.avif",
+    width: 1920,
+    height: 1640,
     no: "31",
     title: "Riverside House",
     meta: "Rishikesh, 2022",
@@ -380,6 +441,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "32",
     src: "/gallery/luciddream-gallery-32.avif",
+    width: 1000,
+    height: 841,
     no: "32",
     title: "Open Frame House",
     meta: "Bangalore, 2024",
@@ -391,6 +454,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "33",
     src: "/gallery/luciddream-gallery-33.avif",
+    width: 1920,
+    height: 1440,
     no: "33",
     title: "Tropical Retreat",
     meta: "Goa, 2023",
@@ -402,6 +467,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "34",
     src: "/gallery/luciddream-gallery-34.avif",
+    width: 1920,
+    height: 1446,
     no: "34",
     title: "Glass Pavilion",
     meta: "Mumbai, 2024",
@@ -413,6 +480,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "35",
     src: "/gallery/luciddream-gallery-35.avif",
+    width: 1920,
+    height: 1384,
     no: "35",
     title: "Granite Residence",
     meta: "Coimbatore, 2022",
@@ -421,9 +490,11 @@ export const galleryItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
   },
-   {
+  {
     id: "36",
     src: "/gallery/luciddream-gallery-36.avif",
+    width: 1920,
+    height: 1635,
     no: "36",
     title: "Forest Courtyard",
     meta: "Munnar, 2023",
@@ -435,6 +506,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "37",
     src: "/gallery/luciddream-gallery-37.avif",
+    width: 1920,
+    height: 1775,
     no: "37",
     title: "Stone Courtyard",
     meta: "Ooty, 2021",
@@ -446,6 +519,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "38",
     src: "/gallery/luciddream-gallery-38.avif",
+    width: 2916,
+    height: 2020,
     no: "38",
     title: "Skyline Residence",
     meta: "Mumbai, 2023",
@@ -457,6 +532,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "39",
     src: "/gallery/luciddream-gallery-39.avif",
+    width: 1920,
+    height: 1440,
     no: "39",
     title: "Palm House",
     meta: "Goa, 2022",
@@ -468,6 +545,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "40",
     src: "/gallery/luciddream-gallery-40.avif",
+    width: 1920,
+    height: 1509,
     no: "40",
     title: "Minimalist Villa",
     meta: "Bangalore, 2024",
@@ -479,6 +558,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "41",
     src: "/gallery/luciddream-gallery-41.avif",
+    width: 1842,
+    height: 1378,
     no: "41",
     title: "Lightwell House",
     meta: "Chennai, 2023",
@@ -490,6 +571,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "42",
     src: "/gallery/luciddream-gallery-42.avif",
+    width: 1920,
+    height: 1600,
     no: "42",
     title: "Red Earth Residence",
     meta: "Pune, 2022",
@@ -501,6 +584,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "43",
     src: "/gallery/luciddream-gallery-43.avif",
+    width: 1916,
+    height: 1915,
     no: "43",
     title: "Canopy House",
     meta: "Kerala, 2024",
@@ -512,6 +597,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "44",
     src: "/gallery/luciddream-gallery-44.avif",
+    width: 3879,
+    height: 2889,
     no: "44",
     title: "Horizon Pavilion",
     meta: "Alibaug, 2023",
@@ -523,6 +610,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "45",
     src: "/gallery/luciddream-gallery-45.avif",
+    width: 3840,
+    height: 2888,
     no: "45",
     title: "Courtyard Loft",
     meta: "Hyderabad, 2024",
@@ -534,6 +623,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: "46",
     src: "/gallery/luciddream-gallery-46.avif",
+    width: 1920,
+    height: 1515,
     no: "46",
     title: "Walled Garden",
     meta: "Kochi, 2023",
@@ -544,84 +635,55 @@ export const galleryItems: GalleryItem[] = [
   },
 ];
 
-export type GalleryRow={
+export type GalleryRow = {
   rowType: string;
-  items: GalleryItem[]
-}
+  items: GalleryItem[];
+};
 
-export const galleryRows:GalleryRow[]  = [
+export const galleryRows: GalleryRow[] = [
   {
     rowType: "feature-left",
-    items: [
-      galleryItems[0],
-      galleryItems[1],
-      galleryItems[2],
-    ],
+    items: [galleryItems[0], galleryItems[1], galleryItems[2]],
   },
 
   {
     rowType: "hero",
-    items: [
-      galleryItems[3],
-    ],
+    items: [galleryItems[3]],
   },
 
   {
     rowType: "quad",
-    items: [
-      galleryItems[4],
-      galleryItems[5],
-      galleryItems[6],
-      galleryItems[7],
-    ],
+    items: [galleryItems[4], galleryItems[5], galleryItems[6], galleryItems[7]],
   },
 
   {
     rowType: "duo",
-    items: [
-      galleryItems[8],
-      galleryItems[9],
-    ],
+    items: [galleryItems[8], galleryItems[9]],
   },
 
   {
     rowType: "hero",
-    items: [
-      galleryItems[10],
-    ],
+    items: [galleryItems[10]],
   },
 
   {
     rowType: "trio",
-    items: [
-      galleryItems[11],
-      galleryItems[12],
-      galleryItems[13],
-    ],
+    items: [galleryItems[11], galleryItems[12], galleryItems[13]],
   },
 
   {
     rowType: "feature-right",
-    items: [
-      galleryItems[14],
-      galleryItems[15],
-      galleryItems[16],
-    ],
+    items: [galleryItems[14], galleryItems[15], galleryItems[16]],
   },
 
   {
     rowType: "duo",
-    items: [
-      galleryItems[17],
-      galleryItems[18],
-    ],
+    items: [galleryItems[17], galleryItems[18]],
   },
 
   {
     rowType: "hero",
-    items: [
-      galleryItems[19],
-    ],
+    items: [galleryItems[19]],
   },
 
   {
@@ -636,52 +698,32 @@ export const galleryRows:GalleryRow[]  = [
 
   {
     rowType: "duo",
-    items: [
-      galleryItems[24],
-      galleryItems[25],
-    ],
+    items: [galleryItems[24], galleryItems[25]],
   },
 
   {
     rowType: "trio",
-    items: [
-      galleryItems[26],
-      galleryItems[27],
-      galleryItems[28],
-    ],
+    items: [galleryItems[26], galleryItems[27], galleryItems[28]],
   },
 
   {
     rowType: "feature-left",
-    items: [
-      galleryItems[29],
-      galleryItems[30],
-      galleryItems[31],
-    ],
+    items: [galleryItems[29], galleryItems[30], galleryItems[31]],
   },
 
   {
     rowType: "trio",
-    items: [
-      galleryItems[32],
-      galleryItems[33],
-      galleryItems[34],
-    ],
+    items: [galleryItems[32], galleryItems[33], galleryItems[34]],
   },
 
   {
     rowType: "duo",
-    items: [
-      galleryItems[35],
-      galleryItems[36],
-    ],
+    items: [galleryItems[35], galleryItems[36]],
   },
 
   {
     rowType: "hero",
-    items: [
-      galleryItems[37],
-    ],
+    items: [galleryItems[37]],
   },
 
   {
@@ -696,10 +738,7 @@ export const galleryRows:GalleryRow[]  = [
 
   {
     rowType: "duo",
-    items: [
-      galleryItems[42],
-      galleryItems[43],
-    ],
+    items: [galleryItems[42], galleryItems[43]],
   },
 
   {
@@ -709,399 +748,5 @@ export const galleryRows:GalleryRow[]  = [
       galleryItems[45],
       // galleryItems[46], // screenshot has this extra image
     ],
-  },
-];
-
-export const galleryItems1R: GalleryItem[] = [
-  {
-    id: "01",
-    src: "/4.jpg",
-    no: "01",
-    title: "Haditehrani, Office",
-    meta: "Pune, 2023",
-    col: 4,
-    row: 2,
-    mobileCol: 2,
-    mobileRow: 2,
-    align: "right", // Align this item to the right
-  },
-  {
-    id: "02",
-    src: "/2.jpg",
-    no: "02",
-    title: "Courtyard House",
-    meta: "Pune, 2022",
-    col: 2,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "left",
-  },
-  {
-    id: "03",
-    src: "/3.jpg",
-    no: "03",
-    title: "Garden Residence",
-    meta: "Pune, 2022",
-    col: 2,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "04",
-    src: "/vid1.mp4",
-    type: "video",
-    poster: "/1.jpg",
-    no: "04",
-    title: "Coastal Pavilion",
-    meta: "Åland, 2021",
-    col: 6,
-    row: 1,
-    mobileCol: 2,
-    mobileRow: 1,
-     align: "left",
-  },
-  {
-    id: "05",
-    src: "/5.jpg",
-    no: "05",
-    title: "Forest Retreat",
-    meta: "Sarek, 2023",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 2,
-     align: "right",
-  },
-  {
-    id: "06",
-    src: "/6.jpg",
-    no: "06",
-    title: "Stone House",
-    meta: "Öland, 2020",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "left",
-  },
-  {
-    id: "07",
-    src: "/7.jpg",
-    no: "07",
-    title: "Timber Pavilion",
-    meta: "Öland, 2020",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "right",  
-  },
-  {
-    id: "08",
-    src: "/8.jpg",
-    no: "08",
-    title: "Pine Facade",
-    meta: "Halland, 2019",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 2,
-     align: "left",
-  },
-  {
-    id: "09",
-    src: "/1.jpg",
-    no: "09",
-    title: "Reflection House",
-    meta: "Malmö, 2024",
-    col: 6,
-    row: 2,
-    mobileCol: 2,
-    mobileRow: 2,
-      align: "right",
-  },
-  {
-    id: "10",
-    src: "/2.jpg",
-    no: "10",
-    title: "Brick Residence",
-    meta: "Skåne, 2023",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-    align: "left",
-  },
-  {
-    id: "11",
-    src: "/3.jpg",
-    no: "11",
-    title: "Lake House",
-    meta: "Uppsala, 2022",
-    col: 3,
-    row: 1,
-    mobileCol: 2,
-    mobileRow: 2,
-    align: "right",
-  },
-  {
-    id: "12",
-    src: "/4.jpg",
-    no: "12",
-    title: "Boat Jetty",
-    meta: "Archipelago, 2021",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-    align: "left",
-  },
-  {
-    id: "13",
-    src: "/5.jpg",
-    no: "13",
-    title: "Reef Pavilion",
-    meta: "Coastal Site, 2024",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-    align: "right",
-  },
-  {
-    id: "14",
-    src: "/6.jpg",
-    no: "14",
-    title: "Pine Residence",
-    meta: "Värmland, 2022",
-    col: 3,
-    row: 2,
-    mobileCol: 1,
-    mobileRow: 2,
-    align: "left",
-  },
-  {
-    id: "15",
-    src: "/1.jpg",
-    no: "15",
-    title: "Reflection House",
-    meta: "Lake Site, 2020",
-    col: 6,
-    row: 1,
-    mobileCol: 2,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "16",
-    src: "/2.jpg",
-    no: "16",
-    title: "Covered Porch",
-    meta: "Dalarna, 2023",
-    col: 3,
-    row: 2,
-    mobileCol: 1,
-    mobileRow: 2,
-    align: "left",
-  },
-];
-
-export const galleryItems1L: GalleryItem[] = [
-  {
-    id: "06",
-    src: "/6.jpg",
-    no: "06",
-    title: "Stone House",
-    meta: "Öland, 2020",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "left",
-  },
-  {
-    id: "07",
-    src: "/7.jpg",
-    no: "07",
-    title: "Timber Pavilion",
-    meta: "Öland, 2020",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "08",
-    src: "/8.jpg",
-    no: "08",
-    title: "Pine Facade",
-    meta: "Halland, 2019",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 2,
-     align: "left",
-  },
-  {
-    id: "09",
-    src: "/1.jpg",
-    no: "09",
-    title: "Reflection House",
-    meta: "Malmö, 2024",
-    col: 6,
-    row: 2,
-    mobileCol: 2,
-    mobileRow: 2,
-     align: "right",
-  },
-  {
-    id: "10",
-    src: "/2.jpg",
-    no: "10",
-    title: "Brick Residence",
-    meta: "Skåne, 2023",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "11",
-    src: "/3.jpg",
-    no: "11",
-    title: "Lake House",
-    meta: "Uppsala, 2022",
-    col: 3,
-    row: 1,
-    mobileCol: 2,
-    mobileRow: 2,
-      align: "left",
-  },
-  {
-    id: "12",
-    src: "/4.jpg",
-    no: "12",
-    title: "Boat Jetty",
-    meta: "Archipelago, 2021",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "13",
-    src: "/5.jpg",
-    no: "13",
-    title: "Reef Pavilion",
-    meta: "Coastal Site, 2024",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-      align: "left",
-  },
-  {
-    id: "14",
-    src: "/6.jpg",
-    no: "14",
-    title: "Pine Residence",
-    meta: "Värmland, 2022",
-    col: 3,
-    row: 2,
-    mobileCol: 1,
-    mobileRow: 2,
-     align: "right",
-  },
-  {
-    id: "15",
-    src: "/1.jpg",
-    no: "15",
-    title: "Reflection House",
-    meta: "Lake Site, 2020",
-    col: 6,
-    row: 1,
-    mobileCol: 2,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "16",
-    src: "/2.jpg",
-    no: "16",
-    title: "Covered Porch",
-    meta: "Dalarna, 2023",
-    col: 3,
-    row: 2,
-    mobileCol: 1,
-    mobileRow: 2,
-     align: "right",
-  },
-  {
-    id: "01",
-    src: "/4.jpg",
-    no: "01",
-    title: "Haditehrani, Office",
-    meta: "Pune, 2023",
-    col: 4,
-    row: 2,
-    mobileCol: 2,
-    mobileRow: 2,
-     align: "left",
-  },
-  {
-    id: "02",
-    src: "/2.jpg",
-    no: "02",
-    title: "Courtyard House",
-    meta: "Pune, 2022",
-    col: 2,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "03",
-    src: "/3.jpg",
-    no: "03",
-    title: "Garden Residence",
-    meta: "Pune, 2022",
-    col: 2,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1, 
-    align: "left",
-  },
-  {
-    id: "04",
-    src: "/vid1.mp4",
-    type: "video",
-    poster: "/1.jpg",
-    no: "04",
-    title: "Coastal Pavilion",
-    meta: "Åland, 2021",
-    col: 6,
-    row: 1,
-    mobileCol: 2,
-    mobileRow: 1,
-     align: "right",
-  },
-  {
-    id: "05",
-    src: "/5.jpg",
-    no: "05",
-    title: "Forest Retreat",
-    meta: "Sarek, 2023",
-    col: 3,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 2,
-     align: "right",
   },
 ];
