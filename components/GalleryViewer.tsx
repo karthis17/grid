@@ -85,79 +85,73 @@ export default function GalleryViewer({
   // ---------- Open animation (mount) / navigate transition ----------
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const wrap = flipWrapRef.current;
-      const overlay = overlayRef.current;
-      const stage = imgStageRef.current;
-      const caption = captionRef.current;
-      if (!wrap || !overlay || !stage) return;
+    const wrap = flipWrapRef.current;
+    const overlay = overlayRef.current;
+    const stage = imgStageRef.current;
+    const caption = captionRef.current;
+    if (!wrap || !overlay || !stage) return;
 
-      const isFirstOpen = originRect !== null && !isNavigating.current;
+    const isFirstOpen = originRect !== null && !isNavigating.current;
 
-      if (isFirstOpen) {
-        const r = originRect;
-        document.body.style.overflow = "hidden";
-        isTransitioning.current = true;
+    if (isFirstOpen) {
+      const r = originRect;
+      document.body.style.overflow = "hidden";
+      isTransitioning.current = true;
 
-        gsap.set(overlay, { opacity: 0 });
-        gsap.set(wrap, {
-          position: "fixed",
-          top: r.top,
-          left: r.left,
-          width: r.width,
-          height: r.height,
-          borderRadius: 0,
-          overflow: "hidden",
-        });
-        gsap.set(stage, { opacity: 1, y: 0 });
-        gsap.set(caption, { opacity: 0, y: 12 });
+      gsap.set(overlay, { opacity: 0 });
+      gsap.set(wrap, {
+        position: "fixed",
+        top: r.top,
+        left: r.left,
+        width: r.width,
+        height: r.height,
+        borderRadius: 0,
+        overflow: "hidden",
+      });
+      gsap.set(stage, { opacity: 1, y: 0 });
+      gsap.set(caption, { opacity: 0, y: 12 });
 
-        gsap.to(overlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
-        gsap.to(wrap, {
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          duration: 0.75,
+      gsap.to(overlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
+      gsap.to(wrap, {
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        duration: 0.75,
+        ease: "power3.out",
+        onComplete: () => {
+          isTransitioning.current = false;
+        },
+      });
+      gsap.to(caption, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        delay: 0.35,
+        ease: "power2.out",
+      });
+    } else {
+      const dir = navDirection.current;
+      gsap.fromTo(
+        stage,
+        { opacity: 0, yPercent: dir * 6 },
+        {
+          opacity: 1,
+          yPercent: 0,
+          duration: 0.55,
           ease: "power3.out",
           onComplete: () => {
             isTransitioning.current = false;
           },
-        });
-        gsap.to(caption, {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          delay: 0.35,
-          ease: "power2.out",
-        });
-      } else {
-        const dir = navDirection.current;
-        gsap.fromTo(
-          stage,
-          { opacity: 0, yPercent: dir * 6 },
-          {
-            opacity: 1,
-            yPercent: 0,
-            duration: 0.55,
-            ease: "power3.out",
-            onComplete: () => {
-              isTransitioning.current = false;
-            },
-          },
-        );
-        gsap.fromTo(
-          caption,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.4, delay: 0.1, ease: "power2.out" },
-        );
-        isNavigating.current = false;
-      }
-    });
-
-    return () => {
-      ctx.revert();
-    };
+        },
+      );
+      gsap.fromTo(
+        caption,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.4, delay: 0.1, ease: "power2.out" },
+      );
+      isNavigating.current = false;
+    }
   }, [activeIndex]);
 
   // ---------- Navigate to next/prev ----------
@@ -300,6 +294,7 @@ export default function GalleryViewer({
           {activeIsVideo ? (
             <video
               key={active.id}
+              ref={activeVideoRef}
               src={active.src}
               poster={active.poster}
               controls

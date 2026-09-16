@@ -4,7 +4,7 @@ import {
   galleryItems1L,
   galleryItems1R,
 } from "@/lib/GalleryItems";
-import GalleryGrid1 from "@/components/GalleryGrid1";
+// import GalleryGrid1 from "@/components/GalleryGrid1";
 import Clients from "@/components/Clients";
 import { ClientsList } from "@/lib/ClientList";
 
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <main>
-      <GalleryGrid1 itemsR={galleryItems1R} itemsL={galleryItems1L} />
+      {/* <GalleryGrid1 itemsR={galleryItems1R} itemsL={galleryItems1L} /> */}
       <Clients clients={ClientsList} />
     </main>
   );

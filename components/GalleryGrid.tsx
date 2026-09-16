@@ -10,7 +10,6 @@ import {
 } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import IntroAnimation from "@/components/IntroComponent";
 import GalleryViewer from "@/components/GalleryViewer";
 import { getMediaType, type GalleryItem } from "@/lib/GalleryItems";
 
@@ -182,6 +181,18 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
     <>
       <main className="min-h-screen py-10 bg-[#f7f7f4] text-[#17170F]">
         {/* Gallery */}
+
+
+      <div className="relative mx-auto max-w-7xl px-4">
+        <div className="mb-10 text-center lg:mb-10">
+          <p className="mb-3 font-mono text-xs tracking-[0.25em] text-[#9C6B2E]">
+           { '// Works'}
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-[#1B2027] md:text-4xl">
+         
+          </h2>
+        </div>
+      </div>
         <div
           ref={galleryRef}
           className="gallery-grid px-3 pb-20 sm:px-5 md:px-7 lg:px-10"

@@ -1,9 +1,9 @@
-
 import type { Metadata } from "next";
 import GalleryGrid from "@/components/GalleryGrid";
 import { galleryItems } from "@/lib/GalleryItems";
 import { ClientsList } from "@/lib/ClientList";
 import Clients from "@/components/Clients";
+import Banner from "@/components/Banner";
 
 const siteUrl = "https://luciddream.co.in";
 const ogImage = `${siteUrl}${galleryItems[0].src}`;
@@ -83,6 +83,7 @@ export const metadata: Metadata = {
 export default function DPage() {
   return (
     <main>
+      <Banner />
       <GalleryGrid items={galleryItems} />
       <Clients clients={ClientsList} />
     </main>
