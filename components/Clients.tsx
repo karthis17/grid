@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { type ClientList } from "@/lib/ClientList";
 import Image from "next/image";
@@ -13,7 +13,7 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
       <div className="relative mx-auto max-w-screen-xl px-4">
         <div className="mb-14 text-center lg:mb-20">
           <p className="mb-3 font-mono text-xs tracking-[0.25em] text-[#9C6B2E]">
-           { '// TRUSTED ACROSS THE INDUSTRY'}
+            {"// TRUSTED ACROSS THE INDUSTRY"}
           </p>
           <h2 className="text-3xl font-semibold tracking-tight text-[#1B2027] md:text-4xl">
             Our Clients
@@ -31,15 +31,23 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
       </div>
 
       {/*
-        styled-jsx (built into Next.js) instead of a raw <style> tag.
-        This is scoped, hydration-safe, and — critically — the reason
-        the marquee didn't animate in some browsers before: a plain
-        <style>{`...`}</style> string bypasses Next's PostCSS/autoprefixer
-        pipeline entirely, so `animation`/`transform` shipped with no
-        vendor prefixes. styled-jsx doesn't auto-prefix either, so we
-        add -webkit- explicitly for older Safari/iOS.
+        `jsx global` (not `jsx`) is required here, for two reasons:
+
+        1. The `.marquee-track` elements live inside a separate component
+           (MarqueeRow), so a scoped `<style jsx>` block would never match
+           them at all — scoping works by tagging elements returned from
+           THIS component's JSX only.
+
+        2. styled-jsx auto-renames `@keyframes` to a unique per-component
+           name unless the block is global. Wrapping just the selectors in
+           `:global(...)` (the previous approach) does NOT stop the
+           keyframes themselves from being renamed — so `animation:
+           scroll-left ...` ends up referencing a keyframes name that no
+           longer exists. That's what was silently breaking the animation.
+           Marking the whole block `global` keeps the keyframes name intact
+           and matching.
       */}
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes scroll-left {
           from {
             transform: translate3d(0, 0, 0);
@@ -73,27 +81,24 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
           }
         }
 
-        :global(.marquee-track) {
+        .marquee-track {
           -webkit-animation: scroll-left 40s linear infinite;
           animation: scroll-left 40s linear infinite;
-          /* GPU compositing hints — fixes Safari seam/flicker on looping transforms */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
           will-change: transform;
         }
-        :global(.marquee-track.reverse) {
+        .marquee-track.reverse {
           -webkit-animation-name: scroll-right;
           animation-name: scroll-right;
         }
-        :global(.marquee-row:hover .marquee-track),
-        :global(.marquee-row:focus-within .marquee-track) {
+        .marquee-row:hover .marquee-track,
+        .marquee-row:focus-within .marquee-track {
           -webkit-animation-play-state: paused;
           animation-play-state: paused;
         }
         @media (prefers-reduced-motion: reduce) {
-          :global(.marquee-track) {
+          .marquee-track {
             -webkit-animation: none;
             animation: none;
           }

@@ -2,6 +2,12 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+// Required. This carries the `.lenis.lenis-smooth { scroll-behavior: auto !important; }`
+// rule (among a few others: iframe pointer-events, overscroll containment,
+// the `lenis-stopped` overflow lock). Without it, any `scroll-behavior: smooth`
+// left in your global CSS fights Lenis's own RAF-driven scroll — Chrome mostly
+// tolerates it, Safari/Firefox stutter or effectively ignore Lenis entirely.
+import "lenis/dist/lenis.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
