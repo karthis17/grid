@@ -1,20 +1,15 @@
 "use client";
 
 import {
-  useLayoutEffect,
   useRef,
   useState,
   useCallback,
   useEffect,
   useMemo,
 } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GalleryViewer from "@/components/GalleryViewer";
 import { galleryRows, type GalleryItem } from "@/lib/GalleryItems";
 import GalleryRow, { RowEntry, RowVariant } from "./GalleryRow";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type GalleryGridProps = {
   items: GalleryItem[];
@@ -29,16 +24,12 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const originRectRef = useRef<DOMRect | null>(null);
 
-  // O(1) id -> flat index lookup, built once per `items` change instead of
-  // re-scanning the whole array for every cell on every render.
   const indexById = useMemo(() => {
     const map = new Map<string, number>();
     items.forEach((item, i) => map.set(item.id, i));
     return map;
   }, [items]);
 
-  // Map your hand-authored `galleryRows` layout into the RowEntry shape
-  // GalleryRow expects, using the flat index for ref/nav alignment.
   const rows: Row[] = useMemo(
     () =>
       galleryRows.map((row, i) => ({
@@ -52,6 +43,11 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
           })),
       })),
     [indexById],
+  );
+
+  const rowsKey = useMemo(
+    () => rows.map((r) => r.entries.map((e) => e.item.id).join(",")).join("|"),
+    [rows],
   );
 
   const registerMediaRef = useCallback(
@@ -70,68 +66,37 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
   const openImage = useCallback((index: number) => {
     const mediaEl = mediaRefs.current[index];
     if (!mediaEl) return;
-
     originRectRef.current = mediaEl.getBoundingClientRect();
     setOpenIndex(index);
   }, []);
 
-  const closeViewer = useCallback(() => {
-    setOpenIndex(null);
-  }, []);
+  const closeViewer = useCallback(() => setOpenIndex(null), []);
 
-  // ---------- Grid intro animation ----------
-  useLayoutEffect(() => {
+  // ---------- Grid intro animation — plain CSS, driven by IntersectionObserver ----------
+  useEffect(() => {
     const gallery = galleryRef.current;
     if (!gallery) return;
 
-    const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray<HTMLElement>(".gallery-item");
+    const cards = Array.from(
+      gallery.querySelectorAll<HTMLElement>(".gallery-item"),
+    );
+    if (cards.length === 0) return;
 
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-
-      if (prefersReducedMotion) {
-        gsap.set(cards, { opacity: 1, y: 0 });
-        gsap.set(".gallery-image", { scale: 1, y: 0 });
-        return;
-      }
-
-      cards.forEach((card) => {
-        const image = card.querySelector<HTMLElement>(".gallery-image");
-
-        gsap.set(card, { opacity: 0, y: 35 });
-        if (image) gsap.set(image, { scale: 1.04 });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: card,
-            start: "top 92%",
-            once: true,
-            fastScrollEnd: true,
-          },
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target); // one-shot, like the old `once: true`
+          }
         });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -8% 0px" },
+    );
 
-        tl.to(card, {
-          opacity: 1,
-          y: 0,
-          duration: 0.65,
-          ease: "power2.out",
-        }).to(
-          image,
-          {
-            scale: 1,
-            duration: 0.9,
-            ease: "power2.out",
-          },
-          "<",
-        );
-      });
-    }, galleryRef);
-
-    return () => ctx.revert();
-    // Re-run if the row set changes so newly mounted cards animate in too.
-  }, [rows]);
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [rowsKey]);
 
   // ---------- Play grid video previews only while on screen (desktop only) ----------
   useEffect(() => {
@@ -139,20 +104,23 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
       (v): v is HTMLVideoElement => v !== null,
     );
     if (videos.length === 0) return;
+    if (window.matchMedia("(max-width: 640px)").matches) return;
 
-    const isMobile = window.matchMedia("(max-width: 640px)").matches;
-    if (isMobile) return; // skip autoplay previews on mobile to save data/CPU
+    const MAX_CONCURRENT = 3;
+    const playing = new Set<HTMLVideoElement>();
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const video = entry.target as HTMLVideoElement;
           if (entry.isIntersecting) {
-            video.play().catch(() => {
-              // Autoplay can be blocked before user interaction; ignore.
-            });
+            if (playing.size < MAX_CONCURRENT) {
+              video.play().catch(() => {});
+              playing.add(video);
+            }
           } else {
             video.pause();
+            playing.delete(video);
           }
         });
       },
@@ -161,13 +129,17 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
 
     videos.forEach((v) => observer.observe(v));
     return () => observer.disconnect();
-  }, [rows]);
+  }, [rowsKey]);
 
-  // First 4 items load eagerly (better LCP) instead of every image lazy.
-  const prioritySrcs = useMemo(
-    () => new Set(items.slice(0, 4).map((item) => item.src)),
-    [items],
-  );
+  // Priority = whatever actually renders in the first two rows, not the
+  // first 4 items of the flat array (those can disagree with layout order).
+  const prioritySrcs = useMemo(() => {
+    const set = new Set<string>();
+    for (const row of rows.slice(0, 2)) {
+      for (const entry of row.entries) set.add(entry.item.src);
+    }
+    return set;
+  }, [rows]);
 
   return (
     <>

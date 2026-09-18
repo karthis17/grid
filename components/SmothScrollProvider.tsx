@@ -2,16 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-// Required. This carries the `.lenis.lenis-smooth { scroll-behavior: auto !important; }`
-// rule (among a few others: iframe pointer-events, overscroll containment,
-// the `lenis-stopped` overflow lock). Without it, any `scroll-behavior: smooth`
-// left in your global CSS fights Lenis's own RAF-driven scroll — Chrome mostly
-// tolerates it, Safari/Firefox stutter or effectively ignore Lenis entirely.
 import "lenis/dist/lenis.css";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({
   children,
@@ -27,19 +18,15 @@ export default function SmoothScroll({
       touchMultiplier: 1,
     });
 
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const update = (time: number) => {
-      lenis.raf(time * 1000);
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
     };
-
-    gsap.ticker.add(update);
-
-    // Don't let GSAP add its own lag smoothing
-    gsap.ticker.lagSmoothing(0);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      gsap.ticker.remove(update);
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);
