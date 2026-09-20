@@ -62,8 +62,8 @@ function Sidebar({
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { name: "Works", href: "/works" },
-    { name: "Experiments", href: "/works" },
+    { name: "Work", href: "/works" },
+    { name: "Lab", href: "/works" },
   ];
 
   const [mounted, setMounted] = useState(false);
