@@ -83,7 +83,6 @@ export const metadata: Metadata = {
 export default function DPage() {
   return (
     <main>
-      <Banner />
       <GalleryGrid items={galleryItems} />
       <Clients clients={ClientsList} />
     </main>

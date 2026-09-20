@@ -4,8 +4,6 @@ import Image from "next/image";
 import { getMediaType, type GalleryItem } from "@/lib/GalleryItems";
 import { useLayoutEffect, useRef, useState } from "react";
 
-// The 5 repeating row layouts. "feature-left" / "feature-right" are the
-// same layout mirrored, alternated automatically each time it recurs.
 export type RowVariant =
   | "feature-left"
   | "feature-right"
@@ -17,11 +15,9 @@ export type RowVariant =
 
 export type RowEntry = {
   item: GalleryItem;
-  index: number; // global index into the full items array
+  index: number;
 };
 
-// Aspect ratio (width / height) straight from the item's stored dimensions.
-// Falls back to 1.5 for anything missing width/height (e.g. not yet backfilled).
 function getRatio(item: GalleryItem): number {
   if (item.width && item.height) {
     return item.width / item.height;
@@ -38,10 +34,11 @@ type CellHandlers = {
 type CellProps = CellHandlers & {
   entry: RowEntry;
   className?: string;
-  /** Load this image eagerly (above-the-fold rows) instead of lazily. */
   priority?: boolean;
   mediaHeight?: number;
   cover?: boolean;
+  /** Actual rendered width of this cell, for a correctly-sized image fetch. */
+  sizes?: string;
 };
 
 function Cell({
@@ -53,6 +50,7 @@ function Cell({
   priority = false,
   mediaHeight,
   cover = false,
+  sizes = "(max-width: 640px) 100vw, 66vw",
 }: CellProps) {
   const { item, index } = entry;
   const isVideo = getMediaType(item) === "video";
@@ -79,7 +77,7 @@ function Cell({
             muted
             loop
             playsInline
-            preload="metadata"
+            preload={priority ? "metadata" : "none"}
             className={
               cover
                 ? "gallery-image absolute inset-0 h-full w-full object-cover"
@@ -90,12 +88,12 @@ function Cell({
           <Image
             src={item.src}
             alt={item.title}
-            width={1200}
-            height={800}
+            width={item.width ?? 1200}
+            height={item.height ?? 800}
             priority={priority}
             loading={priority ? "eager" : "lazy"}
             fetchPriority={priority ? "high" : "auto"}
-            sizes="(max-width: 640px) 100vw, 66vw"
+            sizes={sizes}
             className={
               cover
                 ? "gallery-image absolute inset-0 h-full w-full object-cover"
@@ -106,19 +104,13 @@ function Cell({
 
         <div className="absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/[0.06]" />
 
-        <span className="absolute left-3 top-3 font-mono text-[9px] uppercase tracking-[0.15em] text-white mix-blend-difference md:left-4 md:top-4">
+        <span className="absolute left-3 top-3 rounded bg-black/55 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-white md:left-4 md:top-4">
           {item.no}
         </span>
 
         {isVideo && (
-          <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-black/40 text-white mix-blend-difference">
-            <svg
-              viewBox="0 0 24 24"
-              width="10"
-              height="10"
-              fill="currentColor"
-              aria-hidden="true"
-            >
+          <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-black/50 text-white">
+            <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor" aria-hidden="true">
               <path d="M8 5v14l11-7z" />
             </svg>
           </span>
@@ -134,7 +126,6 @@ function Cell({
           <h2 className="text-[13px] font-medium tracking-[-0.01em] text-[#17170F] md:text-[14px]">
             {item.title}
           </h2>
-
           <span className="shrink-0 font-mono text-[9px] uppercase tracking-[0.08em] text-black/40">
             {item.meta}
           </span>
@@ -166,9 +157,6 @@ function FeatureRowInner({
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
 
-  // This container must always be mounted (not conditionally rendered),
-  // otherwise the ResizeObserver can never attach and width can never
-  // leave 0.
   useLayoutEffect(() => {
     const element = containerRef.current;
     if (!element) return;
@@ -194,6 +182,7 @@ function FeatureRowInner({
       entry={big}
       priority={prioritySrcs?.has(big.item.src)}
       mediaHeight={hasWidth ? rowHeight : undefined}
+      sizes="(max-width: 640px) 100vw, 66vw"
       {...handlers}
     />
   );
@@ -208,6 +197,7 @@ function FeatureRowInner({
         priority={prioritySrcs?.has(small1.item.src)}
         mediaHeight={hasWidth ? smallHeight : undefined}
         cover
+        sizes="(max-width: 640px) 100vw, 33vw"
         {...handlers}
       />
       <Cell
@@ -215,6 +205,7 @@ function FeatureRowInner({
         priority={prioritySrcs?.has(small2.item.src)}
         mediaHeight={hasWidth ? smallHeight : undefined}
         cover
+        sizes="(max-width: 640px) 100vw, 33vw"
         {...handlers}
       />
     </div>
@@ -229,12 +220,13 @@ function FeatureRowInner({
             key={entry.item.id}
             entry={entry}
             priority={prioritySrcs?.has(entry.item.src)}
+            sizes="100vw"
             {...handlers}
           />
         ))}
       </div>
 
-      {/* Desktop — always mounted so it can be measured. */}
+      {/* Desktop */}
       <div
         ref={containerRef}
         className="hidden min-w-0 sm:grid"
@@ -265,6 +257,12 @@ function FeatureRowInner({
   );
 }
 
+const RATIO_ROW_SIZES: Record<number, string> = {
+  2: "(max-width: 640px) 100vw, 50vw",
+  3: "(max-width: 640px) 100vw, 33vw",
+  4: "(max-width: 640px) 50vw, 25vw",
+};
+
 function RatioRow({
   entries,
   handlers,
@@ -275,17 +273,16 @@ function RatioRow({
   prioritySrcs?: Set<string>;
 }) {
   const columns = entries.map((entry) => `${getRatio(entry.item)}fr`).join(" ");
+  const sizes = RATIO_ROW_SIZES[entries.length] ?? "(max-width: 640px) 100vw, 50vw";
 
   return (
-    <div
-      className="grid gap-3 sm:gap-4"
-      style={{ gridTemplateColumns: columns }}
-    >
+    <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: columns }}>
       {entries.map((entry) => (
         <Cell
           key={entry.item.id}
           entry={entry}
           priority={prioritySrcs?.has(entry.item.src)}
+          sizes={sizes}
           {...handlers}
         />
       ))}
@@ -296,7 +293,6 @@ function RatioRow({
 type GalleryRowProps = CellHandlers & {
   variant: RowVariant;
   entries: RowEntry[];
-  /** Image srcs that should load eagerly (typically the first row or two). */
   prioritySrcs?: Set<string>;
 };
 
@@ -314,21 +310,15 @@ export default function GalleryRow({
         <Cell
           entry={entries[0]}
           priority={prioritySrcs?.has(entries[0].item.src)}
+          sizes="100vw"
           {...handlers}
         />
       </div>
     );
   }
 
-  if (
-    variant === "duo" ||
-    variant === "trio" ||
-    variant === "quad" ||
-    variant === "auto"
-  ) {
-    return (
-      <RatioRow entries={entries} handlers={handlers} prioritySrcs={prioritySrcs} />
-    );
+  if (variant === "duo" || variant === "trio" || variant === "quad" || variant === "auto") {
+    return <RatioRow entries={entries} handlers={handlers} prioritySrcs={prioritySrcs} />;
   }
 
   if (variant === "feature-left" || variant === "feature-right") {
@@ -357,7 +347,6 @@ function FeatureRow({
   prioritySrcs?: Set<string>;
 }) {
   const [big, small1, small2] = entries;
-
   if (!big || !small1 || !small2) return null;
 
   const bigRatio = getRatio(big.item);
