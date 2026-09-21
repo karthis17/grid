@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  useRef,
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
-import GalleryViewer from "@/components/GalleryViewer";
+import { useRef, useEffect, useMemo } from "react";
 import { galleryRows, type GalleryItem } from "@/lib/GalleryItems";
 import GalleryRow, { RowEntry, RowVariant } from "./GalleryRow";
 
@@ -19,10 +12,7 @@ type Row = { key: string; variant: RowVariant; entries: RowEntry[] };
 
 export default function GalleryGrid({ items }: GalleryGridProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
-  const mediaRefs = useRef<Array<HTMLDivElement | null>>([]);
   const gridVideoRefs = useRef<Array<HTMLVideoElement | null>>([]);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const originRectRef = useRef<DOMRect | null>(null);
 
   const indexById = useMemo(() => {
     const map = new Map<string, number>();
@@ -49,28 +39,6 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
     () => rows.map((r) => r.entries.map((e) => e.item.id).join(",")).join("|"),
     [rows],
   );
-
-  const registerMediaRef = useCallback(
-    (index: number, el: HTMLDivElement | null) => {
-      mediaRefs.current[index] = el;
-    },
-    [],
-  );
-  const registerVideoRef = useCallback(
-    (index: number, el: HTMLVideoElement | null) => {
-      gridVideoRefs.current[index] = el;
-    },
-    [],
-  );
-
-  const openImage = useCallback((index: number) => {
-    const mediaEl = mediaRefs.current[index];
-    if (!mediaEl) return;
-    originRectRef.current = mediaEl.getBoundingClientRect();
-    setOpenIndex(index);
-  }, []);
-
-  const closeViewer = useCallback(() => setOpenIndex(null), []);
 
   // ---------- Grid intro animation — plain CSS, driven by IntersectionObserver ----------
   useEffect(() => {
@@ -154,21 +122,9 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
               variant={row.variant}
               entries={row.entries}
               prioritySrcs={prioritySrcs}
-              onOpen={openImage}
-              registerMediaRef={registerMediaRef}
-              registerVideoRef={registerVideoRef}
             />
           ))}
         </div>
-
-        {openIndex !== null && (
-          <GalleryViewer
-            items={items}
-            initialIndex={openIndex}
-            originRect={originRectRef.current}
-            onClose={closeViewer}
-          />
-        )}
       </main>
     </>
   );

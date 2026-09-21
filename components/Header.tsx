@@ -17,35 +17,114 @@ function ScribbleLink({
   return (
     <a
       href={href}
-      className="group relative inline-block font-bold xl:text-6xl 2xl:text-7xl text-5xl py-2 px-4"
       style={{ transitionDelay: `${delay}ms` }}
+      className="scribble-link group relative inline-block px-4 py-2 uppercase text-5xl xl:text-6xl 2xl:text-8xl"
     >
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 inline-block transition-transform duration-500 ease-out group-hover:-rotate-1">
+        {children}
+      </span>
 
-      {/* Squiggle SVG underline */}
+      {/* Hand-drawn loop that circles the word and crosses over the letters,
+          like it was actually marked up with a pen — not just an underline. */}
       <svg
-        viewBox="0 0 300 40"
+        viewBox="0 0 300 100"
         preserveAspectRatio="none"
-        className="absolute left-0 -bottom-2 w-full h-6 pointer-events-none"
+        aria-hidden="true"
+        className="scribble-loop absolute -top-[22%] -bottom-[22%] -left-[10%] -right-[10%] z-20 overflow-visible"
       >
+        {/* Main loop */}
         <path
-          d="M5,20 C 3,30 45,35 70,20 S 110,5 140,22 S 190,35 220,15 S 270,5 295,25"
-          fill="none"
-          stroke="#e11d1d"
-          strokeWidth="12"
-          strokeLinecap="round"
-          className="scribble-path"
+          className="scribble-path scribble-path-main"
+          d="M26 55
+             C4 28, 30 2, 96 3
+             C176 4, 258 -6, 284 24
+             C306 48, 290 78, 228 90
+             C160 104, 56 100, 22 74
+             C8 64, 6 54, 18 48
+             C26 44, 34 46, 40 50"
         />
+
+        {/* Offset secondary stroke for hand-drawn texture */}
+        <path
+          className="scribble-path scribble-path-secondary"
+          d="M30 52
+             C12 30, 34 8, 94 9
+             C168 10, 246 0, 270 26
+             C290 48, 276 74, 222 84
+             C162 96, 62 92, 30 70
+             C18 62, 16 54, 26 50"
+        />
+
+        {/* Pen-lift dot where the stroke finishes */}
+        <circle className="scribble-dot" cx="40" cy="50" r="3.5" />
       </svg>
 
       <style jsx>{`
-        .scribble-path {
-          stroke-dasharray: 500;
-          stroke-dashoffset: 500;
-          transition: stroke-dashoffset 0.6s ease;
+        .scribble-loop {
+          pointer-events: none;
+          transform: rotate(-1.5deg);
+          transform-origin: center;
+          transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
         }
+
+        .scribble-path {
+          fill: none;
+          stroke: #e11d2e;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-width: 5;
+          vector-effect: non-scaling-stroke;
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 1000;
+          transition: stroke-dashoffset 650ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .scribble-path-secondary {
+          stroke: #ff6b4a;
+          stroke-width: 2.5;
+          opacity: 0.55;
+          transition-delay: 60ms;
+        }
+
+        .scribble-dot {
+          fill: #e11d2e;
+          opacity: 0;
+          transform: scale(0);
+          transform-origin: center;
+          transform-box: fill-box;
+          transition:
+            opacity 200ms ease 560ms,
+            transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 560ms;
+        }
+
+        .group:hover .scribble-loop {
+          transform: rotate(0.8deg);
+        }
+
         .group:hover .scribble-path {
           stroke-dashoffset: 0;
+        }
+
+        .group:hover .scribble-dot {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .scribble-loop,
+          .scribble-path,
+          .scribble-dot {
+            transition: none;
+          }
+
+          .group:hover .scribble-path {
+            stroke-dashoffset: 0;
+          }
+
+          .group:hover .scribble-dot {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
       `}</style>
     </a>
@@ -86,7 +165,7 @@ function Sidebar({
       {/* Overlay */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 bg-black/50  z-40 transition-opacity duration-300 ${
+        className={` fixed inset-0 bg-black/50  z-40 transition-opacity duration-300 ${
           isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -125,6 +204,7 @@ function Sidebar({
               key={item.name}
               className={`
         transform
+        font-helvetica 
         transition-all
         duration-700
         ease-[cubic-bezier(0.22,1,0.36,1)]
@@ -180,18 +260,18 @@ function Header() {
 
   return (
     <header
-      className={`sticky top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
-      ${scrolled ? "bg-black/80 backdrop-blur-md shadow-lg py-3" : "bg-black py-5"}
+      className={`sticky  items-center top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
+      ${scrolled ? "bg-black/20 h-16 backdrop-blur-md shadow-lg py-3" : "bg-black h-30 py-5"}
       ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
     >
-      <div className="flex justify-between w-full items-center">
+      <div className="flex h-full justify-between w-full items-center">
         <Link href="/">
           <Image
             src="/LogoWhite.png"
             height={50}
-            width={200}
+            width={`${scrolled ? 180 : 250}`}
             alt="Lucid Dream Logo"
-            className="transition-transform duration-300"
+            className="transition-all duration-500"
           />
         </Link>
 
@@ -200,9 +280,7 @@ function Header() {
           aria-label="Open menu"
           className="flex flex-col cursor-pointer justify-center items-end gap-1.5 w-8 h-8 group"
         >
-          <span className="block h-0.5 w-8 bg-white transition-all duration-300 group-hover:w-6" />
-          <span className="block h-0.5 w-6 bg-white transition-all duration-300 group-hover:w-8" />
-          <span className="block h-0.5 w-8 bg-white transition-all duration-300 group-hover:w-5" />
+          <span className="block h-5 w-5 border rounded-full bg-white transition-all duration-300 group-hover:w-7 group-hover:h-7 self-center" />
         </button>
       </div>
 

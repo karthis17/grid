@@ -7,22 +7,22 @@ import SmoothScrollProvider from "@/components/SmothScrollProvider";
 import IntroAnimation from "@/components/IntroComponent";
 // import SmoothScrollProvider from "@/components/SmothScrollProvider";
 // import { GradualBlur } from "@/components/blur/Blurbar";
+import localFont from 'next/font/local';
+
+const helvetica = localFont({
+  src: "./fonts/HelveticaNeueCyr-Light.woff2",
+  weight: "700",
+  style: "normal",
+  variable: "--font-helvetica",
+  display: "swap",
+});
 
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-mono",
-});
-
-const inter = Outfit({
-  subsets: ["latin"],
-  variable: "--font-body",
-});
 
 export const metadata: Metadata = {
   title: "Periphery Studio",
@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${plexMono.variable} ${inter.variable}`}
+      className={`${fraunces.variable}  ${helvetica.variable} `}
     >
       <body>
         <Header />

@@ -15,6 +15,11 @@ body {
   font-family: var(--font-mono), monospace;
 }
 
+.font-helvetica {
+  font-family: var(--font-helvetica), Arial, sans-serif;
+  letter-spacing: 5px;
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
