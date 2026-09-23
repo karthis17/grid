@@ -398,11 +398,11 @@ export default function AboutPage() {
           className="object-cover opacity-70"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/80" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/10 to-black/80" />
 
         <div className="relative z-10 flex min-h-[90vh] flex-col justify-between px-5 pb-8 pt-32 md:px-10 lg:px-16 lg:pb-14">
           <div className="hero-tag flex items-center gap-3">
-            <span className="h-[1px] w-10 bg-white/60" />
+            <span className="h-px w-10 bg-white/60" />
 
             <span className="text-xs uppercase tracking-[0.3em] text-white/70">
               Creative Studio · Since 2012
@@ -410,7 +410,7 @@ export default function AboutPage() {
           </div>
 
           <div>
-            <h1 className="max-w-[1200px] overflow-hidden text-[16vw] font-medium leading-[0.78] tracking-[-0.07em] sm:text-[13vw] lg:text-[10vw]">
+            <h1 className="max-w-300 overflow-hidden text-[16vw] font-medium leading-[0.78] tracking-[-0.07em] sm:text-[13vw] lg:text-[10vw]">
               <span className="hero-title-line block">We’re</span>
 
               <span className="hero-title-line block">LucidDream</span>
@@ -470,7 +470,7 @@ export default function AboutPage() {
             className="reveal-image object-cover"
           />
 
-          <div className="absolute bottom-0 left-0 flex w-full justify-between bg-gradient-to-t from-black/70 to-transparent p-6 pt-20 text-xs uppercase tracking-[0.2em] text-white md:p-8">
+          <div className="absolute bottom-0 left-0 flex w-full justify-between bg-linear-to-t from-black/70 to-transparent p-6 pt-20 text-xs uppercase tracking-[0.2em] text-white md:p-8">
             <span>LucidDream Studio</span>
             <span>India</span>
           </div>
