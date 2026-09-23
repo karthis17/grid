@@ -2,134 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-
-function ScribbleLink({
-  href,
-  children,
-  delay = 0,
-}: {
-  href: string;
-  children: React.ReactNode;
-  delay?: number;
-}) {
-  return (
-    <a
-      href={href}
-      style={{ transitionDelay: `${delay}ms` }}
-      className="scribble-link group relative inline-block px-4 py-2 uppercase text-5xl xl:text-6xl 2xl:text-8xl"
-    >
-      <span className="relative z-10 inline-block transition-transform duration-500 ease-out group-hover:-rotate-1">
-        {children}
-      </span>
-
-      {/* Hand-drawn loop that circles the word and crosses over the letters,
-          like it was actually marked up with a pen — not just an underline. */}
-      <svg
-        viewBox="0 0 300 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        className="scribble-loop absolute -top-[22%] -bottom-[22%] -left-[10%] -right-[10%] z-20 overflow-visible"
-      >
-        {/* Main loop */}
-        <path
-          className="scribble-path scribble-path-main"
-          d="M26 55
-             C4 28, 30 2, 96 3
-             C176 4, 258 -6, 284 24
-             C306 48, 290 78, 228 90
-             C160 104, 56 100, 22 74
-             C8 64, 6 54, 18 48
-             C26 44, 34 46, 40 50"
-        />
-
-        {/* Offset secondary stroke for hand-drawn texture */}
-        <path
-          className="scribble-path scribble-path-secondary"
-          d="M30 52
-             C12 30, 34 8, 94 9
-             C168 10, 246 0, 270 26
-             C290 48, 276 74, 222 84
-             C162 96, 62 92, 30 70
-             C18 62, 16 54, 26 50"
-        />
-
-        {/* Pen-lift dot where the stroke finishes */}
-        <circle className="scribble-dot" cx="40" cy="50" r="3.5" />
-      </svg>
-
-      <style jsx>{`
-        .scribble-loop {
-          pointer-events: none;
-          transform: rotate(-1.5deg);
-          transform-origin: center;
-          transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .scribble-path {
-          fill: none;
-          stroke: #e11d2e;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          stroke-width: 5;
-          vector-effect: non-scaling-stroke;
-          stroke-dasharray: 1000;
-          stroke-dashoffset: 1000;
-          transition: stroke-dashoffset 650ms cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .scribble-path-secondary {
-          stroke: #ff6b4a;
-          stroke-width: 2.5;
-          opacity: 0.55;
-          transition-delay: 60ms;
-        }
-
-        .scribble-dot {
-          fill: #e11d2e;
-          opacity: 0;
-          transform: scale(0);
-          transform-origin: center;
-          transform-box: fill-box;
-          transition:
-            opacity 200ms ease 560ms,
-            transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 560ms;
-        }
-
-        .group:hover .scribble-loop {
-          transform: rotate(0.8deg);
-        }
-
-        .group:hover .scribble-path {
-          stroke-dashoffset: 0;
-        }
-
-        .group:hover .scribble-dot {
-          opacity: 1;
-          transform: scale(1);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .scribble-loop,
-          .scribble-path,
-          .scribble-dot {
-            transition: none;
-          }
-
-          .group:hover .scribble-path {
-            stroke-dashoffset: 0;
-          }
-
-          .group:hover .scribble-dot {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-      `}</style>
-    </a>
-  );
-}
+import { useRouter } from "next/navigation";
 
 function Sidebar({
   isOpen,
@@ -138,6 +13,8 @@ function Sidebar({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const router = useRouter();
+
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
@@ -198,7 +75,7 @@ function Sidebar({
           </button>
         </div>
 
-        <div className="flex flex-col items-start justify-start gap-5">
+        <div className="flex w-full flex-col items-start justify-start gap-5">
           {menuItems.map((item, index) => (
             <div
               key={item.name}
@@ -216,9 +93,32 @@ function Sidebar({
                   : `${index * 50}ms`,
               }}
             >
-              <ScribbleLink href={item.href} delay={index * 100}>
-                {item.name}
-              </ScribbleLink>
+                <div onClick={()=>{
+                  router.push(item.href);
+                  onClose();
+                }} className="nav-item relative inline-flex w-auto flex-col">
+                  <div className="nav-main text-5xl font-bold uppercase text-white transition-transform duration-300 md:text-7xl ">
+                    {item.name}
+                  </div>
+
+                  <div className="nav-sub absolute left-0 top-0 flex w-max items-center gap-2 font-serif text-4xl italic text-red-600 md:gap-3 md:text-6xl lg:gap-4 ">
+                    <span className="nav-sub-text">{item.name}</span>
+
+                      <svg
+                        className="nav-arrow h-[0.65em] w-auto shrink-0"
+                        viewBox="0 0 56 41"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path
+                          d="M32.1452 39.3993C32.1876 39.4365 33.4872 39.721 35.0329 40.0313C36.5788 40.3415 37.8604 40.548 37.881 40.4903C37.9014 40.4326 38.0614 39.4955 38.2363 38.408C38.5876 36.2241 39.4383 33.6742 40.3473 32.0795C43.1807 27.1095 48.2642 23.8186 54.4299 22.9633L56 22.7454L56 20.5499L56 18.3543L54.5769 18.1457C45.2536 16.7798 39.1753 10.692 38.0382 1.58149C37.964 0.986581 37.8753 0.500001 37.8411 0.500001C37.5267 0.500001 32.3165 1.59654 32.218 1.6834C32.1467 1.74622 32.1997 2.30392 32.3359 2.92253C33.8436 9.7726 38.1605 15.3467 43.7624 17.6773L45.1062 18.2364L17.4733 18.2802L-1.87065e-06 18.308L-1.4961e-06 22.7514L17.5182 22.7792L45.086 22.8231L43.3895 23.5738C38.9884 25.521 35.504 29.3406 33.452 34.4676C32.8673 35.9282 31.985 39.2581 32.1452 39.3993Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                  </div>
+                </div>
             </div>
           ))}
         </div>
@@ -261,7 +161,7 @@ function Header() {
   return (
     <header
       className={`sticky  items-center top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
-      ${scrolled ? "bg-black/20 h-16 backdrop-blur-md shadow-lg py-3" : "bg-black h-30 py-5"}
+      ${scrolled ? "bg-black/20 h-16 backdrop-blur-md shadow-lg py-3" : "bg-black h-24 py-5"}
       ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="flex h-full justify-between w-full items-center">
@@ -269,7 +169,7 @@ function Header() {
           <Image
             src="/LogoWhite.png"
             height={50}
-            width={`${scrolled ? 180 : 250}`}
+            width={`${scrolled ? 180 : 230}`}
             alt="Lucid Dream Logo"
             className="transition-all duration-500"
           />

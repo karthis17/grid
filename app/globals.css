@@ -105,3 +105,36 @@ body {
     transition: none !important;
   }
 }
+
+.nav-item {
+  transform-style: preserve-3d;
+  overflow: hidden;
+  width: 300px;
+  cursor: pointer;
+}
+
+.nav-main {
+  opacity: 1;
+  transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg)
+    rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+  transform-style: preserve-3d;
+}
+
+.nav-item:hover .nav-main {
+  transform: translate3d(0px, -50%, 0px) scale3d(1, 1, 1) rotateX(-90deg)
+    rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+  transform-style: preserve-3d;
+}
+
+.nav-sub {
+  height: auto;
+  position: absolute;
+  top: 0%;
+  left: 0px;
+  transform: translateY(110%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-item:hover .nav-sub {
+  transform: translateY(0%);
+}

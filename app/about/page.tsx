@@ -1,6 +1,6 @@
 "use client";
 
-import {  useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -11,259 +11,242 @@ gsap.registerPlugin(ScrollTrigger);
 export default function AboutPage() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-useLayoutEffect(() => {
-  const page = pageRef.current;
+  useLayoutEffect(() => {
+    const page = pageRef.current;
 
-  if (!page) return;
+    if (!page) return;
 
-  const ctx = gsap.context(() => {
-    const mm = gsap.matchMedia();
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
 
-    /*
+      /*
     ============================================================
     DESKTOP / NORMAL MOTION
     ============================================================
     */
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      /*
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        /*
       ------------------------------------------------------------
       HERO
       ------------------------------------------------------------
       */
 
-      const heroTimeline = gsap.timeline({
-        defaults: {
-          ease: "power4.out",
-        },
-      });
-
-      heroTimeline
-        .from(".hero-tag", {
-          y: 30,
-          autoAlpha: 0,
-          duration: 0.8,
-        })
-        .from(
-          ".hero-title-line",
-          {
-            yPercent: 120,
-            autoAlpha: 0,
-            duration: 1.1,
-            stagger: 0.12,
+        const heroTimeline = gsap.timeline({
+          defaults: {
+            ease: "power4.out",
           },
-          "-=0.35",
-        )
-        .from(
-          ".hero-description",
-          {
-            y: 35,
-            autoAlpha: 0,
-            duration: 0.9,
-          },
-          "-=0.5",
-        )
-        .from(
-          ".hero-scroll",
-          {
-            y: 15,
-            autoAlpha: 0,
-            duration: 0.6,
-          },
-          "-=0.45",
-        );
-      const reveal = (
-        selector: string,
-        options: gsap.TweenVars = {},
-      ) => {
-        gsap.utils.toArray<HTMLElement>(selector).forEach((element) => {
-          gsap.from(element, {
-            y: 50,
-            autoAlpha: 0,
-            duration: 0.9,
-            ease: "power3.out",
-
-            ...options,
-
-            scrollTrigger: {
-              trigger: element,
-              start: "top 85%",
-              once: true,
-
-              ...(typeof options.scrollTrigger === "object"
-                ? options.scrollTrigger
-                : {}),
-            },
-          });
         });
-      };
 
+        heroTimeline
+          .from(".hero-tag", {
+            y: 30,
+            autoAlpha: 0,
+            duration: 0.8,
+          })
+          .from(
+            ".hero-title-line",
+            {
+              yPercent: 120,
+              autoAlpha: 0,
+              duration: 1.1,
+              stagger: 0.12,
+            },
+            "-=0.35",
+          )
+          .from(
+            ".hero-description",
+            {
+              y: 35,
+              autoAlpha: 0,
+              duration: 0.9,
+            },
+            "-=0.5",
+          )
+          .from(
+            ".hero-scroll",
+            {
+              y: 15,
+              autoAlpha: 0,
+              duration: 0.6,
+            },
+            "-=0.45",
+          );
+        const reveal = (selector: string, options: gsap.TweenVars = {}) => {
+          gsap.utils.toArray<HTMLElement>(selector).forEach((element) => {
+            gsap.from(element, {
+              y: 50,
+              autoAlpha: 0,
+              duration: 0.9,
+              ease: "power3.out",
 
-      /*
+              ...options,
+
+              scrollTrigger: {
+                trigger: element,
+                start: "top 85%",
+                once: true,
+
+                ...(typeof options.scrollTrigger === "object"
+                  ? options.scrollTrigger
+                  : {}),
+              },
+            });
+          });
+        };
+
+        /*
       ------------------------------------------------------------
       SECTION REVEALS
       ------------------------------------------------------------
       */
 
-      reveal(".reveal-section", {
-        y: 70,
-        duration: 1,
-      });
+        reveal(".reveal-section", {
+          y: 70,
+          duration: 1,
+        });
 
-
-      /*
+        /*
       ------------------------------------------------------------
       SECTION LABELS
       ------------------------------------------------------------
       */
 
-      reveal(".section-label", {
-        x: -30,
-        y: 0,
-        duration: 0.7,
-      });
+        reveal(".section-label", {
+          x: -30,
+          y: 0,
+          duration: 0.7,
+        });
 
-
-      /*
+        /*
       ------------------------------------------------------------
       BIG HEADINGS
       ------------------------------------------------------------
       */
 
-      reveal(".reveal-heading", {
-        y: 45,
-        duration: 1,
-        ease: "power4.out",
-      });
+        reveal(".reveal-heading", {
+          y: 45,
+          duration: 1,
+          ease: "power4.out",
+        });
 
-
-      /*
+        /*
       ------------------------------------------------------------
       PARAGRAPHS
       ------------------------------------------------------------
       */
 
-      reveal(".reveal-text", {
-        y: 25,
-        duration: 0.8,
-      });
+        reveal(".reveal-text", {
+          y: 25,
+          duration: 0.8,
+        });
 
-
-      /*
+        /*
       ============================================================
       IMAGE REVEALS
       ============================================================
       */
 
-      gsap.utils
-        .toArray<HTMLElement>(".image-reveal")
-        .forEach((container) => {
-          const image = container.querySelector<HTMLElement>(
-            ".reveal-image",
-          );
+        gsap.utils
+          .toArray<HTMLElement>(".image-reveal")
+          .forEach((container) => {
+            const image = container.querySelector<HTMLElement>(".reveal-image");
 
-          const timeline = gsap.timeline({
-            scrollTrigger: {
-              trigger: container,
-              start: "top 82%",
-              once: true,
-            },
-          });
-
-          timeline.from(container, {
-            clipPath: "inset(100% 0% 0% 0%)",
-            duration: 1.2,
-            ease: "power4.inOut",
-          });
-
-          if (image) {
-            timeline.from(
-              image,
-              {
-                scale: 1.08,
-                duration: 1.4,
-                ease: "power3.out",
+            const timeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: container,
+                start: "top 82%",
+                once: true,
               },
-              "<",
-            );
-          }
-        });
+            });
 
+            timeline.from(container, {
+              clipPath: "inset(100% 0% 0% 0%)",
+              duration: 1.2,
+              ease: "power4.inOut",
+            });
 
-      /*
+            if (image) {
+              timeline.from(
+                image,
+                {
+                  scale: 1.08,
+                  duration: 1.4,
+                  ease: "power3.out",
+                },
+                "<",
+              );
+            }
+          });
+
+        /*
       ============================================================
       DISCIPLINES
       ============================================================
       */
 
-      const disciplines = gsap.utils.toArray<HTMLElement>(
-        ".discipline-item",
-      );
+        const disciplines = gsap.utils.toArray<HTMLElement>(".discipline-item");
 
-      if (disciplines.length) {
-        gsap.from(disciplines, {
-          y: 40,
-          autoAlpha: 0,
-          duration: 0.7,
-          stagger: 0.08,
-          ease: "power3.out",
+        if (disciplines.length) {
+          gsap.from(disciplines, {
+            y: 40,
+            autoAlpha: 0,
+            duration: 0.7,
+            stagger: 0.08,
+            ease: "power3.out",
 
-          scrollTrigger: {
-            trigger: ".disciplines-list",
-            start: "top 82%",
-            once: true,
-          },
-        });
-      }
+            scrollTrigger: {
+              trigger: ".disciplines-list",
+              start: "top 82%",
+              once: true,
+            },
+          });
+        }
 
-
-      /*
+        /*
       ============================================================
       COLLABORATION
       ============================================================
       */
 
-      const collab = document.querySelector(".collab-section");
+        const collab = document.querySelector(".collab-section");
 
-      if (collab) {
-        const collabTimeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: collab,
-            start: "top 80%",
-            once: true,
-          },
-        });
-
-        collabTimeline
-          .from(".collab-heading", {
-            y: 70,
-            autoAlpha: 0,
-            duration: 1,
-            ease: "power4.out",
-          })
-          .from(
-            ".collab-copy",
-            {
-              y: 30,
-              autoAlpha: 0,
-              duration: 0.8,
-              stagger: 0.12,
-              ease: "power3.out",
+        if (collab) {
+          const collabTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: collab,
+              start: "top 80%",
+              once: true,
             },
-            "-=0.5",
-          );
-      }
+          });
 
+          collabTimeline
+            .from(".collab-heading", {
+              y: 70,
+              autoAlpha: 0,
+              duration: 1,
+              ease: "power4.out",
+            })
+            .from(
+              ".collab-copy",
+              {
+                y: 30,
+                autoAlpha: 0,
+                duration: 0.8,
+                stagger: 0.12,
+                ease: "power3.out",
+              },
+              "-=0.5",
+            );
+        }
 
-      /*
+        /*
       ============================================================
       STATS
       ============================================================
       */
 
-      gsap.utils
-        .toArray<HTMLElement>(".stat-number")
-        .forEach((stat) => {
+        gsap.utils.toArray<HTMLElement>(".stat-number").forEach((stat) => {
           const target = Number(stat.dataset.value);
 
           if (!Number.isFinite(target)) return;
@@ -289,131 +272,123 @@ useLayoutEffect(() => {
           });
         });
 
-
-      /*
+        /*
       ============================================================
       FOUNDER
       ============================================================
       */
 
-      const founder = document.querySelector(".founder-section");
+        const founder = document.querySelector(".founder-section");
 
-      if (founder) {
-        const founderTimeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: founder,
-            start: "top 78%",
-            once: true,
-          },
-        });
+        if (founder) {
+          const founderTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: founder,
+              start: "top 78%",
+              once: true,
+            },
+          });
 
-        founderTimeline
-          .from(".founder-image", {
-            x: -70,
-            autoAlpha: 0,
-            duration: 1,
-            ease: "power4.out",
-          })
-          .from(
-            ".founder-content",
-            {
-              x: 70,
+          founderTimeline
+            .from(".founder-image", {
+              x: -70,
               autoAlpha: 0,
               duration: 1,
               ease: "power4.out",
-            },
-            "<",
-          );
-      }
+            })
+            .from(
+              ".founder-content",
+              {
+                x: 70,
+                autoAlpha: 0,
+                duration: 1,
+                ease: "power4.out",
+              },
+              "<",
+            );
+        }
 
-
-      /*
+        /*
       ============================================================
       CTA
       ============================================================
       */
 
-      const cta = document.querySelector(".cta-box");
+        const cta = document.querySelector(".cta-box");
 
-      if (cta) {
-        const ctaTimeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: cta,
-            start: "top 85%",
-            once: true,
-          },
-        });
-
-        ctaTimeline
-          .from(cta, {
-            y: 70,
-            autoAlpha: 0,
-            duration: 1,
-            ease: "power4.out",
-          })
-          .from(
-            ".cta-heading",
-            {
-              y: 35,
-              autoAlpha: 0,
-              duration: 0.9,
-              ease: "power4.out",
+        if (cta) {
+          const ctaTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: cta,
+              start: "top 85%",
+              once: true,
             },
-            "-=0.55",
-          );
-      }
-    });
+          });
 
+          ctaTimeline
+            .from(cta, {
+              y: 70,
+              autoAlpha: 0,
+              duration: 1,
+              ease: "power4.out",
+            })
+            .from(
+              ".cta-heading",
+              {
+                y: 35,
+                autoAlpha: 0,
+                duration: 0.9,
+                ease: "power4.out",
+              },
+              "-=0.55",
+            );
+        }
+      });
 
-    /*
+      /*
     ============================================================
     REDUCED MOTION
     ============================================================
     */
 
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(
-        [
-          ".hero-tag",
-          ".hero-title-line",
-          ".hero-description",
-          ".hero-scroll",
-          ".reveal-section",
-          ".section-label",
-          ".reveal-heading",
-          ".reveal-text",
-          ".image-reveal",
-          ".discipline-item",
-          ".collab-heading",
-          ".collab-copy",
-          ".stat-number",
-          ".founder-image",
-          ".founder-content",
-          ".cta-box",
-          ".cta-heading",
-        ],
-        {
-          clearProps: "all",
-        },
-      );
-    });
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(
+          [
+            ".hero-tag",
+            ".hero-title-line",
+            ".hero-description",
+            ".hero-scroll",
+            ".reveal-section",
+            ".section-label",
+            ".reveal-heading",
+            ".reveal-text",
+            ".image-reveal",
+            ".discipline-item",
+            ".collab-heading",
+            ".collab-copy",
+            ".stat-number",
+            ".founder-image",
+            ".founder-content",
+            ".cta-box",
+            ".cta-heading",
+          ],
+          {
+            clearProps: "all",
+          },
+        );
+      });
+    }, page);
 
-  }, page);
-
-  return () => {
-    ctx.revert();
-  };
-}, []);
+    return () => {
+      ctx.revert();
+    };
+  }, []);
 
   return (
     <main
       ref={pageRef}
       className="min-h-screen overflow-hidden bg-[#f3f1eb] text-[#111]"
     >
-      {/* =====================================
-          HERO
-      ===================================== */}
-
       <section className="relative min-h-[90vh] overflow-hidden bg-black text-white">
         <Image
           src="/8.jpg"
@@ -455,10 +430,6 @@ useLayoutEffect(() => {
         </div>
       </section>
 
-      {/* =====================================
-          ABOUT
-      ===================================== */}
-
       <section className="px-5 py-24 md:px-10 lg:px-16 lg:py-36">
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="section-label lg:col-span-3">
@@ -490,10 +461,6 @@ useLayoutEffect(() => {
         </div>
       </section>
 
-      {/* =====================================
-          IMAGE
-      ===================================== */}
-
       <section className="px-5 md:px-10 lg:px-16">
         <div className="image-reveal relative h-[55vh] overflow-hidden md:h-[75vh]">
           <Image
@@ -510,10 +477,6 @@ useLayoutEffect(() => {
         </div>
       </section>
 
-      {/* =====================================
-          DISCIPLINES
-      ===================================== */}
-
       <section className="px-5 py-24 md:px-10 lg:px-16 lg:py-36">
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="section-label lg:col-span-3">
@@ -525,13 +488,11 @@ useLayoutEffect(() => {
           <div className="disciplines-list lg:col-span-9">
             {[
               "Architecture Visualisation",
-              "Films & Animation",
+              "Animation",
               "Real-time CG",
-              "Branding & Identity",
-              "Web & Digital",
+              "Websites & Digital Experiences",
               "Design",
               "Games & Interactive",
-              "Strategy & Positioning",
             ].map((item, index) => (
               <div
                 key={item}
@@ -548,7 +509,19 @@ useLayoutEffect(() => {
                 </div>
 
                 <span className="text-xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:text-3xl">
-                  ↗
+                  <svg
+                    className="nav-arrow h-[0.65em] w-auto shrink-0"
+                    viewBox="0 0 56 41"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path
+                      d="M32.1452 39.3993C32.1876 39.4365 33.4872 39.721 35.0329 40.0313C36.5788 40.3415 37.8604 40.548 37.881 40.4903C37.9014 40.4326 38.0614 39.4955 38.2363 38.408C38.5876 36.2241 39.4383 33.6742 40.3473 32.0795C43.1807 27.1095 48.2642 23.8186 54.4299 22.9633L56 22.7454L56 20.5499L56 18.3543L54.5769 18.1457C45.2536 16.7798 39.1753 10.692 38.0382 1.58149C37.964 0.986581 37.8753 0.500001 37.8411 0.500001C37.5267 0.500001 32.3165 1.59654 32.218 1.6834C32.1467 1.74622 32.1997 2.30392 32.3359 2.92253C33.8436 9.7726 38.1605 15.3467 43.7624 17.6773L45.1062 18.2364L17.4733 18.2802L-1.87065e-06 18.308L-1.4961e-06 22.7514L17.5182 22.7792L45.086 22.8231L43.3895 23.5738C38.9884 25.521 35.504 29.3406 33.452 34.4676C32.8673 35.9282 31.985 39.2581 32.1452 39.3993Z"
+                      fill="currentColor"
+                    />
+                  </svg>
                 </span>
               </div>
             ))}
@@ -594,94 +567,15 @@ useLayoutEffect(() => {
             </div>
           </div>
         </div>
-
-        {/* STATS */}
-
-        <div className="mt-24 grid border-y border-white/20 md:grid-cols-3">
-          <div className="border-b border-white/20 py-10 md:border-b-0 md:border-r md:px-8 md:first:pl-0">
-            <p
-              className="stat-number text-6xl font-medium tracking-[-0.06em] md:text-8xl"
-              data-value="100"
-            >
-              0+
-            </p>
-
-            <p className="mt-4 text-sm text-white/45">Clients</p>
-          </div>
-
-          <div className="border-b border-white/20 py-10 md:border-b-0 md:border-r md:px-8">
-            <p
-              className="stat-number text-6xl font-medium tracking-[-0.06em] md:text-8xl"
-              data-value="12"
-            >
-              0+
-            </p>
-
-            <p className="mt-4 text-sm text-white/45">Years collaborating</p>
-          </div>
-
-          <div className="py-10 md:px-8">
-            <p className="text-6xl font-medium tracking-[-0.06em] md:text-8xl">
-              ∞
-            </p>
-
-            <p className="mt-4 text-sm text-white/45">Possibilities</p>
-          </div>
-        </div>
       </section>
 
-      {/* =====================================
-          FOUNDER
-      ===================================== */}
 
-      <section className="founder-section px-5 py-24 md:px-10 lg:px-16 lg:py-36">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="founder-image lg:col-span-5">
-            <div className="relative aspect-[4/5] overflow-hidden bg-[#ddd]">
-              <Image
-                src="/images/arun-babu.jpg"
-                alt="Arun Babu"
-                fill
-                className="object-cover grayscale transition duration-700 hover:grayscale-0"
-              />
-            </div>
-          </div>
-
-          <div className="founder-content flex flex-col justify-between lg:col-span-6 lg:col-start-7">
-            <div>
-              <p className="text-xs uppercase tracking-[0.25em] text-black/40">
-                Founder
-              </p>
-
-              <h2 className="mt-6 text-5xl font-medium tracking-[-0.05em] md:text-7xl">
-                Arun Babu
-              </h2>
-
-              <p className="mt-5 text-lg text-black/55">
-                Founder and Partner-Architect
-              </p>
-            </div>
-
-            <div className="mt-16">
-              <Link
-                href="mailto:arunbabu@luciddream.co.in"
-                className="group inline-flex items-center gap-3 border-b border-black pb-2 text-sm md:text-base"
-              >
-                arunbabu@luciddream.co.in
-                <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-                  ↗
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* =====================================
           CTA
       ===================================== */}
 
-      <section className="px-5 pb-5 md:px-10 md:pb-10 lg:px-16 lg:pb-16">
+      <section className="px-5  py-5 md:px-10 md:py-10 lg:px-16 lg:py-16">
         <div className="cta-box relative overflow-hidden bg-[#d8ff3e] px-6 py-16 md:px-10 md:py-24 lg:px-14">
           <p className="text-xs uppercase tracking-[0.25em] text-black/50">
             Start a conversation

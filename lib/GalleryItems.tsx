@@ -23,6 +23,7 @@ export type GalleryItem = {
   // kept for reference / possible future use)
   mobileCol?: number;
   mobileRow?: number;
+  overlayColor?: string; // Optional overlay color for the item, in any valid CSS color format
 };
 
 const VIDEO_EXTENSIONS = /\.(mp4|webm|mov|m4v|ogg)$/i;
@@ -45,6 +46,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(69, 73, 65)",
   },
   {
     id: "02",
@@ -58,6 +60,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(50, 52, 66)",
   },
   {
     id: "03",
@@ -71,6 +74,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(69, 69, 69)",
   },
   {
     id: "04",
@@ -84,6 +88,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 2,
     mobileRow: 1,
+    overlayColor: "rgb(71, 60, 56)",
   },
   {
     id: "05",
@@ -97,6 +102,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(50, 60, 48)",
   },
   {
     id: "06",
@@ -110,6 +116,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(64, 78, 90)",
   },
   {
     id: "07",
@@ -123,6 +130,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(55, 62, 63)",
   },
   {
     id: "08",
@@ -136,6 +144,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(63, 68, 65)",
   },
   {
     id: "09",
@@ -149,6 +158,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(76, 77, 81)",
   },
   {
     id: "10",
@@ -162,6 +172,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(84, 78, 72)",
   },
   {
     id: "11",
@@ -175,6 +186,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(56, 54, 47)",
   },
   {
     id: "12",
@@ -188,6 +200,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(53, 45, 43)",
   },
   {
     id: "13",
@@ -201,6 +214,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(23, 43, 64)",
   },
   {
     id: "14",
@@ -214,6 +228,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(74, 53, 47)",
   },
   {
     id: "15",
@@ -227,6 +242,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 2,
     mobileRow: 1,
+    overlayColor: "rgb(60, 61, 42)",
   },
   {
     id: "16",
@@ -240,9 +256,8 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(59, 70, 82)",
   },
-
-  // 17–46
   {
     id: "17",
     src: "/gallery/luciddream-gallery-17.avif",
@@ -255,6 +270,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(71, 72, 58)",
   },
   {
     id: "18",
@@ -268,6 +284,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(76, 75, 63)",
   },
   {
     id: "19",
@@ -281,6 +298,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 2,
     mobileRow: 1,
+    overlayColor: "rgb(60, 63, 51)",
   },
   {
     id: "20",
@@ -294,6 +312,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(62, 61, 53)",
   },
   {
     id: "21",
@@ -307,6 +326,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(53, 57, 48)",
   },
   {
     id: "22",
@@ -320,6 +340,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(94, 74, 47)",
   },
   {
     id: "23",
@@ -333,6 +354,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(56, 55, 42)",
   },
   {
     id: "24",
@@ -346,6 +368,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(72, 83, 82)",
   },
   {
     id: "25",
@@ -359,6 +382,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(77, 72, 55)",
   },
   {
     id: "26",
@@ -372,6 +396,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(86, 73, 56)",
   },
   {
     id: "27",
@@ -385,6 +410,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(74, 72, 57)",
   },
   {
     id: "28",
@@ -398,6 +424,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 2,
     mobileRow: 1,
+    overlayColor: "rgb(52, 53, 49)",
   },
   {
     id: "29",
@@ -411,6 +438,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(56, 48, 36)",
   },
   {
     id: "30",
@@ -424,6 +452,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 2,
     mobileRow: 1,
+    overlayColor: "rgb(58, 56, 54)",
   },
   {
     id: "31",
@@ -437,6 +466,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(75, 75, 74)",
   },
   {
     id: "32",
@@ -450,6 +480,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(56, 44, 33)",
   },
   {
     id: "33",
@@ -463,6 +494,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(51, 73, 85)",
   },
   {
     id: "34",
@@ -476,6 +508,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(80, 73, 61)",
   },
   {
     id: "35",
@@ -489,6 +522,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(69, 76, 65)",
   },
   {
     id: "36",
@@ -502,6 +536,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(90, 86, 75)",
   },
   {
     id: "37",
@@ -515,6 +550,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(58, 59, 53)",
   },
   {
     id: "38",
@@ -528,6 +564,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 2,
     mobileRow: 1,
+    overlayColor: "rgb(55, 62, 58)",
   },
   {
     id: "39",
@@ -541,6 +578,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(78, 83, 81)",
   },
   {
     id: "40",
@@ -554,6 +592,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(65, 60, 48)",
   },
   {
     id: "41",
@@ -567,6 +606,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(80, 72, 60)",
   },
   {
     id: "42",
@@ -580,6 +620,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(88, 90, 87)",
   },
   {
     id: "43",
@@ -593,6 +634,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(69, 72, 54)",
   },
   {
     id: "44",
@@ -606,6 +648,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 2,
     mobileRow: 2,
+    overlayColor: "rgb(51, 55, 61)",
   },
   {
     id: "45",
@@ -619,6 +662,7 @@ export const galleryItems: GalleryItem[] = [
     row: 1,
     mobileCol: 1,
     mobileRow: 1,
+    overlayColor: "rgb(80, 73, 61)",
   },
   {
     id: "46",
@@ -632,6 +676,7 @@ export const galleryItems: GalleryItem[] = [
     row: 2,
     mobileCol: 1,
     mobileRow: 2,
+    overlayColor: "rgb(67, 47, 57)",
   },
 ];
 

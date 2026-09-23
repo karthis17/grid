@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, ".nonselected/GalleryViewer.tsx", ".nonselected/Grid1.tsx", "generate-overlay-colors.mts"  ],
   "exclude": ["node_modules"]
 }

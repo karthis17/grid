@@ -86,9 +86,8 @@ function Cell({
           />
         )}
 
-        <div className="absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/[0.06]" />
+        <div className="absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/6" />
 
- 
         {isVideo && (
           <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-black/50 text-white">
             <svg
@@ -103,19 +102,17 @@ function Cell({
           </span>
         )}
 
-        <div className="absolute inset-0  opacity-0 backdrop-blur-sm bg-black/50 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  <div className="flex h-full justify-center items-center  gap-4">
-          <h2 className="text-xl font-medium tracking-[-0.01em] ] ">
-            {item.title}
-          </h2>
-          <span className="shrink-0 font-mono text-lg uppercase">
-            {item.meta}
-          </span>
-        </div>
+        <div style={{ backgroundColor: item.overlayColor }} className={`opacity-0 text-white/*** absolute inset-0  transition-all group-hover:translate-y-0 group-hover:opacity-100`}>
+          <div className="flex h-full justify-center items-center  gap-4">
+            <h2 className="text-xl font-medium tracking-[-0.01em] ] ">
+              {item.title}
+            </h2>
+            <span className="shrink-0 font-mono text-lg uppercase">
+              {item.meta}
+            </span>
+          </div>
         </div>
       </div>
-
-
     </div>
   );
 }
