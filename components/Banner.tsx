@@ -79,22 +79,20 @@ const Banner = () => {
       className="relative min-h-[90vh] overflow-hidden bg-black text-white"
     >
       <Image
-        src="/8.jpg"
+        src="/gallery/luciddream-gallery-4.avif"
         alt="LucidDream creative studio"
         fill
         priority
         className="object-cover opacity-70"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/80" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/10 to-black/80" />
 
       <div className="relative z-10 flex min-h-[90vh] flex-col justify-between px-5 pb-8 pt-32 md:px-10 lg:px-16 lg:pb-14">
-        <div className="hero-tag flex items-center gap-3">
-          
-        </div>
+        <div className="hero-tag flex items-center gap-3"></div>
 
         <div>
-          <h1 className="max-w-[1200px] overflow-hidden text-[16vw] font-medium leading-[0.78] tracking-[-0.07em] sm:text-[13vw] lg:text-[10vw]">
+          <h1 className="max-w-300 overflow-hidden text-[16vw] font-medium leading-[0.78] tracking-[-0.07em] sm:text-[13vw] lg:text-[10vw]">
             <span className="hero-title-line block">We’re</span>
 
             <span className="hero-title-line block">LucidDream</span>

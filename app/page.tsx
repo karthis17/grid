@@ -4,6 +4,7 @@ import { galleryItems } from "@/lib/GalleryItems";
 import { ClientsList } from "@/lib/ClientList";
 import Clients from "@/components/Clients";
 import Banner from "@/components/Banner";
+import ScrollVideo from "@/components/ScrollingBanner";
 
 const siteUrl = "https://luciddream.co.in";
 const ogImage = `${siteUrl}${galleryItems[0].src}`;
@@ -82,9 +83,10 @@ export const metadata: Metadata = {
 };
 export default function DPage() {
   return (
-    <main>
+    <>
+      <ScrollVideo></ScrollVideo>
       <GalleryGrid items={galleryItems} />
       <Clients clients={ClientsList} />
-    </main>
+    </>
   );
 }

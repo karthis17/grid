@@ -36,7 +36,11 @@ export default function RootLayout({
       <body>
         <Header />
         <IntroAnimation />
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <SmoothScrollProvider>
+          <div id="smooth-wrapper">
+            <div id="smooth-content">{children}</div>
+          </div>
+        </SmoothScrollProvider>
         <Footer />
       </body>
     </html>

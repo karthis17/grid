@@ -10,7 +10,7 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
 
   return (
     <section className="relative overflow-hidden py-20 lg:py-28">
-      <div className="relative mx-auto max-w-screen-xl px-4">
+      <div className="relative mx-auto max-w-7xl px-4">
         <div className="mb-14 text-center lg:mb-20">
           <p className="mb-3 font-mono text-xs tracking-[0.25em] text-[#9C6B2E]">
             {"// TRUSTED ACROSS THE INDUSTRY"}
@@ -26,27 +26,11 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
         <MarqueeRow clients={rowBottom} direction="right" />
 
         {/* edge fades */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#fff] to-transparent lg:w-40" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#fff] to-transparent lg:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-white to-transparent lg:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-white to-transparent lg:w-40" />
       </div>
 
-      {/*
-        `jsx global` (not `jsx`) is required here, for two reasons:
-
-        1. The `.marquee-track` elements live inside a separate component
-           (MarqueeRow), so a scoped `<style jsx>` block would never match
-           them at all — scoping works by tagging elements returned from
-           THIS component's JSX only.
-
-        2. styled-jsx auto-renames `@keyframes` to a unique per-component
-           name unless the block is global. Wrapping just the selectors in
-           `:global(...)` (the previous approach) does NOT stop the
-           keyframes themselves from being renamed — so `animation:
-           scroll-left ...` ends up referencing a keyframes name that no
-           longer exists. That's what was silently breaking the animation.
-           Marking the whole block `global` keeps the keyframes name intact
-           and matching.
-      */}
+    
       <style jsx global>{`
         @keyframes scroll-left {
           from {

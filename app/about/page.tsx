@@ -391,7 +391,7 @@ export default function AboutPage() {
     >
       <section className="relative min-h-[90vh] overflow-hidden bg-black text-white">
         <Image
-          src="/8.jpg"
+          src="/gallery/luciddream-gallery-4.avif"
           alt="LucidDream creative studio"
           fill
           priority
@@ -464,7 +464,7 @@ export default function AboutPage() {
       <section className="px-5 md:px-10 lg:px-16">
         <div className="image-reveal relative h-[55vh] overflow-hidden md:h-[75vh]">
           <Image
-            src="/3.jpg"
+            src="/gallery/luciddream-gallery-4.avif"
             alt="LucidDream studio"
             fill
             className="reveal-image object-cover"
@@ -568,8 +568,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-
 
       {/* =====================================
           CTA
