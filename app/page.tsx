@@ -3,7 +3,6 @@ import GalleryGrid from "@/components/GalleryGrid";
 import { galleryItems } from "@/lib/GalleryItems";
 import { ClientsList } from "@/lib/ClientList";
 import Clients from "@/components/Clients";
-import Banner from "@/components/Banner";
 import ScrollVideo from "@/components/ScrollingBanner";
 
 const siteUrl = "https://luciddream.co.in";

@@ -4,7 +4,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import SmoothScrollProvider from "@/components/SmothScrollProvider";
-import IntroAnimation from "@/components/IntroComponent";
+// import IntroAnimation from "@/components/IntroComponent";
 import localFont from "next/font/local";
 
 const helvetica = localFont({
@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="en" className={`${fraunces.variable}  ${helvetica.variable} `}>
       <body>
         <Header />
-        <IntroAnimation />
+        {/* <IntroAnimation /> */}
         <SmoothScrollProvider>
           <div id="smooth-wrapper">
             <div id="smooth-content">{children}</div>

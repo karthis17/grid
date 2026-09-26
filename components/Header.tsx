@@ -160,8 +160,8 @@ function Header() {
 
   return (
     <header
-      className={`sticky  items-center top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
-      ${scrolled ? "bg-black/20 h-16 backdrop-blur-md shadow-lg py-3" : "bg-black h-24 py-5"}
+      className={`fixed  items-center top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
+      ${scrolled ? "bg-black/20 h-16 backdrop-blur-md shadow-lg py-3" : "backdrop-blur-md  h-24 py-5"}
       ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="flex h-full justify-between w-full items-center">

@@ -102,7 +102,10 @@ function Cell({
           </span>
         )}
 
-        <div style={{ backgroundColor: item.overlayColor }} className={`opacity-0 text-white/*** absolute inset-0  transition-all group-hover:translate-y-0 group-hover:opacity-100`}>
+        <div
+          style={{ backgroundColor: item.overlayColor }}
+          className={`opacity-0 text-white absolute inset-0  transition-all group-hover:translate-y-0 group-hover:opacity-100`}
+        >
           <div className="flex h-full justify-center items-center  gap-4">
             <h2 className="text-xl font-medium tracking-[-0.01em] ] ">
               {item.title}

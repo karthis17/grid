@@ -1,18 +1,4 @@
-// scripts/add-image-dimensions.mjs
-//
-// One-time script. Reads the actual pixel width/height of every local image
-// referenced in GalleryItems.ts and writes `width`/`height` fields directly
-// into each item object. Run once, then delete this file.
-//
-// Setup:
-//   npm install --save-dev image-size
-//
-// Run:
-//   node scripts/add-image-dimensions.mjs
-//
-// Before running: check FILE_PATH below matches where GalleryItems.ts
-// actually lives in your project (e.g. "lib/GalleryItems.ts",
-// "src/lib/GalleryItems.ts", etc).
+
 
 import fs from "node:fs/promises";
 import { readFileSync } from "node:fs";

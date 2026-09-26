@@ -385,7 +385,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main
+    <div
       ref={pageRef}
       className="min-h-screen overflow-hidden bg-[#f3f1eb] text-[#111]"
     >
@@ -600,6 +600,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
