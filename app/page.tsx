@@ -82,10 +82,12 @@ export const metadata: Metadata = {
 };
 export default function DPage() {
   return (
-    <>
-      <ScrollVideo></ScrollVideo>
-      <GalleryGrid items={galleryItems} />
-      <Clients clients={ClientsList} />
-    </>
+    <div className="relative">
+      <ScrollVideo />
+      <section className="relative z-10">
+        <GalleryGrid items={galleryItems} />
+        <Clients clients={ClientsList} />
+      </section>
+    </div>
   );
 }

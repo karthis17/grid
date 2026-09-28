@@ -66,37 +66,45 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
     return () => observer.disconnect();
   }, [rowsKey]);
 
-  // ---------- Play grid video previews only while on screen (desktop only) ----------
   useEffect(() => {
-    const videos = gridVideoRefs.current.filter(
-      (v): v is HTMLVideoElement => v !== null,
-    );
-    if (videos.length === 0) return;
-    if (window.matchMedia("(max-width: 640px)").matches) return;
+    const gallery = galleryRef.current;
+    if (!gallery) return;
 
-    const MAX_CONCURRENT = 3;
-    const playing = new Set<HTMLVideoElement>();
+    const cards = Array.from(
+      gallery.querySelectorAll<HTMLElement>(".gallery-item"),
+    );
+
+    if (cards.length === 0) return;
+
+    // Set stagger delay based on card position
+    cards.forEach((card, index) => {
+      card.style.setProperty("--fade-delay", `${(index % 4) * 80}ms`);
+    });
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const video = entry.target as HTMLVideoElement;
-          if (entry.isIntersecting) {
-            if (playing.size < MAX_CONCURRENT) {
-              video.play().catch(() => {});
-              playing.add(video);
-            }
-          } else {
-            video.pause();
-            playing.delete(video);
-          }
+          if (!entry.isIntersecting) return;
+
+          const card = entry.target as HTMLElement;
+
+          card.classList.add("is-visible");
+
+          // One-shot animation
+          observer.unobserve(card);
         });
       },
-      { threshold: 0.25, rootMargin: "100px 0px" },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -8% 0px",
+      },
     );
 
-    videos.forEach((v) => observer.observe(v));
-    return () => observer.disconnect();
+    cards.forEach((card) => observer.observe(card));
+
+    return () => {
+      observer.disconnect();
+    };
   }, [rowsKey]);
 
   // Priority = whatever actually renders in the first two rows, not the
@@ -111,7 +119,10 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
 
   return (
     <>
-      <main className="min-h-screen py-10 bg-[#f7f7f4] text-[#17170F]">
+      <section
+        id="works"
+        className="min-h-screen py-10 bg-[#f7f7f4] text-[#17170F]"
+      >
         <div
           ref={galleryRef}
           className="flex flex-col gap-3 px-3 pb-20 sm:gap-4 sm:px-5 md:px-7 lg:px-10"
@@ -125,7 +136,7 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
             />
           ))}
         </div>
-      </main>
+      </section>
     </>
   );
 }

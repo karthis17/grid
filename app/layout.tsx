@@ -35,11 +35,10 @@ export default function RootLayout({
     <html lang="en" className={`${fraunces.variable}  ${helvetica.variable} `}>
       <body>
         <Header />
-        {/* <IntroAnimation /> */}
         <SmoothScrollProvider>
-          <div id="smooth-wrapper">
-            <div id="smooth-content">{children}</div>
-          </div>
+          <main id="smooth-wrapper">
+            {children}
+          </main>
         </SmoothScrollProvider>
         <Footer />
       </body>

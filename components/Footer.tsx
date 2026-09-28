@@ -22,7 +22,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="">
+    <footer className="" id="contact">
       <div className="mx-auto bg-[#f7f7f4] text-black  px-6 py-16 md:px-10 lg:py-24">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
           {/* Left column */}
