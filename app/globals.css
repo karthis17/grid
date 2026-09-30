@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-/* --------------------------------------------------
-   Gallery Grid
--------------------------------------------------- */
 body {
   font-family: var(--font-body), sans-serif;
 }

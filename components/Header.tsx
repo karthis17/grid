@@ -164,7 +164,7 @@ function Header() {
 
   return (
     <header
-      className={`fixed  items-center top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
+      className={`fixed items-center top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
       ${scrolled ? "bg-black/20 h-16 backdrop-blur-md shadow-lg py-3" : "backdrop-blur-md  h-24 py-5"}
       ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
     >
@@ -182,9 +182,9 @@ function Header() {
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open menu"
-          className="flex flex-col cursor-pointer justify-center items-end gap-1.5 w-8 h-8 group"
+          className="group flex flex-col items-center justify-center gap-1 rounded-full w-8 h-9"
         >
-          <span className="block h-5 w-5 border rounded-full bg-white transition-all duration-300 group-hover:w-7 group-hover:h-7 self-center" />
+          <span className="block h-4 w-4 rounded-full bg-white transition-all duration-300 group-hover:w-6 group-hover:h-6 self-center" />
         </button>
       </div>
 

@@ -17,9 +17,9 @@ interface ScrollVideoProps {
 }
 
 export default function ScrollVideo({
-  frameCount = 78,
+  frameCount = 61,
   framePath = (i) => `/frames/frame_${String(i).padStart(4, "0")}.jpg`,
-  scrollDistance = 3500,
+  scrollDistance = 1500,
 }: ScrollVideoProps) {
   const innerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
