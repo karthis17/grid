@@ -24,7 +24,7 @@ export default function Footer() {
   return (
     <footer className="" id="contact">
       <div className="mx-auto bg-[#f7f7f4] text-black  px-6 py-16 md:px-10 lg:py-24">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
+        <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-center">
           {/* Left column */}
           <div>
             <h2 className="text-4xl font-normal">
@@ -50,27 +50,7 @@ export default function Footer() {
             </a>
           </div>
 
-          {/* Right column */}
-          <div>
-            <h2 className="text-3xl font-normal">
-              Collab x Lucid<span className="font-bold">Dream</span>
-            </h2>
-            <p className="mt-6  text-lg leading-relaxed text-gray-700 ">
-              We have built our reputation on our ability to communicate
-              visually compelling narratives and construct believable spaces
-              with a strong sense of atmosphere and occasion. We have been
-              collaborating with Architects and agencies to build meaningful
-              design illustrations, since 2012. We offer services across
-              strategy and positioning, identity design, marketing collateral,
-              stills and films.
-            </p>
-            <div className="mt-10 flex items-baseline gap-3">
-              <span className="text-6xl font-extrabold leading-none">100+</span>
-              <span className="text-sm text-gray-700">
-                Clients use our service
-              </span>
-            </div>
-          </div>
+    
         </div>
       </div>
 
