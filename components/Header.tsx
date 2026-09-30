@@ -17,9 +17,9 @@ function Sidebar({
 
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
     { name: "Work", href: "/#works" },
     { name: "Lab", href: "/#works" },
+    { name: "About", href: "/about" },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -76,7 +76,7 @@ function Sidebar({
           </button>
         </div>
 
-        <div className="flex w-full flex-col items-start justify-start gap-5">
+        <div className="flex w-full flex-col items-start justify-start gap-3">
           {menuItems.map((item, index) => (
             <div
               key={item.name}
@@ -101,26 +101,13 @@ function Sidebar({
                 }}
                 className="nav-item relative inline-flex w-auto flex-col"
               >
-                <div className="nav-main text-5xl font-bold uppercase text-white transition-transform duration-300 md:text-7xl ">
+                <div className="nav-main text-5xl font-bold  text-white transition-transform duration-300 md:text-7xl ">
                   {item.name}
                 </div>
 
-                <div className="nav-sub absolute left-0 top-0 flex w-max items-center gap-2 font-serif text-4xl italic text-red-600 md:gap-3 md:text-6xl lg:gap-4 ">
+                <div className="nav-sub absolute left-0 top-0 flex w-max items-center gap-2 font-bold font-playfair text-5xl text-yellow-300 -600 md:gap-3 md:text-7xl lg:gap-4 ">
                   <span className="nav-sub-text">{item.name}</span>
 
-                  <svg
-                    className="nav-arrow h-[0.65em] w-auto shrink-0"
-                    viewBox="0 0 56 41"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path
-                      d="M32.1452 39.3993C32.1876 39.4365 33.4872 39.721 35.0329 40.0313C36.5788 40.3415 37.8604 40.548 37.881 40.4903C37.9014 40.4326 38.0614 39.4955 38.2363 38.408C38.5876 36.2241 39.4383 33.6742 40.3473 32.0795C43.1807 27.1095 48.2642 23.8186 54.4299 22.9633L56 22.7454L56 20.5499L56 18.3543L54.5769 18.1457C45.2536 16.7798 39.1753 10.692 38.0382 1.58149C37.964 0.986581 37.8753 0.500001 37.8411 0.500001C37.5267 0.500001 32.3165 1.59654 32.218 1.6834C32.1467 1.74622 32.1997 2.30392 32.3359 2.92253C33.8436 9.7726 38.1605 15.3467 43.7624 17.6773L45.1062 18.2364L17.4733 18.2802L-1.87065e-06 18.308L-1.4961e-06 22.7514L17.5182 22.7792L45.086 22.8231L43.3895 23.5738C38.9884 25.521 35.504 29.3406 33.452 34.4676C32.8673 35.9282 31.985 39.2581 32.1452 39.3993Z"
-                      fill="currentColor"
-                    />
-                  </svg>
                 </div>
               </div>
             </div>

@@ -104,7 +104,13 @@ function Cell({
 
         <div
           style={{ backgroundColor: item.overlayColor }}
-          className={`opacity-0 text-white absolute inset-0  transition-all group-hover:translate-y-0 group-hover:opacity-100`}
+          onClick={(e) => {
+            e.currentTarget.style.setProperty("opacity", "100%");
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.setProperty("opacity", "0%");
+          }}
+          className={`opacity-0 text-white absolute inset-0  transition-all group-hover:translate-y-0`}
         >
           <div className="flex h-full justify-center items-center  gap-4">
             <h2 className="text-xl font-medium tracking-[-0.01em] ] ">
