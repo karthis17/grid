@@ -23,36 +23,7 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="" id="contact">
-      <div className="mx-auto bg-[#f7f7f4] text-black  px-6 py-16 md:px-10 lg:py-24">
-        <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-center">
-          {/* Left column */}
-          <div>
-            <h2 className="text-4xl font-normal">
-              We&rsquo;re Lucid<span className="font-bold">Dream</span>
-            </h2>
-            <p className="mt-6  text-lg leading-relaxed text-gray-700">
-              We are a creative company, a small and talented team crafting
-              extraordinary and unique work across many disciplines - from video
-              content and animation, to real time CG, branding, websites,
-              design, games and strategy. We work across different sectors, from
-              the built environment, to arts and culture, events and
-              placemaking.
-            </p>
-            <p className="mt-8 font-bold">Arun Babu</p>
-            <p className="mt-1 text-[15px] text-gray-700">
-              Founder and Partner-Architect
-            </p>
-            <a
-              href="mailto:arunbabu@luciddream.co.in"
-              className="mt-1 block text-[15px] text-gray-700 hover:text-white"
-            >
-              arunbabu@luciddream.co.in
-            </a>
-          </div>
-
-    
-        </div>
-      </div>
+ 
 
       <div className="border-t border-white/20" />
       <div className="bg-black text-white px-6">
@@ -75,6 +46,9 @@ export default function Footer() {
               height={100}
               alt="luciddream"
               src={"/LogoWhite.png"}
+              loading="lazy"
+              decoding="async"
+              className="h-auto w-auto"
             />
           </Link>
 

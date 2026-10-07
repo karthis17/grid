@@ -3,6 +3,10 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({
   children,
@@ -11,22 +15,31 @@ export default function SmoothScroll({
 }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.05,
+      lerp: 0.055, // Lower lerp creates fluid momentum and a gentle, slow deceleration when mouse scroll stops
       smoothWheel: true,
       syncTouch: false,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1,
+      wheelMultiplier: 1, // Calibrated travel per wheel notch for controlled, velvety motion
+      touchMultiplier: 1.0,
     });
 
-    let rafId: number;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
+    // One shared animation loop: Lenis drives ScrollTrigger, GSAP's ticker drives Lenis.
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const tick = (time: number) => {
+      lenis.raf(time * 1000);
     };
-    rafId = requestAnimationFrame(raf);
+    gsap.ticker.add(tick);
+    // Smooth frame rate dips (500ms max lag, 33ms target) instead of zeroing out lagSmoothing
+    gsap.ticker.lagSmoothing(500, 33);
+
+    // Initial layout stabilization
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      clearTimeout(refreshTimer);
+      gsap.ticker.remove(tick);
       lenis.destroy();
     };
   }, []);

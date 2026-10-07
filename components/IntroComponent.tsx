@@ -32,15 +32,17 @@ export default function IntroAnimation({
   const glowRef = useRef<HTMLDivElement>(null);
 
 
-  const [mounted, setMounted] = useState(true);
+  const [mounted, setMounted] = useState(() => {
+    if (showOncePerSession && typeof window !== "undefined") {
+      return !sessionStorage.getItem(SESSION_KEY);
+    }
+    return true;
+  });
 
   useEffect(() => {
-    if (showOncePerSession && typeof window !== "undefined") {
-      if (sessionStorage.getItem(SESSION_KEY)) {
-        setMounted(false);
-        onComplete?.();
-        return;
-      }
+    if (!mounted) {
+      onComplete?.();
+      return;
     }
 
     const previousOverflow = document.body.style.overflow;

@@ -1,8 +1,8 @@
 "use client";
 
+import { memo, useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import { getMediaType, type GalleryItem } from "@/lib/GalleryItems";
-import { useLayoutEffect, useRef, useState } from "react";
 
 export type RowVariant =
   | "feature-left"
@@ -19,54 +19,72 @@ export type RowEntry = {
 };
 
 function getRatio(item: GalleryItem): number {
-  if (item.width && item.height) {
-    return item.width / item.height;
-  }
+  if (item.width && item.height) return item.width / item.height;
   return 1.5;
 }
 
 type CellProps = {
   entry: RowEntry;
-  className?: string;
   priority?: boolean;
-  mediaHeight?: number;
-  cover?: boolean;
-  /** Actual rendered width of this cell, for a correctly-sized image fetch. */
+  /** Stretch to the parent's height (small feature column). */
+  fill?: boolean;
+  /** Override aspect ratio (big feature cell). Defaults to the item's own ratio. */
+  ratio?: number;
   sizes?: string;
 };
 
-function Cell({
+const Cell = memo(function Cell({
   entry,
-  className = "",
   priority = false,
-  mediaHeight,
-  cover = false,
+  fill = false,
+  ratio,
   sizes = "(max-width: 640px) 100vw, 66vw",
 }: CellProps) {
-  const { item, index } = entry;
+  const { item } = entry;
   const isVideo = getMediaType(item) === "video";
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const togglePlay = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    if (v.paused) {
+      if (v.preload === "none") v.preload = "auto";
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+    }
+  }, []);
+
+  const aspect = fill ? undefined : (ratio ?? getRatio(item));
 
   return (
     <div
-      className={`gallery-item group block min-w-0 cursor-pointer ${className}`}
+      className={`gallery-item group min-h-0 min-w-0 cursor-pointer ${
+        fill ? "h-full" : ""
+      }`}
+      onClick={isVideo ? togglePlay : undefined}
     >
       <div
-        className="gallery-media relative overflow-hidden"
-        style={mediaHeight ? { height: `${mediaHeight}px` } : undefined}
+        className={`relative overflow-hidden ${fill ? "h-full" : ""}`}
+        style={{
+          ...(aspect ? { aspectRatio: String(aspect) } : {}),
+        }}
       >
         {isVideo ? (
           <video
+            ref={videoRef}
             src={item.src}
             poster={item.poster}
             muted
             loop
+            autoPlay
             playsInline
-            preload={priority ? "metadata" : "none"}
-            className={
-              cover
-                ? "gallery-image absolute inset-0 h-full w-full object-cover"
-                : "gallery-image block h-auto w-full"
-            }
+            preload="none"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            className="absolute inset-0 h-full w-full object-cover"
           />
         ) : (
           <Image
@@ -76,32 +94,39 @@ function Cell({
             height={item.height ?? 800}
             priority={priority}
             loading={priority ? "eager" : "lazy"}
-            fetchPriority={priority ? "high" : "auto"}
+            quality={75}
+            decoding="async"
             sizes={sizes}
-            className={
-              cover
-                ? "gallery-image absolute inset-0 h-full w-full object-cover"
-                : "gallery-image block h-auto w-full"
-            }
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-out"
           />
         )}
 
-        <div className="absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/6" />
-
-        {isVideo && (
-          <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-black/50 text-white">
-            <svg
-              viewBox="0 0 24 24"
-              width="10"
-              height="10"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M8 5v14l11-7z" />
-            </svg>
+        {isVideo ? (
+          <span className="pointer-events-none absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-xs transition-transform duration-200 group-hover:scale-110">
+            {isPlaying ? (
+              <svg
+                viewBox="0 0 24 24"
+                width="12"
+                height="12"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+              </svg>
+            ) : (
+              <svg
+                viewBox="0 0 24 24"
+                width="12"
+                height="12"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
           </span>
-        )}
-
+        ) : (
+          
         <div
           style={{ backgroundColor: item.overlayColor }}
           onClick={(e) => {
@@ -112,8 +137,8 @@ function Cell({
           }}
           className={`opacity-0 text-white absolute inset-0  transition-all group-hover:translate-y-0`}
         >
-          <div className="flex h-full justify-center items-center  gap-4">
-            <h2 className="text-xl font-medium tracking-[-0.01em] ] ">
+          <div className="flex h-full items-center justify-center gap-4">
+            <h2 className="text-xl font-medium tracking-[-0.01em]">
               {item.title}
             </h2>
             <span className="shrink-0 font-mono text-lg uppercase">
@@ -121,79 +146,46 @@ function Cell({
             </span>
           </div>
         </div>
+        )}
+
+
       </div>
     </div>
   );
-}
+});
 
-const FEATURE_GAP = 16;
-
-function FeatureRowInner({
-  big,
-  small1,
-  small2,
-  bigRatio,
+const FeatureRow = memo(function FeatureRow({
+  entries,
   reverse,
   prioritySrcs,
 }: {
-  big: RowEntry;
-  small1: RowEntry;
-  small2: RowEntry;
-  bigRatio: number;
+  entries: RowEntry[];
   reverse: boolean;
   prioritySrcs?: Set<string>;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
-
-  useLayoutEffect(() => {
-    const element = containerRef.current;
-    if (!element) return;
-
-    const update = () => setWidth(element.clientWidth);
-    update();
-
-    const observer = new ResizeObserver(update);
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
-
-  const hasWidth = width > 0;
-  const availableWidth = Math.max(width - FEATURE_GAP, 0);
-  const bigWidth = availableWidth * (2 / 3);
-  const smallWidth = availableWidth * (1 / 3);
-  const rowHeight = hasWidth ? bigWidth / bigRatio : 0;
-  const smallHeight = hasWidth ? (rowHeight - FEATURE_GAP) / 2 : 0;
+  const [big, small1, small2] = entries;
+  if (!big || !small1 || !small2) return null;
 
   const bigCell = (
     <Cell
       entry={big}
       priority={prioritySrcs?.has(big.item.src)}
-      mediaHeight={hasWidth ? rowHeight : undefined}
+      ratio={getRatio(big.item)}
       sizes="(max-width: 640px) 100vw, 66vw"
     />
   );
 
   const smallColumn = (
-    <div
-      className="grid min-w-0 grid-rows-2 gap-3 sm:gap-4"
-      style={hasWidth ? { height: rowHeight } : undefined}
-    >
-      <Cell
-        entry={small1}
-        priority={prioritySrcs?.has(small1.item.src)}
-        mediaHeight={hasWidth ? smallHeight : undefined}
-        cover
-        sizes="(max-width: 640px) 100vw, 33vw"
-      />
-      <Cell
-        entry={small2}
-        priority={prioritySrcs?.has(small2.item.src)}
-        mediaHeight={hasWidth ? smallHeight : undefined}
-        cover
-        sizes="(max-width: 640px) 100vw, 33vw"
-      />
+    <div className="grid min-h-0 min-w-0 grid-rows-2 gap-4">
+      {[small1, small2].map((entry) => (
+        <Cell
+          key={entry.item.id}
+          entry={entry}
+          priority={prioritySrcs?.has(entry.item.src)}
+          fill
+          sizes="(max-width: 640px) 100vw, 33vw"
+        />
+      ))}
     </div>
   );
 
@@ -201,7 +193,7 @@ function FeatureRowInner({
     <>
       {/* Mobile */}
       <div className="grid grid-cols-1 gap-3 sm:hidden">
-        {[big, small1, small2].map((entry) => (
+        {entries.slice(0, 3).map((entry) => (
           <Cell
             key={entry.item.id}
             entry={entry}
@@ -213,18 +205,9 @@ function FeatureRowInner({
 
       {/* Desktop */}
       <div
-        ref={containerRef}
-        className="hidden min-w-0 sm:grid"
-        style={{
-          gridTemplateColumns: hasWidth
-            ? reverse
-              ? `${smallWidth}px ${bigWidth}px`
-              : `${bigWidth}px ${smallWidth}px`
-            : reverse
-              ? "1fr 2fr"
-              : "2fr 1fr",
-          gap: `${FEATURE_GAP}px`,
-        }}
+        className={`hidden min-w-0 gap-4 sm:grid ${
+          reverse ? "grid-cols-[1fr_2fr]" : "grid-cols-[2fr_1fr]"
+        }`}
       >
         {reverse ? (
           <>
@@ -240,7 +223,7 @@ function FeatureRowInner({
       </div>
     </>
   );
-}
+});
 
 const RATIO_ROW_SIZES: Record<number, string> = {
   2: "(max-width: 640px) 100vw, 50vw",
@@ -248,14 +231,14 @@ const RATIO_ROW_SIZES: Record<number, string> = {
   4: "(max-width: 640px) 50vw, 25vw",
 };
 
-function RatioRow({
+const RatioRow = memo(function RatioRow({
   entries,
   prioritySrcs,
 }: {
   entries: RowEntry[];
   prioritySrcs?: Set<string>;
 }) {
-  const columns = entries.map((entry) => `${getRatio(entry.item)}fr`).join(" ");
+  const columns = entries.map((e) => `${getRatio(e.item)}fr`).join(" ");
   const sizes =
     RATIO_ROW_SIZES[entries.length] ?? "(max-width: 640px) 100vw, 50vw";
 
@@ -274,7 +257,7 @@ function RatioRow({
       ))}
     </div>
   );
-}
+});
 
 type GalleryRowProps = {
   variant: RowVariant;
@@ -282,11 +265,7 @@ type GalleryRowProps = {
   prioritySrcs?: Set<string>;
 };
 
-export default function GalleryRow({
-  variant,
-  entries,
-  prioritySrcs,
-}: GalleryRowProps) {
+function GalleryRow({ variant, entries, prioritySrcs }: GalleryRowProps) {
   if (!entries.length) return null;
 
   if (variant === "hero") {
@@ -301,15 +280,6 @@ export default function GalleryRow({
     );
   }
 
-  if (
-    variant === "duo" ||
-    variant === "trio" ||
-    variant === "quad" ||
-    variant === "auto"
-  ) {
-    return <RatioRow entries={entries} prioritySrcs={prioritySrcs} />;
-  }
-
   if (variant === "feature-left" || variant === "feature-right") {
     return (
       <FeatureRow
@@ -320,31 +290,8 @@ export default function GalleryRow({
     );
   }
 
-  return null;
+  // duo | trio | quad | auto
+  return <RatioRow entries={entries} prioritySrcs={prioritySrcs} />;
 }
 
-function FeatureRow({
-  entries,
-  reverse,
-  prioritySrcs,
-}: {
-  entries: RowEntry[];
-  reverse: boolean;
-  prioritySrcs?: Set<string>;
-}) {
-  const [big, small1, small2] = entries;
-  if (!big || !small1 || !small2) return null;
-
-  const bigRatio = getRatio(big.item);
-
-  return (
-    <FeatureRowInner
-      big={big}
-      small1={small1}
-      small2={small2}
-      bigRatio={bigRatio}
-      reverse={reverse}
-      prioritySrcs={prioritySrcs}
-    />
-  );
-}
+export default memo(GalleryRow);

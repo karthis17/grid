@@ -19,23 +19,28 @@ interface ScrollVideoProps {
 export default function ScrollVideo({
   frameCount = 61,
   framePath = (i) => `/frames/frame_${String(i).padStart(4, "0")}.jpg`,
-  scrollDistance = 1500,
+  scrollDistance = 1000,
 }: ScrollVideoProps) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const innerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const frameStateRef = useRef<FrameState>({ frame: 0 });
-  const lastGoodIndexRef = useRef<number>(-1);
+  const drawnFrameRef = useRef(-1);
+  const lastGoodIndexRef = useRef(-1);
   const framePathRef = useRef(framePath);
+  const rafRef = useRef<number | null>(null);
+  const resizeRafRef = useRef<number | null>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
   const scrollIdleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
+  const hintHideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [hintVisible, setHintVisible] = useState(true);
   const [hintMounted, setHintMounted] = useState(true);
-  const hintHideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [loadedCount, setLoadedCount] = useState(0);
   const [firstFrameReady, setFirstFrameReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -49,12 +54,16 @@ export default function ScrollVideo({
       clearTimeout(hintHideTimeout.current);
       hintHideTimeout.current = null;
     }
+
     if (show) {
       setHintMounted(true);
       requestAnimationFrame(() => setHintVisible(true));
     } else {
       setHintVisible(false);
-      hintHideTimeout.current = setTimeout(() => setHintMounted(false), 350);
+      hintHideTimeout.current = setTimeout(
+        () => setHintMounted(false),
+        350,
+      );
     }
   }, []);
 
@@ -65,7 +74,7 @@ export default function ScrollVideo({
       canvas: HTMLCanvasElement,
     ) => {
       const canvasRatio = canvas.width / canvas.height;
-      const imgRatio = img.width / img.height;
+      const imgRatio = img.naturalWidth / img.naturalHeight;
 
       let drawWidth: number;
       let drawHeight: number;
@@ -90,66 +99,102 @@ export default function ScrollVideo({
   );
 
   const drawFrame = useCallback(
-    (index: number) => {
+    (frame: number) => {
       const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
+      const ctx = ctxRef.current;
 
-      const lower = Math.floor(index);
-      const upper = Math.min(lower + 1, frameCount - 1);
-      const alpha = index - lower;
+      if (!canvas || !ctx) return;
 
-      let img1 = imagesRef.current[lower];
+      // Frame images are discrete. Avoid doing expensive canvas work
+      // repeatedly when ScrollTrigger reports fractional values.
+      const index = Math.max(
+        0,
+        Math.min(frameCount - 1, Math.round(frame)),
+      );
 
-      const isDrawable = (img?: HTMLImageElement) =>
-        !!img && img.complete && img.naturalWidth > 0;
+      if (index === drawnFrameRef.current) return;
 
-      if (isDrawable(img1)) {
-        lastGoodIndexRef.current = lower;
+      const images = imagesRef.current;
+      let img = images[index];
+
+      const isDrawable = (image?: HTMLImageElement) =>
+        !!image && image.complete && image.naturalWidth > 0;
+
+      if (isDrawable(img)) {
+        lastGoodIndexRef.current = index;
       } else if (lastGoodIndexRef.current >= 0) {
-        img1 = imagesRef.current[lastGoodIndexRef.current];
+        img = images[lastGoodIndexRef.current];
       } else {
         return;
       }
 
-      const img2 = imagesRef.current[upper];
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawImageFit(ctx, img1, canvas);
-
-      if (img2 && img2.complete && img2.naturalWidth > 0 && alpha > 0) {
-        ctx.globalAlpha = alpha;
-        drawImageFit(ctx, img2, canvas);
-        ctx.globalAlpha = 1;
-      }
+      drawImageFit(ctx, img, canvas);
+      drawnFrameRef.current = index;
     },
-    [frameCount, drawImageFit],
+    [drawImageFit, frameCount],
   );
 
-  const resizeCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    const inner = innerRef.current;
-    if (!canvas || !inner) return;
+  // Batch all scroll updates into one paint per browser frame.
+  const requestDraw = useCallback(() => {
+    if (rafRef.current !== null) return;
 
-    canvas.width = inner.clientWidth;
-    canvas.height = inner.clientHeight;
-
-    drawFrame(frameStateRef.current.frame);
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      drawFrame(frameStateRef.current.frame);
+    });
   }, [drawFrame]);
+
+  const resizeCanvas = useCallback(() => {
+    if (resizeRafRef.current !== null) return;
+
+    resizeRafRef.current = requestAnimationFrame(() => {
+      resizeRafRef.current = null;
+
+      const canvas = canvasRef.current;
+      const inner = innerRef.current;
+
+      if (!canvas || !inner) return;
+
+      const width = inner.clientWidth;
+      const height = inner.clientHeight;
+
+      if (!width || !height) return;
+
+      // Keep the backing store at CSS resolution for much cheaper
+      // frame rendering. This is intentional for scroll performance.
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+        drawnFrameRef.current = -1;
+      }
+
+      const ctx = ctxRef.current;
+      if (ctx) {
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "medium";
+      }
+
+      requestDraw();
+    });
+  }, [requestDraw]);
 
   useEffect(() => {
     let cancelled = false;
+    let scrollTween: gsap.core.Tween | null = null;
+
     const images = new Array<HTMLImageElement>(frameCount);
     imagesRef.current = images;
     lastGoodIndexRef.current = -1;
+    drawnFrameRef.current = -1;
 
-    let scrollTween: gsap.core.Tween | null = null;
-    let trigger: ScrollTrigger | null = null;
-
-    function loadImage(i: number): Promise<void> {
-      return new Promise((resolve) => {
+    const loadImage = (index: number): Promise<void> =>
+      new Promise((resolve) => {
         const img = new Image();
+
+        // Ask the browser to prioritize the first frame and nearby frames.
+        img.decoding = "async";
+        img.fetchPriority = index < 4 ? "high" : "auto";
 
         img.onload = () => {
           if (!cancelled) setLoadedCount((count) => count + 1);
@@ -158,38 +203,95 @@ export default function ScrollVideo({
 
         img.onerror = () => {
           console.error(
-            `ScrollVideo: failed to load frame ${i + 1} at "${img.src}"`,
+            `ScrollVideo: failed to load frame ${index + 1} at "${img.src}"`,
           );
+
           if (!cancelled) setLoadedCount((count) => count + 1);
           resolve();
         };
 
-        img.src = framePathRef.current(i + 1);
-        images[i] = img;
+        img.src = framePathRef.current(index + 1);
+        images[index] = img;
       });
-    }
+
+    const loadRemainingFrames = async () => {
+      // Small batches prevent the browser/network from being hammered
+      // by dozens of image requests at once.
+      const batchSize = 6;
+
+      for (let start = 1; start < frameCount && !cancelled; start += batchSize) {
+        const end = Math.min(start + batchSize, frameCount);
+
+        await Promise.all(
+          Array.from({ length: end - start }, (_, offset) =>
+            loadImage(start + offset),
+          ),
+        );
+      }
+    };
 
     const handleScrollActivity = () => {
       setHint(false);
+
       if (scrollIdleTimeoutRef.current) {
         clearTimeout(scrollIdleTimeoutRef.current);
       }
-      scrollIdleTimeoutRef.current = setTimeout(() => setHint(true), 600);
+
+      scrollIdleTimeoutRef.current = setTimeout(() => {
+        setHint(true);
+      }, 600);
     };
 
-    async function init() {
+    const init = async () => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        ctxRef.current = canvas.getContext("2d", {
+          alpha: false,
+          desynchronized: true,
+        });
+      }
+
       resizeCanvas();
+
+      // Do not block the entire animation until every frame is loaded.
       await loadImage(0);
+
       if (cancelled) return;
 
       drawFrame(0);
       setFirstFrameReady(true);
 
-      const rest: Promise<void>[] = [];
-      for (let i = 1; i < frameCount; i++) {
-        rest.push(loadImage(i));
-      }
-      await Promise.all(rest);
+      // Start ScrollTrigger as soon as frame 0 is ready.
+      // Remaining frames continue loading in the background.
+      scrollTween = gsap.to(frameStateRef.current, {
+        frame: Math.max(0, frameCount - 1),
+        ease: "none",
+        scrollTrigger: {
+          trigger: wrapperRef.current,
+          start: "top top",
+          end: `+=${scrollDistance}`,
+          scrub: 0.5,
+          pin: true,
+          invalidateOnRefresh: true,
+          onUpdate: () => {
+            requestDraw();
+          },
+          onLeave: () => {
+            setHint(false);
+            innerRef.current?.parentElement?.classList.add("video-finished");
+          },
+          onLeaveBack: () => {
+            setHint(true);
+            innerRef.current?.parentElement?.classList.remove(
+              "video-finished",
+            );
+          },
+        },
+      });
+
+      // Background preload. Scroll interaction does not wait for it.
+      await loadRemainingFrames();
+
       if (cancelled) return;
 
       if (lastGoodIndexRef.current === -1) {
@@ -198,57 +300,59 @@ export default function ScrollVideo({
             1,
           )}" — confirm the frames exist there.`,
         );
-        return;
       }
-
-      // GSAP: pin the OUTER section, animate frames inside
-      scrollTween = gsap.to(frameStateRef.current, {
-        frame: frameCount - 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: wrapperRef.current,
-          start: "top top",
-          end: `+=${scrollDistance}`,
-          scrub: 1.5,
-          pin: true,
-          anticipatePin: 1,
-          fastScrollEnd: 0.3,
-          onUpdate: () => {
-            drawFrame(frameStateRef.current.frame);
-          },
-          onLeave: () => {
-            setHint(false);
-            // Optionally add a class here to mark "animation finished"
-            innerRef.current?.parentElement?.classList.add("video-finished");
-          },
-          onLeaveBack: () => {
-            setHint(true);
-            innerRef.current?.parentElement?.classList.remove("video-finished");
-          },
-        },
-      });
-
-      trigger = scrollTween.scrollTrigger ?? null;
-    }
+    };
 
     init();
 
-    window.addEventListener("resize", resizeCanvas);
-    window.addEventListener("scroll", handleScrollActivity, { passive: true });
+    const resizeObserver = new ResizeObserver(resizeCanvas);
+    if (innerRef.current) {
+      resizeObserver.observe(innerRef.current);
+    }
+
+    window.addEventListener("scroll", handleScrollActivity, {
+      passive: true,
+    });
 
     return () => {
       cancelled = true;
-      window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("scroll", handleScrollActivity);
-      if (scrollIdleTimeoutRef.current)
-        clearTimeout(scrollIdleTimeoutRef.current);
-      if (hintHideTimeout.current) clearTimeout(hintHideTimeout.current);
 
-      // true = revert pin styles and remove the pin-spacer
+      resizeObserver.disconnect();
+
+      window.removeEventListener("scroll", handleScrollActivity);
+
+      if (scrollIdleTimeoutRef.current) {
+        clearTimeout(scrollIdleTimeoutRef.current);
+      }
+
+      if (hintHideTimeout.current) {
+        clearTimeout(hintHideTimeout.current);
+      }
+
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+
+      if (resizeRafRef.current !== null) {
+        cancelAnimationFrame(resizeRafRef.current);
+        resizeRafRef.current = null;
+      }
+
       scrollTween?.scrollTrigger?.kill(true);
       scrollTween?.kill();
+
+      ctxRef.current = null;
+      imagesRef.current = [];
     };
-  }, [frameCount, scrollDistance, drawFrame, resizeCanvas, setHint]);
+  }, [
+    frameCount,
+    scrollDistance,
+    drawFrame,
+    requestDraw,
+    resizeCanvas,
+    setHint,
+  ]);
 
   const loadPct = Math.round((loadedCount / frameCount) * 100);
 
@@ -280,9 +384,12 @@ export default function ScrollVideo({
         <canvas
           ref={canvasRef}
           className="absolute inset-0 block h-full w-full"
+          style={{
+            willChange: "contents",
+            contain: "strict",
+          }}
         />
 
-        {/* Your hint UI here (same as before) */}
         {hintMounted && (
           <div
             aria-hidden={!hintVisible}
@@ -296,20 +403,18 @@ export default function ScrollVideo({
               alignItems: "center",
               gap: 10,
               opacity: hintVisible ? 1 : 0,
-              transform: `translate(-50%, ${hintVisible ? "0px" : "10px"})`,
+              transform: `translate(-50%, ${
+                hintVisible ? "0px" : "10px"
+              })`,
               transition: "opacity 0.35s ease, transform 0.35s ease",
               pointerEvents: "none",
             }}
           >
-            {/* same hint markup as before */}
             <div
               style={{
+                position: "relative",
                 width: 26,
                 height: 42,
-                borderRadius: 14,
-                border: "1.5px solid rgba(255,255,255,0.55)",
-                background: "rgba(255,255,255,0.06)",
-                backdropFilter: "blur(6px)",
                 display: "flex",
                 justifyContent: "center",
                 paddingTop: 8,
@@ -317,19 +422,16 @@ export default function ScrollVideo({
               }}
             >
               <div
+                className="scroll-hint"
                 style={{
-                  width: 4,
-                  height: 8,
-                  borderRadius: 2,
-                  background: "#fff",
                   animation: "scrollHintWheel 1.6s ease-in-out infinite",
                 }}
               />
             </div>
+
             <span
               style={{
                 fontSize: 11,
-                letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "rgba(255,255,255,0.75)",
                 fontWeight: 500,
@@ -337,17 +439,19 @@ export default function ScrollVideo({
             >
               Scroll
             </span>
+
             <style>{`
-            @keyframes scrollHintWheel {
-              0% { transform: translateY(0); opacity: 1; }
-              60% { transform: translateY(14px); opacity: 0; }
-              61% { transform: translateY(0); opacity: 0; }
-              100% { transform: translateY(0); opacity: 1; }
-            }
-            @media (prefers-reduced-motion: reduce) {
-              [style*="scrollHintWheel"] { animation: none !important; }
-            }
-          `}</style>
+              @keyframes scrollHintWheel {
+                0% { transform: translateY(0); opacity: 1; }
+                60% { transform: translateY(14px); opacity: 0; }
+                61% { transform: translateY(0); opacity: 0; }
+                100% { transform: translateY(0); opacity: 1; }
+              }
+
+              @media (prefers-reduced-motion: reduce) {
+                .scroll-hint { animation: none !important; }
+              }
+            `}</style>
           </div>
         )}
       </div>

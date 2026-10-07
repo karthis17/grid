@@ -242,74 +242,6 @@ export default function AboutPage() {
 
         /*
       ============================================================
-      STATS
-      ============================================================
-      */
-
-        gsap.utils.toArray<HTMLElement>(".stat-number").forEach((stat) => {
-          const target = Number(stat.dataset.value);
-
-          if (!Number.isFinite(target)) return;
-
-          const counter = {
-            value: 0,
-          };
-
-          gsap.to(counter, {
-            value: target,
-            duration: 1.6,
-            ease: "power2.out",
-
-            onUpdate: () => {
-              stat.textContent = `${Math.round(counter.value)}+`;
-            },
-
-            scrollTrigger: {
-              trigger: stat,
-              start: "top 85%",
-              once: true,
-            },
-          });
-        });
-
-        /*
-      ============================================================
-      FOUNDER
-      ============================================================
-      */
-
-        const founder = document.querySelector(".founder-section");
-
-        if (founder) {
-          const founderTimeline = gsap.timeline({
-            scrollTrigger: {
-              trigger: founder,
-              start: "top 78%",
-              once: true,
-            },
-          });
-
-          founderTimeline
-            .from(".founder-image", {
-              x: -70,
-              autoAlpha: 0,
-              duration: 1,
-              ease: "power4.out",
-            })
-            .from(
-              ".founder-content",
-              {
-                x: 70,
-                autoAlpha: 0,
-                duration: 1,
-                ease: "power4.out",
-              },
-              "<",
-            );
-        }
-
-        /*
-      ============================================================
       CTA
       ============================================================
       */
@@ -366,9 +298,7 @@ export default function AboutPage() {
             ".discipline-item",
             ".collab-heading",
             ".collab-copy",
-            ".stat-number",
-            ".founder-image",
-            ".founder-content",
+
             ".cta-box",
             ".cta-heading",
           ],
@@ -401,19 +331,13 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/10 to-black/80" />
 
         <div className="relative z-10 flex min-h-[90vh] flex-col justify-between px-5 pb-8 pt-32 md:px-10 lg:px-16 lg:pb-14">
-          <div className="hero-tag flex items-center gap-3">
-            <span className="h-px w-10 bg-white/60" />
-
-            <span className="text-xs uppercase tracking-[0.3em] text-white/70">
-              Creative Studio · Since 2012
-            </span>
-          </div>
+          <div className="hero-tag flex items-center gap-3"></div>
 
           <div>
             <h1 className="max-w-300 overflow-hidden text-[16vw] font-medium leading-[0.78] tracking-[-0.07em] sm:text-[13vw] lg:text-[10vw]">
               <span className="hero-title-line block">We’re</span>
 
-              <span className="hero-title-line block">LucidDream</span>
+              <span className="hero-title-line block mb-2">LucidDream</span>
             </h1>
 
             <div className="mt-8 flex flex-col gap-6 border-t border-white/30 pt-6 md:flex-row md:items-end md:justify-between">
@@ -490,8 +414,7 @@ export default function AboutPage() {
               "Architecture Visualisation",
               "Animation",
               "Real-time CG",
-              "Websites & Digital Experiences",
-              "Design",
+              "Digital Experiences",
               "Games & Interactive",
             ].map((item, index) => (
               <div
@@ -507,22 +430,6 @@ export default function AboutPage() {
                     {item}
                   </h3>
                 </div>
-
-                <span className="text-xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:text-3xl">
-                  <svg
-                    className="nav-arrow h-[0.65em] w-auto shrink-0"
-                    viewBox="0 0 56 41"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path
-                      d="M32.1452 39.3993C32.1876 39.4365 33.4872 39.721 35.0329 40.0313C36.5788 40.3415 37.8604 40.548 37.881 40.4903C37.9014 40.4326 38.0614 39.4955 38.2363 38.408C38.5876 36.2241 39.4383 33.6742 40.3473 32.0795C43.1807 27.1095 48.2642 23.8186 54.4299 22.9633L56 22.7454L56 20.5499L56 18.3543L54.5769 18.1457C45.2536 16.7798 39.1753 10.692 38.0382 1.58149C37.964 0.986581 37.8753 0.500001 37.8411 0.500001C37.5267 0.500001 32.3165 1.59654 32.218 1.6834C32.1467 1.74622 32.1997 2.30392 32.3359 2.92253C33.8436 9.7726 38.1605 15.3467 43.7624 17.6773L45.1062 18.2364L17.4733 18.2802L-1.87065e-06 18.308L-1.4961e-06 22.7514L17.5182 22.7792L45.086 22.8231L43.3895 23.5738C38.9884 25.521 35.504 29.3406 33.452 34.4676C32.8673 35.9282 31.985 39.2581 32.1452 39.3993Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
               </div>
             ))}
 
@@ -530,10 +437,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* =====================================
-          COLLAB
-      ===================================== */}
 
       <section className="bg-[#181818] px-5 py-24 text-white md:px-10 lg:px-16 lg:py-36">
         <div className="grid gap-14 lg:grid-cols-12">
@@ -569,10 +472,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* =====================================
-          CTA
-      ===================================== */}
-
       <section className="px-5  py-5 md:px-10 md:py-10 lg:px-16 lg:py-16">
         <div className="cta-box relative overflow-hidden bg-[#d8ff3e] px-6 py-16 md:px-10 md:py-24 lg:px-14">
           <p className="text-xs uppercase tracking-[0.25em] text-black/50">
@@ -592,8 +491,20 @@ export default function AboutPage() {
             >
               <span className="flex items-center gap-2">
                 Talk to us
-                <span className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
-                  ↗
+                <span className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 ">
+                  <svg
+                    className="nav-arrow transform -rotate-45 h-[0.65em] w-auto shrink-0"
+                    viewBox="0 0 56 41"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path
+                      d="M32.1452 39.3993C32.1876 39.4365 33.4872 39.721 35.0329 40.0313C36.5788 40.3415 37.8604 40.548 37.881 40.4903C37.9014 40.4326 38.0614 39.4955 38.2363 38.408C38.5876 36.2241 39.4383 33.6742 40.3473 32.0795C43.1807 27.1095 48.2642 23.8186 54.4299 22.9633L56 22.7454L56 20.5499L56 18.3543L54.5769 18.1457C45.2536 16.7798 39.1753 10.692 38.0382 1.58149C37.964 0.986581 37.8753 0.500001 37.8411 0.500001C37.5267 0.500001 32.3165 1.59654 32.218 1.6834C32.1467 1.74622 32.1997 2.30392 32.3359 2.92253C33.8436 9.7726 38.1605 15.3467 43.7624 17.6773L45.1062 18.2364L17.4733 18.2802L-1.87065e-06 18.308L-1.4961e-06 22.7514L17.5182 22.7792L45.086 22.8231L43.3895 23.5738C38.9884 25.521 35.504 29.3406 33.452 34.4676C32.8673 35.9282 31.985 39.2581 32.1452 39.3993Z"
+                      fill="currentColor"
+                    />
+                  </svg>
                 </span>
               </span>
             </Link>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 
@@ -23,11 +23,11 @@ function Sidebar({
     { name: "Contact", href: "#contact" },
   ];
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   // useEffect(() => {
   //   document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -124,25 +124,30 @@ function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
+  const tickingRef = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      if (tickingRef.current) return;
+      tickingRef.current = true;
 
-      setScrolled(currentScrollY > 10);
+      requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const isScrolled = currentScrollY > 10;
 
-      if (currentScrollY <= 0) {
-        // Always show header at the very top
-        setShowHeader(true);
-      } else if (currentScrollY > lastScrollY.current) {
-        // Scrolling down -> hide
-        setShowHeader(false);
-      } else {
-        // Scrolling up -> show
-        setShowHeader(true);
-      }
+        setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
 
-      lastScrollY.current = currentScrollY;
+        if (currentScrollY <= 0) {
+          setShowHeader(true);
+        } else if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
+          setShowHeader(false);
+        } else if (currentScrollY < lastScrollY.current) {
+          setShowHeader(true);
+        }
+
+        lastScrollY.current = currentScrollY;
+        tickingRef.current = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -151,8 +156,8 @@ function Header() {
 
   return (
     <header
-      className={`fixed items-center top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 transition-all duration-300
-      ${scrolled ? "bg-black/20 h-16 backdrop-blur-md shadow-lg py-3" : "backdrop-blur-md  h-24 py-5"}
+      className={`fixed top-0 left-0 w-full z-50 px-6 sm:px-10 transition-[transform,background-color,height] duration-300 ease-out flex items-center
+      ${scrolled ? "bg-black/40 h-16 backdrop-blur-md shadow-lg" : "bg-transparent h-20 md:h-24"}
       ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="flex h-full justify-between w-full items-center">
@@ -160,9 +165,10 @@ function Header() {
           <Image
             src="/LogoWhite.png"
             height={50}
-            width={`${scrolled ? 180 : 230}`}
+            width={230}
             alt="Lucid Dream Logo"
-            className="transition-all duration-500"
+            className={`transition-[width] duration-300 h-auto  ${scrolled ? "md:w-[180px] w-[130px]" : "md:w-[230px] w-[150px]"} `}
+            priority
           />
         </Link>
 

@@ -12,7 +12,6 @@ type Row = { key: string; variant: RowVariant; entries: RowEntry[] };
 
 export default function GalleryGrid({ items }: GalleryGridProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
-  const gridVideoRefs = useRef<Array<HTMLVideoElement | null>>([]);
 
   const indexById = useMemo(() => {
     const map = new Map<string, number>();
@@ -27,10 +26,7 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
         variant: row.rowType as RowVariant,
         entries: row.items
           .filter((item): item is GalleryItem => Boolean(item))
-          .map((item) => ({
-            item,
-            index: indexById.get(item.id) ?? -1,
-          })),
+          .map((item) => ({ item, index: indexById.get(item.id) ?? -1 })),
       })),
     [indexById],
   );
@@ -40,7 +36,8 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
     [rows],
   );
 
-  // ---------- Grid intro animation — plain CSS, driven by IntersectionObserver ----------
+  // High-performance IntersectionObserver: triggers ahead of scroll (300px margin)
+  // so items are already rendered and visible by the time the user reaches them.
   useEffect(() => {
     const gallery = galleryRef.current;
     if (!gallery) return;
@@ -48,67 +45,34 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
     const cards = Array.from(
       gallery.querySelectorAll<HTMLElement>(".gallery-item"),
     );
-    if (cards.length === 0) return;
+    if (!cards.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target); // one-shot, like the old `once: true`
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -8% 0px" },
-    );
+    // Immediately reveal initial visible cards without delay
+    const initialBatch = cards.slice(0, 6);
+    initialBatch.forEach((card) => {
+      card.classList.add("is-visible");
+    });
 
-    cards.forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
-  }, [rowsKey]);
-
-  useEffect(() => {
-    const gallery = galleryRef.current;
-    if (!gallery) return;
-
-    const cards = Array.from(
-      gallery.querySelectorAll<HTMLElement>(".gallery-item"),
-    );
-
-    if (cards.length === 0) return;
-
-    // Set stagger delay based on card position
-    cards.forEach((card, index) => {
-      card.style.setProperty("--fade-delay", `${(index % 4) * 80}ms`);
+    // Gentle, quick stagger for subsequent cards
+    cards.slice(6).forEach((card, i) => {
+      card.style.setProperty("--fade-delay", `${(i % 3) * 40}ms`);
     });
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const card = entry.target as HTMLElement;
-
-          card.classList.add("is-visible");
-
-          // One-shot animation
-          observer.unobserve(card);
-        });
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
       },
-      {
-        threshold: 0.12,
-        rootMargin: "0px 0px -8% 0px",
-      },
+      { threshold: 0.01, rootMargin: "300px 0px 300px 0px" },
     );
 
-    cards.forEach((card) => observer.observe(card));
-
-    return () => {
-      observer.disconnect();
-    };
+    cards.slice(6).forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
   }, [rowsKey]);
 
-  // Priority = whatever actually renders in the first two rows, not the
-  // first 4 items of the flat array (those can disagree with layout order).
   const prioritySrcs = useMemo(() => {
     const set = new Set<string>();
     for (const row of rows.slice(0, 2)) {
@@ -118,25 +82,24 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
   }, [rows]);
 
   return (
-    <>
-      <section
-        id="works"
-        className="min-h-screen py-10 bg-[#f7f7f4] text-[#17170F]"
+    <section
+      id="works"
+      className="min-h-screen bg-[#f7f7f4] py-10 text-[#17170F]"
+    >
+      <div
+        ref={galleryRef}
+        className="flex flex-col gap-3 px-3 pb-20 sm:gap-4 sm:px-5 md:px-7 lg:px-10"
       >
-        <div
-          ref={galleryRef}
-          className="flex flex-col gap-3 px-3 pb-20 sm:gap-4 sm:px-5 md:px-7 lg:px-10"
-        >
-          {rows.map((row) => (
+        {rows.map((row, i) => (
+          <div key={row.key} className={i < 2 ? undefined : "gallery-row"}>
             <GalleryRow
-              key={row.key}
               variant={row.variant}
               entries={row.entries}
               prioritySrcs={prioritySrcs}
             />
-          ))}
-        </div>
-      </section>
-    </>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

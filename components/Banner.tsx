@@ -83,6 +83,7 @@ const Banner = () => {
         alt="LucidDream creative studio"
         fill
         priority
+        decoding="async"
         className="object-cover opacity-70"
       />
 

@@ -24,16 +24,17 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
             {clients.map((c, i) => (
               <div
                 key={`${c.name}-${i}`}
-                className=" flex shrink-0 items-center justify-center  bg-white  transition-colors duration-300 lg:h-28 lg:w-56"
+                className=" flex shrink-0 items-center justify-center  bg-white  transition-colors duration-300 lg:w-56"
               >
                 <Image
                   src={c.src}
                   alt={c.name}
                   width={130}
-                  height={56}
+                  height={130}
                   loading={i < 6 ? "eager" : "lazy"}
+                  decoding="async"
                   sizes="(max-width: 1024px) 130px, 160px"
-                  className="h-12 w-auto object-contain opacity-60 grayscale transition-all duration-300 group-hover/tile:opacity-100 group-hover/tile:grayscale-0 lg:max-h-14"
+                  className="h-auto w-full mx-10  object-contain opacity-60 grayscale transition-all duration-300 group-hover/tile:opacity-100 group-hover/tile:grayscale-0 lg:max-h-48"
                 />
               </div>
             ))}
