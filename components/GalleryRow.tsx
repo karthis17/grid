@@ -247,9 +247,9 @@ const RatioRow = memo(function RatioRow({
       className="grid gap-3 sm:gap-4"
       style={{ gridTemplateColumns: columns }}
     >
-      {entries.map((entry) => (
+      {entries.map((entry, i) => (
         <Cell
-          key={entry.item.id}
+          key={entry.item.id  }
           entry={entry}
           priority={prioritySrcs?.has(entry.item.src)}
           sizes={sizes}

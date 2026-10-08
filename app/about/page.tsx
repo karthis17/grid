@@ -5,10 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutPage() {
+  const { t, locale } = useLanguage();
   const pageRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -334,20 +336,26 @@ export default function AboutPage() {
           <div className="hero-tag flex items-center gap-3"></div>
 
           <div>
-            <h1 className="max-w-300 overflow-hidden text-[16vw] font-medium leading-[0.78] tracking-[-0.07em] sm:text-[13vw] lg:text-[10vw]">
-              <span className="hero-title-line block">We’re</span>
-
-              <span className="hero-title-line block mb-2">LucidDream</span>
+            <h1
+              className={`max-w-300 overflow-hidden font-medium ${
+                locale === "ta"
+                  ? "text-[10vw] sm:text-[8vw] lg:text-[6.5vw] leading-[1.12] tracking-normal"
+                  : locale === "ja"
+                  ? "text-[11vw] sm:text-[9vw] lg:text-[7vw] leading-[1.08] tracking-[-0.02em]"
+                  : "text-[16vw] sm:text-[13vw] lg:text-[10vw] leading-[0.78] tracking-[-0.07em]"
+              }`}
+            >
+              <span className="hero-title-line block">{t.about.heroTitleLine1}</span>
+              <span className="hero-title-line block mb-2">{t.about.heroTitleLine2}</span>
             </h1>
 
             <div className="mt-8 flex flex-col gap-6 border-t border-white/30 pt-6 md:flex-row md:items-end md:justify-between">
               <p className="hero-description max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-                A multidisciplinary creative studio building compelling
-                narratives, meaningful spaces and memorable visual experiences.
+                {t.about.heroDescription}
               </p>
 
               <span className="hero-scroll text-xs uppercase tracking-[0.25em] text-white/50">
-                Scroll to discover ↓
+                {t.about.scrollPrompt}
               </span>
             </div>
           </div>
@@ -358,27 +366,30 @@ export default function AboutPage() {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="section-label lg:col-span-3">
             <p className="text-xs uppercase tracking-[0.25em] text-black/45">
-              01 / About
+              {t.about.sec1Label}
             </p>
           </div>
 
           <div className="lg:col-span-9">
-            <h2 className="reveal-heading max-w-5xl text-4xl font-medium leading-[1.05] tracking-[-0.045em] md:text-6xl lg:text-7xl">
-              A small, talented team crafting extraordinary work across
-              disciplines.
+            <h2
+              className={`reveal-heading max-w-5xl font-medium ${
+                locale === "ta"
+                  ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-5.5xl leading-[1.3] tracking-normal"
+                  : locale === "ja"
+                  ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.25] tracking-[-0.02em]"
+                  : "text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-[-0.045em]"
+              }`}
+            >
+              {t.about.sec1Heading}
             </h2>
 
             <div className="mt-12 grid gap-8 md:grid-cols-2 md:gap-14">
               <p className="reveal-text text-base leading-7 text-black/65 md:text-lg md:leading-8">
-                We are a creative company working across video content,
-                animation, real-time CG, branding, websites, design, games and
-                strategy.
+                {t.about.sec1P1}
               </p>
 
               <p className="reveal-text text-base leading-7 text-black/65 md:text-lg md:leading-8">
-                Our work spans the built environment, arts and culture, events
-                and placemaking — creating experiences with a strong sense of
-                atmosphere, identity and occasion.
+                {t.about.sec1P2}
               </p>
             </div>
           </div>
@@ -395,8 +406,8 @@ export default function AboutPage() {
           />
 
           <div className="absolute bottom-0 left-0 flex w-full justify-between bg-linear-to-t from-black/70 to-transparent p-6 pt-20 text-xs uppercase tracking-[0.2em] text-white md:p-8">
-            <span>LucidDream Studio</span>
-            <span>India</span>
+            <span>{t.about.studioName}</span>
+            <span>{t.about.studioCountry}</span>
           </div>
         </div>
       </section>
@@ -405,20 +416,14 @@ export default function AboutPage() {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="section-label lg:col-span-3">
             <p className="text-xs uppercase tracking-[0.25em] text-black/45">
-              02 / What we do
+              {t.about.sec2Label}
             </p>
           </div>
 
           <div className="disciplines-list lg:col-span-9">
-            {[
-              "Architecture Visualisation",
-              "Animation",
-              "Real-time CG",
-              "Digital Experiences",
-              "Games & Interactive",
-            ].map((item, index) => (
+            {t.about.disciplines.map((item, index) => (
               <div
-                key={item}
+                key={index}
                 className="discipline-item group flex cursor-default items-center justify-between border-t border-black/20 py-5 md:py-7"
               >
                 <div className="flex items-center gap-5 md:gap-10">
@@ -426,7 +431,15 @@ export default function AboutPage() {
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
-                  <h3 className="text-2xl tracking-[-0.03em] transition-transform duration-500 ease-out group-hover:translate-x-3 md:text-4xl">
+                  <h3
+                    className={`transition-transform duration-500 ease-out group-hover:translate-x-3 ${
+                      locale === "ta"
+                        ? "text-xl sm:text-2xl md:text-3xl tracking-normal"
+                        : locale === "ja"
+                        ? "text-xl sm:text-2xl md:text-3.5xl tracking-normal"
+                        : "text-2xl md:text-4xl tracking-[-0.03em]"
+                    }`}
+                  >
                     {item}
                   </h3>
                 </div>
@@ -442,47 +455,59 @@ export default function AboutPage() {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="section-label lg:col-span-3">
             <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-              03 / Collaboration
+              {t.about.sec3Label}
             </p>
           </div>
 
           <div className="lg:col-span-9">
             <p className="collab-copy mb-8 text-sm uppercase tracking-[0.2em] text-white/45">
-              Collab × LucidDream
+              {t.about.collabTag}
             </p>
 
-            <h2 className="collab-heading max-w-5xl text-4xl font-medium leading-[1.08] tracking-[-0.045em] md:text-6xl lg:text-7xl">
-              We transform ideas into believable spaces and visually compelling
-              narratives.
+            <h2
+              className={`collab-heading max-w-5xl font-medium ${
+                locale === "ta"
+                  ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-5.5xl leading-[1.3] tracking-normal"
+                  : locale === "ja"
+                  ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.25] tracking-[-0.02em]"
+                  : "text-4xl md:text-6xl lg:text-7xl leading-[1.08] tracking-[-0.045em]"
+              }`}
+            >
+              {t.about.collabHeading}
             </h2>
 
             <div className="collab-copy-wrapper mt-14 grid gap-10 border-t border-white/20 pt-10 md:grid-cols-2">
               <p className="collab-copy text-base leading-7 text-white/60 md:text-lg md:leading-8">
-                Since 2012, we have collaborated with architects and agencies to
-                create meaningful design illustrations, visual identities and
-                immersive experiences.
+                {t.about.collabP1}
               </p>
 
               <p className="collab-copy text-base leading-7 text-white/60 md:text-lg md:leading-8">
-                Our work spans strategy and positioning, identity design,
-                marketing collateral, architectural stills, animation and films.
+                {t.about.collabP2}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-5  py-5 md:px-10 md:py-10 lg:px-16 lg:py-16">
+      <section className="px-5 py-5 md:px-10 md:py-10 lg:px-16 lg:py-16">
         <div className="cta-box relative overflow-hidden bg-[#d8ff3e] px-6 py-16 md:px-10 md:py-24 lg:px-14">
           <p className="text-xs uppercase tracking-[0.25em] text-black/50">
-            Start a conversation
+            {t.about.ctaEyebrow}
           </p>
 
           <div className="mt-10 flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
-            <h2 className="cta-heading max-w-4xl text-5xl font-medium leading-[0.95] tracking-[-0.06em] md:text-7xl lg:text-8xl">
-              Have an idea?
+            <h2
+              className={`cta-heading max-w-4xl font-medium ${
+                locale === "ta"
+                  ? "text-3xl sm:text-4.5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-normal"
+                  : locale === "ja"
+                  ? "text-3.5xl sm:text-5xl md:text-6.5xl lg:text-7.5xl leading-[1.05] tracking-[-0.02em]"
+                  : "text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[-0.06em]"
+              }`}
+            >
+              {t.about.ctaHeading1}
               <br />
-              Let’s make it real.
+              {t.about.ctaHeading2}
             </h2>
 
             <Link
@@ -490,8 +515,8 @@ export default function AboutPage() {
               className="group flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-black text-sm text-white transition-transform duration-500 hover:scale-110 md:h-36 md:w-36"
             >
               <span className="flex items-center gap-2">
-                Talk to us
-                <span className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 ">
+                {t.about.ctaButton}
+                <span className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
                   <svg
                     className="nav-arrow transform -rotate-45 h-[0.65em] w-auto shrink-0"
                     viewBox="0 0 56 41"

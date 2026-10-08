@@ -511,7 +511,7 @@ export const galleryItems: GalleryItem[] = [
     overlayColor: "rgb(80, 73, 61)",
   },
   {
-    id: "34",
+    id: "90",
     src: "/vid1.mp4",
     width: 1920,
     height: 1446,

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import SmoothScrollProvider from "@/components/SmothScrollProvider";
 // import IntroAnimation from "@/components/IntroComponent";
 import localFont from "next/font/local";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 const helvetica = localFont({
   src: "./fonts/HelveticaNeueCyr-Bold.woff2",
@@ -40,13 +41,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable}  ${helvetica.variable} ${playfair.variable}`}>
       <body>
-        <Header />
-        <SmoothScrollProvider>
-          <main id="smooth-wrapper">
-            {children}
-          </main>
-        </SmoothScrollProvider>
-        <Footer />
+        <LanguageProvider>
+          <Header />
+          <SmoothScrollProvider>
+            <main id="smooth-wrapper">
+              {children}
+            </main>
+          </SmoothScrollProvider>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,6 +22,7 @@ export default function ScrollVideo({
   framePath = (i) => `/frames/frame_${String(i).padStart(4, "0")}.jpg`,
   scrollDistance = 1000,
 }: ScrollVideoProps) {
+  const { t } = useLanguage();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const innerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -364,14 +366,14 @@ export default function ScrollVideo({
       >
         {loadError && (
           <div className="absolute inset-0 z-11 flex flex-col items-center justify-center gap-2 bg-black px-6 text-center text-[0.85rem] text-[#ff5a36]">
-            <div>⚠ ScrollVideo couldn&apos;t load any frames</div>
+            <div>⚠ {t.banner.loadError}</div>
             <div className="max-w-120 text-[#8a8f98]">{loadError}</div>
           </div>
         )}
 
         {!firstFrameReady && !loadError && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3.5 bg-black text-[0.9rem] text-[#8a8f98]">
-            <div>Loading frames…</div>
+            <div>{t.banner.loadingFrames}</div>
             <div className="h-0.75 w-45 overflow-hidden rounded-xs bg-[222]">
               <div
                 className="h-full bg-[#ff5a36] transition-[width] duration-150 ease-out"
@@ -437,7 +439,7 @@ export default function ScrollVideo({
                 fontWeight: 500,
               }}
             >
-              Scroll
+              {t.banner.scroll}
             </span>
 
             <style>{`

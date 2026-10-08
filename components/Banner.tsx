@@ -3,8 +3,10 @@
 import gsap from "gsap";
 import Image from "next/image";
 import React, { useLayoutEffect, useRef } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const Banner = () => {
+  const { t, locale } = useLanguage();
   const pageRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const page = pageRef.current;
@@ -93,20 +95,27 @@ const Banner = () => {
         <div className="hero-tag flex items-center gap-3"></div>
 
         <div>
-          <h1 className="max-w-300 overflow-hidden text-[16vw] font-medium leading-[0.78] tracking-[-0.07em] sm:text-[13vw] lg:text-[10vw]">
-            <span className="hero-title-line block">We’re</span>
+          <h1
+            className={`max-w-300 overflow-hidden font-medium ${
+              locale === "ta"
+                ? "text-[10vw] sm:text-[8vw] lg:text-[6.5vw] leading-[1.15] tracking-normal"
+                : locale === "ja"
+                ? "text-[11vw] sm:text-[9vw] lg:text-[7vw] leading-[1.1] tracking-[-0.02em]"
+                : "text-[16vw] sm:text-[13vw] lg:text-[10vw] leading-[0.78] tracking-[-0.07em]"
+            }`}
+          >
+            <span className="hero-title-line block">{t.about.heroTitleLine1}</span>
 
-            <span className="hero-title-line block">LucidDream</span>
+            <span className="hero-title-line block">{t.about.heroTitleLine2}</span>
           </h1>
 
           <div className="mt-8 flex flex-col gap-6 border-t border-white/30 pt-6 md:flex-row md:items-end md:justify-between">
             <p className="hero-description max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-              A multidisciplinary creative studio building compelling
-              narratives, meaningful spaces and memorable visual experiences.
+              {t.about.heroDescription}
             </p>
 
             <span className="hero-scroll text-xs uppercase tracking-[0.25em] text-white/50">
-              Scroll to discover ↓
+              {t.about.scrollPrompt}
             </span>
           </div>
         </div>

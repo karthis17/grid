@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const socialLinks = [
   {
@@ -21,6 +24,8 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="" id="contact">
  
@@ -70,7 +75,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-gray-300">
-            &copy; Copyright {new Date().getFullYear()} - Luciddream
+            &copy; {t.footer.copyright} {new Date().getFullYear()} {t.footer.allRightsReserved}
           </p>
         </div>
       </div>
