@@ -21,18 +21,7 @@ export default function AboutPage() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      /*
-    ============================================================
-    DESKTOP / NORMAL MOTION
-    ============================================================
-    */
-
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        /*
-      ------------------------------------------------------------
-      HERO
-      ------------------------------------------------------------
-      */
 
         const heroTimeline = gsap.timeline({
           defaults: {

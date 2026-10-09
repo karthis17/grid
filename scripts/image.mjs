@@ -20,19 +20,18 @@ async function run() {
     const failed = [];
 
     const result = source.replace(ITEM_REGEX, (full, head, src, body, tail) => {
-        if (/\bwidth:\s*\d+/.test(body)) {
-            skipped++;
-            return full; // already has dimensions, leave it alone
-        }
-
         const filePath = path.join(PUBLIC_DIR, src);
         let dims;
-        try {
-            const buffer = readFileSync(filePath);
-            dims = imageSize(buffer);
-        } catch (err) {
-            failed.push(`${src} (${err.message})`);
-            return full;
+        if (src.endsWith(".mp4")) {
+            dims = { width: 1280, height: 720 };
+        } else {
+            try {
+                const buffer = readFileSync(filePath);
+                dims = imageSize(buffer);
+            } catch (err) {
+                failed.push(`${src} (${err.message})`);
+                return full;
+            }
         }
 
         if (!dims.width || !dims.height) {
@@ -40,8 +39,21 @@ async function run() {
             return full;
         }
 
+        let newBody = body;
+        if (/\bwidth:\s*\d+/.test(newBody)) {
+            newBody = newBody.replace(/width:\s*\d+/, `width: ${dims.width}`);
+        } else {
+            newBody = `    width: ${dims.width},\n` + newBody;
+        }
+
+        if (/\bheight:\s*\d+/.test(newBody)) {
+            newBody = newBody.replace(/height:\s*\d+/, `height: ${dims.height}`);
+        } else {
+            newBody = `    height: ${dims.height},\n` + newBody;
+        }
+
         updated++;
-        return `${head}    width: ${dims.width},\n    height: ${dims.height},\n${body}${tail}`;
+        return `${head}${newBody}${tail}`;
     });
 
     await fs.writeFile(FILE_PATH, result, "utf8");
