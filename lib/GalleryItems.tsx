@@ -6,24 +6,16 @@ export type GalleryItem = {
   no: string;
   title: string;
   meta: string;
-
-  // Media kind. Defaults to "image" if omitted, unless the src's
-  // extension looks like a video file (mp4/webm/mov/m4v/ogg).
   type?: MediaType;
-
-  // Optional poster frame shown before a video plays / while it loads.
   poster?: string;
   width?: number;
   height?: number;
-  // Desktop
   col: number;
   row: number;
-  align?: "left" | "right"; // Optional alignment for desktop grid items
-  // Mobile (unused now that mobile is forced to single column,
-  // kept for reference / possible future use)
+  align?: "left" | "right";
   mobileCol?: number;
   mobileRow?: number;
-  overlayColor?: string; // Optional overlay color for the item, in any valid CSS color format
+  overlayColor?: string;
 };
 
 const VIDEO_EXTENSIONS = /\.(mp4|webm|mov|m4v|ogg)$/i;
