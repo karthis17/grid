@@ -322,7 +322,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "22",
-    src: "/gallery/07_Asssetz_The_Secret_Lake_02.webp",
+    src: "/gallery/07_Asssetz_The_Secret_Lake_03.webp",
     width: 1920,
     height: 1280,
     no: "22",
@@ -336,7 +336,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "23",
-    src: "/gallery/07_Asssetz_The_Secret_Lake_03.webp",
+    src: "/gallery/07_Asssetz_The_Secret_Lake_02.webp",
     width: 1920,
     height: 1920,
     no: "23",
@@ -473,6 +473,19 @@ export const galleryItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(56, 44, 33)",
+  },  {
+    id: "35",
+    src: "/gallery/13_Srivari_Ekaya_03.webp",
+    width: 1920,
+    height: 1080,
+    no: "35",
+    title: "Granite Residence",
+    meta: "Coimbatore, 2022",
+    col: 2,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+    overlayColor: "rgb(69, 76, 65)",
   },
   {
     id: "33",
@@ -501,34 +514,6 @@ export const galleryItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(80, 73, 61)",
-  },
-  {
-    id: "90",
-    src: "/vid1.mp4",
-    width: 1280,
-    height: 720,
-    no: "34",
-    title: "Glass Pavilion",
-    meta: "Mumbai, 2024",
-    col: 2,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-    overlayColor: "rgb(80, 73, 61)",
-  },
-  {
-    id: "35",
-    src: "/gallery/13_Srivari_Ekaya_03.webp",
-    width: 1920,
-    height: 1080,
-    no: "35",
-    title: "Granite Residence",
-    meta: "Coimbatore, 2022",
-    col: 2,
-    row: 1,
-    mobileCol: 1,
-    mobileRow: 1,
-    overlayColor: "rgb(69, 76, 65)",
   },
   {
     id: "36",
@@ -790,7 +775,6 @@ export type GalleryRow = {
 };
 
 export const galleryRows: GalleryRow[] = [
-
   {
     rowType: "duo",
     items: [galleryItems[0], galleryItems[1]],
@@ -817,7 +801,12 @@ export const galleryRows: GalleryRow[] = [
   },
   {
     rowType: "quad",
-    items: [galleryItems[16], galleryItems[17], galleryItems[18], galleryItems[19]],
+    items: [
+      galleryItems[16],
+      galleryItems[17],
+      galleryItems[18],
+      galleryItems[19],
+    ],
   },
   {
     rowType: "feature-left",
@@ -825,68 +814,78 @@ export const galleryRows: GalleryRow[] = [
   },
   {
     rowType: "duo",
-    items: [galleryItems[24], galleryItems[25]],
+    items: [galleryItems[23], galleryItems[24]],
   },
   {
     rowType: "duo",
-    items: [galleryItems[26], galleryItems[27]],
+    items: [galleryItems[25], galleryItems[26]],
   },
 
   {
     rowType: "quad",
-    items: [galleryItems[28], galleryItems[29], galleryItems[30], galleryItems[31]],
+    items: [
+      galleryItems[27],
+      galleryItems[28],
+      galleryItems[29],
+      galleryItems[30],
+    ],
   },
-
 
   {
     rowType: "hero",
-    items: [galleryItems[32]],
+    items: [galleryItems[31]],
   },
   {
     rowType: "feature-right",
-    items: [galleryItems[33], galleryItems[34], galleryItems[35]],
+    items: [galleryItems[32], galleryItems[33], galleryItems[34]],
   },
   {
     rowType: "hero",
-    items: [galleryItems[36]],
+    items: [galleryItems[35]],
   },
 
+    {
+    rowType: "duo",
+    items: [galleryItems[36], galleryItems[37]],
+  },
+  {
+    rowType: "hero",
+    items: [galleryItems[38]],
+  },
   {
     rowType: "quad",
     items: [
-      galleryItems[37],
-      galleryItems[38],
       galleryItems[39],
       galleryItems[40],
+      galleryItems[41],
+      galleryItems[42],
     ],
   },
 
   {
     rowType: "duo",
-    items: [galleryItems[41], galleryItems[42]],
+    items: [galleryItems[43], galleryItems[44]],
   },
 
   {
     rowType: "hero",
-    items: [galleryItems[43]],
+    items: [galleryItems[45]],
   },
   {
     rowType: "duo",
-    items: [galleryItems[44], galleryItems[45]],
+    items: [galleryItems[46], galleryItems[47]],
   },
   {
     rowType: "hero",
-    items: [galleryItems[46]],
+    items: [galleryItems[48]],
   },
   {
     rowType: "quad",
     items: [
-      galleryItems[47],
-      galleryItems[48],
-      galleryItems[49], 
+      galleryItems[49],
       galleryItems[50],
+      galleryItems[51],
+      galleryItems[52],
     ],
   },
-
-
 ];
