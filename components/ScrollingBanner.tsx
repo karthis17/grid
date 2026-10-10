@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import NextImage from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
@@ -264,14 +265,18 @@ export default function ScrollVideo({
       setFirstFrameReady(true);
 
       // Start ScrollTrigger as soon as frame 0 is ready.
-      // Remaining frames continue loading in the background.
+      const isMobile = window.innerWidth < 768;
+      const actualScrollDistance = isMobile
+        ? Math.round(scrollDistance * 0.75)
+        : scrollDistance;
+
       scrollTween = gsap.to(frameStateRef.current, {
         frame: Math.max(0, frameCount - 1),
         ease: "none",
         scrollTrigger: {
           trigger: wrapperRef.current,
           start: "top top",
-          end: `+=${scrollDistance}`,
+          end: `+=${actualScrollDistance}`,
           scrub: 0.5,
           pin: true,
           invalidateOnRefresh: true,
@@ -291,17 +296,38 @@ export default function ScrollVideo({
         },
       });
 
-      // Background preload. Scroll interaction does not wait for it.
-      await loadRemainingFrames();
+      // Background preload deferred: do not block initial LCP or network thread
+      let loadingStarted = false;
+      const triggerLoadRemaining = () => {
+        if (loadingStarted || cancelled) return;
+        loadingStarted = true;
+        loadRemainingFrames().then(() => {
+          if (cancelled) return;
+          if (lastGoodIndexRef.current === -1) {
+            setLoadError(
+              `No frame images loaded. Checked paths like "${framePathRef.current(
+                1,
+              )}" — confirm the frames exist there.`,
+            );
+          }
+        });
+      };
 
-      if (cancelled) return;
+      // If user scrolls before idle, immediately begin loading
+      const onScrollPreload = () => {
+        triggerLoadRemaining();
+        window.removeEventListener("scroll", onScrollPreload);
+      };
+      window.addEventListener("scroll", onScrollPreload, { passive: true });
 
-      if (lastGoodIndexRef.current === -1) {
-        setLoadError(
-          `No frame images loaded. Checked paths like "${framePathRef.current(
-            1,
-          )}" — confirm the frames exist there.`,
+      // Otherwise wait until main thread is idle or 1200ms
+      if ("requestIdleCallback" in window) {
+        (window as Window & { requestIdleCallback: (cb: () => void, opts: { timeout: number }) => number }).requestIdleCallback(
+          () => triggerLoadRemaining(),
+          { timeout: 1500 },
         );
+      } else {
+        setTimeout(triggerLoadRemaining, 1000);
       }
     };
 
@@ -362,24 +388,24 @@ export default function ScrollVideo({
     <div ref={wrapperRef}>
       <div
         ref={innerRef}
-        className="relative h-screen w-full overflow-hidden bg-black"
+        className="relative h-screen min-h-[100dvh] w-full overflow-hidden bg-black"
       >
+        {/* Instant LCP Poster - paints immediately on first HTML render */}
+        <NextImage
+          src="/frames/frame_0001.jpg"
+          alt="Lucid Dream Architectural Visualization"
+          fill
+          priority
+          sizes="100vw"
+          className={`absolute inset-0 block h-full w-full object-cover transition-opacity duration-300 ${
+            firstFrameReady ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        />
+
         {loadError && (
           <div className="absolute inset-0 z-11 flex flex-col items-center justify-center gap-2 bg-black px-6 text-center text-[0.85rem] text-[#ff5a36]">
             <div>⚠ {t.banner.loadError}</div>
             <div className="max-w-120 text-[#8a8f98]">{loadError}</div>
-          </div>
-        )}
-
-        {!firstFrameReady && !loadError && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3.5 bg-black text-[0.9rem] text-[#8a8f98]">
-            <div>{t.banner.loadingFrames}</div>
-            <div className="h-0.75 w-45 overflow-hidden rounded-xs bg-[222]">
-              <div
-                className="h-full bg-[#ff5a36] transition-[width] duration-150 ease-out"
-                style={{ width: `${loadPct}%` }}
-              />
-            </div>
           </div>
         )}
 

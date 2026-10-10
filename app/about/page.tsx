@@ -312,14 +312,15 @@ export default function AboutPage() {
     >
       <section className="relative min-h-[90vh] overflow-hidden bg-black text-white">
         <Image
-          src="/gallery/luciddream-gallery-4.avif"
+          src="/gallery/01_MOAD_Tahr_01.webp"
           alt="LucidDream creative studio"
           fill
           priority
+          sizes="100vw"
           className="object-cover opacity-70"
         />
 
-        <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/10 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/80" />
 
         <div className="relative z-10 flex min-h-[90vh] flex-col justify-between px-5 pb-8 pt-32 md:px-10 lg:px-16 lg:pb-14">
           <div className="hero-tag flex items-center gap-3"></div>
@@ -388,13 +389,14 @@ export default function AboutPage() {
       <section className="px-5 md:px-10 lg:px-16">
         <div className="image-reveal relative h-[55vh] overflow-hidden md:h-[75vh]">
           <Image
-            src="/gallery/luciddream-gallery-4.avif"
+            src="/gallery/04_Perkins&Eastman_Genet_City_01.webp"
             alt="LucidDream studio"
             fill
+            sizes="(max-width: 768px) 100vw, 90vw"
             className="reveal-image object-cover"
           />
 
-          <div className="absolute bottom-0 left-0 flex w-full justify-between bg-linear-to-t from-black/70 to-transparent p-6 pt-20 text-xs uppercase tracking-[0.2em] text-white md:p-8">
+          <div className="absolute bottom-0 left-0 flex w-full justify-between bg-gradient-to-t from-black/70 to-transparent p-6 pt-20 text-xs uppercase tracking-[0.2em] text-white md:p-8">
             <span>{t.about.studioName}</span>
             <span>{t.about.studioCountry}</span>
           </div>
@@ -488,10 +490,10 @@ export default function AboutPage() {
             <h2
               className={`cta-heading max-w-4xl font-medium ${
                 locale === "ta"
-                  ? "text-3xl sm:text-4.5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-normal"
+                  ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-7xl leading-[1.1] tracking-normal"
                   : locale === "ja"
-                  ? "text-3.5xl sm:text-5xl md:text-6.5xl lg:text-7.5xl leading-[1.05] tracking-[-0.02em]"
-                  : "text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[-0.06em]"
+                  ? "text-3xl sm:text-4.5xl md:text-6xl lg:text-7.5xl leading-[1.05] tracking-[-0.02em]"
+                  : "text-3.5xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.98] tracking-[-0.05em]"
               }`}
             >
               {t.about.ctaHeading1}

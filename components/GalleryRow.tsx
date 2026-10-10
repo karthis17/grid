@@ -44,6 +44,7 @@ const Cell = memo(function Cell({
   const isVideo = getMediaType(item) === "video";
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [overlayActive, setOverlayActive] = useState(false);
 
   const togglePlay = useCallback(() => {
     const v = videoRef.current;
@@ -57,14 +58,22 @@ const Cell = memo(function Cell({
     }
   }, []);
 
+  const handleCellClick = useCallback(() => {
+    if (isVideo) {
+      togglePlay();
+    } else {
+      setOverlayActive((prev) => !prev);
+    }
+  }, [isVideo, togglePlay]);
+
   const aspect = fill ? undefined : (ratio ?? getRatio(item));
 
   return (
     <div
-      className={`gallery-item group min-h-0 min-w-0 cursor-pointer ${
+      className={`gallery-item group min-h-0 min-w-0 cursor-pointer select-none ${
         fill ? "h-full" : ""
       }`}
-      onClick={isVideo ? togglePlay : undefined}
+      onClick={handleCellClick}
     >
       <div
         className={`relative overflow-hidden ${fill ? "h-full" : ""}`}
@@ -97,7 +106,7 @@ const Cell = memo(function Cell({
             quality={75}
             decoding="async"
             sizes={sizes}
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-out"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
           />
         )}
 
@@ -126,29 +135,29 @@ const Cell = memo(function Cell({
             )}
           </span>
         ) : (
-          
-        <div
-          style={{ backgroundColor: item.overlayColor }}
-          onClick={(e) => {
-            e.currentTarget.style.setProperty("opacity", "100%");
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.setProperty("opacity", "0%");
-          }}
-          className={`opacity-0 text-white absolute inset-0  transition-all group-hover:translate-y-0`}
-        >
-          <div className="flex h-full items-center justify-center gap-4">
-            <h2 className="text-xl font-medium tracking-[-0.01em]">
-              {item.title}
-            </h2>
-            <span className="shrink-0 font-mono text-lg uppercase">
-              {item.meta}
-            </span>
+          <div
+            style={{
+              backgroundColor: item.overlayColor
+                ? item.overlayColor
+                : "rgba(23, 23, 15, 0.85)",
+            }}
+            onMouseLeave={() => setOverlayActive(false)}
+            className={`absolute inset-0 flex items-center justify-center p-4 transition-opacity duration-300 ${
+              overlayActive
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none group-hover:pointer-events-auto"
+            }`}
+          >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-4 text-center px-2">
+              <h2 className="text-sm sm:text-base md:text-xl font-medium tracking-tight text-white drop-shadow-xs">
+                {item.title}
+              </h2>
+              <span className="shrink-0 font-mono text-xs sm:text-sm md:text-base uppercase text-white/80">
+                {item.meta}
+              </span>
+            </div>
           </div>
-        </div>
         )}
-
-
       </div>
     </div>
   );
@@ -227,8 +236,8 @@ const FeatureRow = memo(function FeatureRow({
 
 const RATIO_ROW_SIZES: Record<number, string> = {
   2: "(max-width: 640px) 100vw, 50vw",
-  3: "(max-width: 640px) 100vw, 33vw",
-  4: "(max-width: 640px) 50vw, 25vw",
+  3: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  4: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw",
 };
 
 const RatioRow = memo(function RatioRow({
@@ -238,24 +247,49 @@ const RatioRow = memo(function RatioRow({
   entries: RowEntry[];
   prioritySrcs?: Set<string>;
 }) {
+  const isQuad = entries.length >= 4;
+  const isTrio = entries.length === 3;
   const columns = entries.map((e) => `${getRatio(e.item)}fr`).join(" ");
   const sizes =
     RATIO_ROW_SIZES[entries.length] ?? "(max-width: 640px) 100vw, 50vw";
 
   return (
-    <div
-      className="grid gap-3 sm:gap-4"
-      style={{ gridTemplateColumns: columns }}
-    >
-      {entries.map((entry, i) => (
-        <Cell
-          key={entry.item.id  }
-          entry={entry}
-          priority={prioritySrcs?.has(entry.item.src)}
-          sizes={sizes}
-        />
-      ))}
-    </div>
+    <>
+      {/* Mobile & Tablet (< md): clean stacked or 2-col responsive layout */}
+      <div
+        className={`grid gap-3 sm:gap-4 md:hidden ${
+          isQuad
+            ? "grid-cols-1 sm:grid-cols-2"
+            : isTrio
+            ? "grid-cols-1 sm:grid-cols-2"
+            : "grid-cols-1 sm:grid-cols-2"
+        }`}
+      >
+        {entries.map((entry) => (
+          <Cell
+            key={entry.item.id}
+            entry={entry}
+            priority={prioritySrcs?.has(entry.item.src)}
+            sizes="(max-width: 640px) 100vw, 50vw"
+          />
+        ))}
+      </div>
+
+      {/* Desktop (md and above): exact proportional architectural grid */}
+      <div
+        className="hidden md:grid md:gap-4"
+        style={{ gridTemplateColumns: columns }}
+      >
+        {entries.map((entry) => (
+          <Cell
+            key={entry.item.id}
+            entry={entry}
+            priority={prioritySrcs?.has(entry.item.src)}
+            sizes={sizes}
+          />
+        ))}
+      </div>
+    </>
   );
 });
 

@@ -37,8 +37,14 @@ export default function SmoothScroll({
       ScrollTrigger.refresh();
     }, 500);
 
+    const onResize = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+
     return () => {
       clearTimeout(refreshTimer);
+      window.removeEventListener("resize", onResize);
       gsap.ticker.remove(tick);
       lenis.destroy();
     };

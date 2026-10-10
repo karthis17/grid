@@ -7,15 +7,15 @@ import { useLanguage } from "@/lib/i18n/LanguageContext";
 const socialLinks = [
   {
     name: "Instagram",
-    href: "https://instagram.com/luciddream",
+    href: "https://www.instagram.com/luciddream_studio",
     Icon: InstagramIcon,
   },
   {
     name: "Behance",
-    href: "https://behance.net/luciddream",
+    href: "https://www.behance.net/Luciddream_ar",
     Icon: BehanceIcon,
   },
-  { name: "Vimeo", href: "https://vimeo.com/luciddream", Icon: VimeoIcon },
+  { name: "Vimeo", href: "https://vimeo.com/user5118274", Icon: VimeoIcon },
   {
     name: "LinkedIn",
     href: "https://linkedin.com/company/luciddream",
@@ -27,15 +27,13 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="" id="contact">
- 
-
+    <footer className="w-full" id="contact">
       <div className="border-t border-white/20" />
-      <div className="bg-black text-white px-6">
-        <div className="mx-auto  px-6 py-10 md:px-10 md:py-14">
+      <div className="bg-black text-white px-4 sm:px-6 md:px-10">
+        <div className="mx-auto max-w-7xl py-10 sm:py-12 md:py-16">
           <a
             href="mailto:info@luciddream.co.in"
-            className="block text-center text-4xl font-extrabold tracking-tight transition-opacity hover:opacity-80 sm:text-5xl md:text-7xl"
+            className="block text-center text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight transition-opacity hover:opacity-80 break-words sm:break-normal"
           >
             info@luciddream.co.in
           </a>
@@ -43,22 +41,22 @@ export default function Footer() {
 
         <div className="border-t border-white/20" />
 
-        <div className="mx-auto flex  flex-col items-center gap-6 px-6 py-8 md:flex-row md:justify-between md:px-10">
+        <div className="mx-auto max-w-7xl flex flex-col items-center gap-6 py-8 md:flex-row md:justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center">
             <Image
-              width={200}
-              height={100}
-              alt="luciddream"
-              src={"/LogoWhite.png"}
+              width={160}
+              height={40}
+              alt="Lucid Dream"
+              src="/LogoWhite.png"
               loading="lazy"
               decoding="async"
-              className="h-auto w-auto"
+              className="h-auto w-[130px] sm:w-[150px] md:w-[170px]"
             />
           </Link>
 
           {/* Social icons */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2 sm:gap-3">
             {socialLinks.map(({ name, href, Icon }) => (
               <a
                 key={name}
@@ -66,7 +64,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={name}
-                className="text-white/70 transition-colors hover:text-white"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white"
               >
                 <Icon className="h-5 w-5" />
               </a>
@@ -74,7 +72,7 @@ export default function Footer() {
           </div>
 
           {/* Copyright */}
-          <p className="text-sm text-gray-300">
+          <p className="text-xs sm:text-sm text-gray-400 text-center">
             &copy; {t.footer.copyright} {new Date().getFullYear()} {t.footer.allRightsReserved}
           </p>
         </div>

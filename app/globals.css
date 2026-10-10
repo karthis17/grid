@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
+html,
 body {
-  font-family: var(--font-body), sans-serif;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: var(--font-display), sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .font-display {
@@ -18,7 +24,13 @@ body {
 
 .font-helvetica {
   font-family: var(--font-helvetica), Arial, sans-serif;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
+}
+
+@media (min-width: 768px) {
+  .font-helvetica {
+    letter-spacing: 5px;
+  }
 }
 
 /* Language-aware typography and font scaling */
@@ -68,26 +80,9 @@ body {
   letter-spacing: 0.02em !important;
 }
 
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  column-gap: 6px;
-  row-gap: 10px;
-  grid-auto-flow: row dense;
-}
-
-.gallery-item {
-  grid-column: span var(--desktop-col);
-  grid-row: span var(--desktop-row);
-  min-width: 0;
-  min-height: 0;
-  text-decoration: none;
-}
-
 /* Keep smooth layout without dynamic scroll jumps */
 .gallery-row {
-  contain: style;
+  contain: layout style;
 }
 
 /* Reveal animation: GPU accelerated, responsive spring easing */
@@ -99,6 +94,7 @@ body {
     transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) var(--fade-delay, 0ms);
   will-change: opacity, transform;
 }
+
 .gallery-item.is-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
@@ -107,73 +103,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .gallery-item {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-/* -----------------------------------------------
-   Tablet
------------------------------------------------- */
-
-@media (max-width: 1024px) {
-  .gallery-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-auto-rows: minmax(220px, 35vw);
-  }
-
-  .gallery-item {
-    grid-column: span min(var(--desktop-col), 4);
-  }
-}
-
-/* -----------------------------------------------
-   Mobile — single column, height follows image
------------------------------------------------- */
-
-@media (max-width: 640px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    column-gap: 0;
-    row-gap: 22px;
-  }
-
-  .gallery-item {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
-  .gallery-media {
-    height: auto;
-  }
-
-  .gallery-image {
-    height: auto !important;
-    width: 100%;
-  }
-
-  .gallery-caption {
-    padding-top: 7px;
-  }
-
-  .gallery-caption h2 {
-    font-size: 11px;
-  }
-
-  .gallery-caption span {
-    font-size: 8px;
-  }
-}
-
-/* -----------------------------------------------
-   Accessibility
------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .gallery-image,
-  .gallery-caption,
-  .gallery-item {
+    opacity: 1 !important;
+    transform: none !important;
     transition: none !important;
   }
 }
@@ -262,3 +193,61 @@ body {
   61% { transform: translateY(0); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
 }
+
+/* Smooth Hardware-Accelerated Marquee */
+@keyframes marqueeLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marqueeLeft 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marqueeRight 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover,
+.marquee-row:hover .animate-marquee-left,
+.marquee-row:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+  .animate-marquee-left {
+    animation-duration: 24s;
+  }
+  .animate-marquee-right {
+    animation-duration: 26s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+

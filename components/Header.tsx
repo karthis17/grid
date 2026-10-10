@@ -98,10 +98,10 @@ function Sidebar({
                   <div
                     className={`nav-main font-bold text-white transition-transform duration-300 whitespace-nowrap ${
                       locale === "ta"
-                        ? "text-3xl sm:text-4xl md:text-4xl tracking-normal leading-tight font-sans"
+                        ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-normal leading-tight font-sans"
                         : locale === "ja"
-                        ? "text-3xl sm:text-4xl md:text-4xl tracking-tight leading-tight font-sans"
-                        : "text-5xl md:text-6xl font-helvetica tracking-tight"
+                        ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-tight leading-tight font-sans"
+                        : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-helvetica tracking-tight"
                     }`}
                   >
                     {item.name}
@@ -110,10 +110,10 @@ function Sidebar({
                   <div
                     className={`nav-sub absolute left-0 top-0 flex items-center font-bold text-yellow-300 whitespace-nowrap ${
                       locale === "ta"
-                        ? "text-3xl sm:text-4xl md:text-4xl tracking-normal leading-tight font-sans"
+                        ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-normal leading-tight font-sans"
                         : locale === "ja"
-                        ? "text-3xl sm:text-4xl md:text-4xl tracking-tight leading-tight font-sans"
-                        : "text-5xl md:text-6xl font-playfair tracking-tight"
+                        ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-tight leading-tight font-sans"
+                        : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-playfair tracking-tight"
                     }`}
                   >
                     <span className="nav-sub-text">{item.name}</span>
@@ -189,7 +189,7 @@ function Header() {
             width={230}
             alt="Lucid Dream Logo"
             className={`transition-[width] duration-300 h-auto ${
-              scrolled ? "md:w-[170px] w-[120px]" : "md:w-[220px] w-[140px]"
+              scrolled ? "w-[105px] sm:w-[130px] md:w-[170px]" : "w-[125px] sm:w-[160px] md:w-[220px]"
             }`}
             priority
           />

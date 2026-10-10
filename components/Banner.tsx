@@ -81,15 +81,16 @@ const Banner = () => {
       className="relative min-h-[90vh] overflow-hidden bg-black text-white"
     >
       <Image
-        src="/gallery/luciddream-gallery-4.avif"
+        src="/gallery/01_MOAD_Tahr_01.webp"
         alt="LucidDream creative studio"
         fill
         priority
         decoding="async"
+        sizes="100vw"
         className="object-cover opacity-70"
       />
 
-      <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/10 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/80" />
 
       <div className="relative z-10 flex min-h-[90vh] flex-col justify-between px-5 pb-8 pt-32 md:px-10 lg:px-16 lg:pb-14">
         <div className="hero-tag flex items-center gap-3"></div>

@@ -65,7 +65,7 @@ export default function LanguageSwitcher({
             onClick={() => setLocale(lang.code)}
             aria-pressed={isActive}
             title={lang.label}
-            className={`relative rounded-full px-2.5 py-1 text-xs md:text-[13px] font-medium transition-all duration-200 cursor-pointer ${
+            className={`relative rounded-full px-2 sm:px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs md:text-[13px] font-medium transition-all duration-200 cursor-pointer ${
               isActive
                 ? "bg-white text-black shadow-sm font-semibold"
                 : "text-white/75 hover:text-white hover:bg-white/10"

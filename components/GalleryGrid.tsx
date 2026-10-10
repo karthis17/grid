@@ -6,11 +6,12 @@ import GalleryRow, { RowEntry, RowVariant } from "./GalleryRow";
 
 type GalleryGridProps = {
   items: GalleryItem[];
+  priority?: boolean;
 };
 
 type Row = { key: string; variant: RowVariant; entries: RowEntry[] };
 
-export default function GalleryGrid({ items }: GalleryGridProps) {
+export default function GalleryGrid({ items, priority = false }: GalleryGridProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
 
   const indexById = useMemo(() => {
@@ -75,11 +76,12 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
 
   const prioritySrcs = useMemo(() => {
     const set = new Set<string>();
-    for (const row of rows.slice(0, 2)) {
+    if (!priority) return set;
+    for (const row of rows.slice(0, 1)) {
       for (const entry of row.entries) set.add(entry.item.src);
     }
     return set;
-  }, [rows]);
+  }, [rows, priority]);
 
   return (
     <section
