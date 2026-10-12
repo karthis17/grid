@@ -90,7 +90,7 @@ export default function GalleryGrid({ items, priority = false }: GalleryGridProp
     >
       <div
         ref={galleryRef}
-        className="flex flex-col gap-3 px-3 pb-20 sm:gap-4 sm:px-5 md:px-7 lg:px-10"
+        className="flex flex-col gap-3 px-3 pb-20 sm:gap-2 sm:px-5 md:px-7 lg:px-10"
       >
         {rows.map((row, i) => (
           <div key={row.key} className={i < 2 ? undefined : "gallery-row"}>

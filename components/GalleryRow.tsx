@@ -148,7 +148,7 @@ const Cell = memo(function Cell({
                 : "opacity-0 pointer-events-none group-hover:pointer-events-auto"
             }`}
           >
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-4 text-center px-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 text-center px-2">
               <h2 className="text-sm sm:text-base md:text-xl font-medium tracking-tight text-white drop-shadow-xs">
                 {item.title}
               </h2>
@@ -185,7 +185,7 @@ const FeatureRow = memo(function FeatureRow({
   );
 
   const smallColumn = (
-    <div className="grid min-h-0 min-w-0 grid-rows-2 gap-4">
+    <div className="grid min-h-0 min-w-0 grid-rows-2 gap-2">
       {[small1, small2].map((entry) => (
         <Cell
           key={entry.item.id}
@@ -214,7 +214,7 @@ const FeatureRow = memo(function FeatureRow({
 
       {/* Desktop */}
       <div
-        className={`hidden min-w-0 gap-4 sm:grid ${
+        className={`hidden min-w-0 gap-2 sm:grid ${
           reverse ? "grid-cols-[1fr_2fr]" : "grid-cols-[2fr_1fr]"
         }`}
       >
@@ -257,7 +257,7 @@ const RatioRow = memo(function RatioRow({
     <>
       {/* Mobile & Tablet (< md): clean stacked or 2-col responsive layout */}
       <div
-        className={`grid gap-3 sm:gap-4 md:hidden ${
+        className={`grid gap-3 sm:gap-2 md:hidden ${
           isQuad
             ? "grid-cols-1 sm:grid-cols-2"
             : isTrio
@@ -277,7 +277,7 @@ const RatioRow = memo(function RatioRow({
 
       {/* Desktop (md and above): exact proportional architectural grid */}
       <div
-        className="hidden md:grid md:gap-4"
+        className="hidden md:grid md:gap-2"
         style={{ gridTemplateColumns: columns }}
       >
         {entries.map((entry) => (
