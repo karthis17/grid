@@ -34,7 +34,7 @@ export default function Clients({ clients }: { clients: ClientList[] }) {
         {/* Section Header */}
         <div className="mb-14 text-center sm:mb-18 lg:mb-20">
           <div className="inline-flex items-center gap-2 mb-3">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-[#9C6B2E]">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-[#7A4F18]">
               {t.home.clientsTrusted}
             </p>
           </div>

@@ -799,6 +799,7 @@ export const galleryVidItems: VideoItem[] = [
     title: "River_4K_04",
     vimeoUrl:
       "https://player.vimeo.com/video/1234951199?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    poster: "/gallery/vimeo_1234951199.webp",
     width: 1920,
     height: 1080,
     type: "vimeo",
@@ -810,6 +811,7 @@ export const galleryVidItems: VideoItem[] = [
     title: "Admiralty Esates",
     vimeoUrl:
       "https://player.vimeo.com/video/1234944354?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    poster: "/gallery/vimeo_1234944354.webp",
     width: 10000,
     height: 4255, // padding: 42.55% (approx 2.35:1)
     type: "vimeo",
@@ -821,6 +823,7 @@ export const galleryVidItems: VideoItem[] = [
     title: "Yanviour factory",
     vimeoUrl:
       "https://player.vimeo.com/video/1234039788?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    poster: "/gallery/vimeo_1234039788.webp",
     width: 1920,
     height: 1080,
     type: "vimeo",
@@ -832,6 +835,7 @@ export const galleryVidItems: VideoItem[] = [
     title: "Project_TAHR",
     vimeoUrl:
       "https://player.vimeo.com/video/1230933095?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    poster: "/gallery/vimeo_1230933095.webp",
     width: 1920,
     height: 1080,
     type: "vimeo",

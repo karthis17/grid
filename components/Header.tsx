@@ -177,8 +177,8 @@ function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 px-5 sm:px-8 md:px-10 transition-[transform,background-color,height] duration-300 ease-out flex items-center
-      ${scrolled ? "bg-black/50 h-16 backdrop-blur-md shadow-lg" : "bg-transparent h-20 md:h-24"}
+      className={`fixed top-0 left-0 w-full z-50 px-5 sm:px-8 md:px-10 h-16 sm:h-20 transition-[transform,background-color] duration-300 ease-out flex items-center
+      ${scrolled ? "bg-black/50 backdrop-blur-md shadow-lg" : "bg-transparent"}
       ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="flex h-full justify-between w-full items-center">
@@ -188,8 +188,8 @@ function Header() {
             height={50}
             width={230}
             alt="Lucid Dream Logo"
-            className={`transition-[width] duration-300 h-auto ${
-              scrolled ? "w-[105px] sm:w-[130px] md:w-[170px]" : "w-[125px] sm:w-[160px] md:w-[220px]"
+            className={`transition-transform duration-300 ease-out origin-left h-auto w-[120px] sm:w-[150px] md:w-[200px] ${
+              scrolled ? "scale-90" : "scale-100"
             }`}
             priority
             fetchPriority="high"

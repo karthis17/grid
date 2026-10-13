@@ -70,14 +70,39 @@ const Cell = memo(function Cell({
   const isVimeo =
     mediaType === "vimeo" || Boolean("vimeoUrl" in item && item.vimeoUrl);
   const isVideo = !isVimeo && mediaType === "video";
+  const cellRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const vimeoPlayerRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [overlayActive, setOverlayActive] = useState(false);
+  const [shouldLoadVimeo, setShouldLoadVimeo] = useState(false);
+
+  // Lazy-load Vimeo iframes only when approaching viewport to eliminate 40MB+ payload on initial page load
+  useEffect(() => {
+    if (!isVimeo) return;
+    const el = cellRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setShouldLoadVimeo(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.01, rootMargin: "250px 0px 250px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isVimeo]);
 
   useEffect(() => {
-    if (!isVimeo || !iframeRef.current) return;
+    if (!isVimeo || !shouldLoadVimeo || !iframeRef.current) return;
 
     const init = () => {
       const Vimeo = (window as any).Vimeo;
@@ -111,10 +136,14 @@ const Cell = memo(function Cell({
         vimeoPlayerRef.current = null;
       }
     };
-  }, [isVimeo]);
+  }, [isVimeo, shouldLoadVimeo]);
 
   const togglePlay = useCallback(() => {
     if (isVimeo) {
+      if (!shouldLoadVimeo) {
+        setShouldLoadVimeo(true);
+        return;
+      }
       const player = vimeoPlayerRef.current;
       if (player) {
         player
@@ -152,7 +181,7 @@ const Cell = memo(function Cell({
     } else {
       v.pause();
     }
-  }, [isVimeo, isPlaying]);
+  }, [isVimeo, shouldLoadVimeo, isPlaying]);
 
   const handleCellClick = useCallback(() => {
     if (isVideo || isVimeo) {
@@ -166,6 +195,7 @@ const Cell = memo(function Cell({
 
   return (
     <div
+      ref={cellRef}
       className={`gallery-item group min-h-0 min-w-0 cursor-pointer select-none ${
         fill ? "h-full" : ""
       }`}
@@ -179,19 +209,38 @@ const Cell = memo(function Cell({
       >
         {isVimeo ? (
           <>
-            <iframe
-              ref={iframeRef}
-              src={formatVimeoUrl(item.vimeoUrl)}
-              title={item.title || "Vimeo video"}
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              className="absolute inset-0 h-full w-full border-0 pointer-events-none"
-              allowFullScreen
+            {/* Instant local WebP poster - eliminates layout shifts & displays crisp visuals */}
+            <Image
+              src={item.poster || "/gallery/vimeo_1234951199.webp"}
+              alt={item.title ?? "Vimeo video preview"}
+              width={item.width ?? 1920}
+              height={item.height ?? 1080}
+              priority={priority}
+              loading={priority ? "eager" : "lazy"}
+              quality={75}
+              decoding="async"
+              sizes={sizes}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out group-hover:scale-[1.02] ${
+                shouldLoadVimeo ? "opacity-0 pointer-events-none" : "opacity-100"
+              }`}
             />
-            <Script
-              src="https://player.vimeo.com/api/player.js"
-              strategy="lazyOnload"
-            />
+            {shouldLoadVimeo && (
+              <>
+                <iframe
+                  ref={iframeRef}
+                  src={formatVimeoUrl(item.vimeoUrl)}
+                  title={item.title || "Vimeo video"}
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="absolute inset-0 h-full w-full border-0 pointer-events-none"
+                  allowFullScreen
+                />
+                <Script
+                  src="https://player.vimeo.com/api/player.js"
+                  strategy="lazyOnload"
+                />
+              </>
+            )}
           </>
         ) : isVideo ? (
           <video
@@ -289,62 +338,41 @@ const FeatureRow = memo(function FeatureRow({
   const [big, small1, small2] = entries;
   if (!big || !small1 || !small2) return null;
 
-  const bigCell = (
-    <Cell
-      entry={big}
-      priority={big.item.src ? prioritySrcs?.has(big.item.src) : false}
-      ratio={getRatio(big.item)}
-      sizes="(max-width: 640px) 100vw, 66vw"
-    />
-  );
-
-  const smallColumn = (
-    <div className="grid min-h-0 min-w-0 grid-rows-2 gap-2">
-      {[small1, small2].map((entry) => (
+  return (
+    <div
+      className={`grid min-w-0 grid-cols-1 gap-2 ${
+        reverse ? "sm:grid-cols-[1fr_2fr]" : "sm:grid-cols-[2fr_1fr]"
+      }`}
+    >
+      <div className={`min-w-0 ${reverse ? "order-1 sm:order-2" : "order-1"}`}>
         <Cell
-          key={entry.item.id}
-          entry={entry}
-          priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
+          entry={big}
+          priority={big.item.src ? prioritySrcs?.has(big.item.src) : false}
+          ratio={getRatio(big.item)}
+          sizes="(max-width: 640px) 100vw, 66vw"
+        />
+      </div>
+      <div
+        className={`grid min-h-0 min-w-0 grid-cols-1 gap-2 sm:grid-rows-2 ${
+          reverse ? "order-2 sm:order-1" : "order-2"
+        }`}
+      >
+        <Cell
+          key={small1.item.id}
+          entry={small1}
+          priority={small1.item.src ? prioritySrcs?.has(small1.item.src) : false}
           fill
           sizes="(max-width: 640px) 100vw, 33vw"
         />
-      ))}
+        <Cell
+          key={small2.item.id}
+          entry={small2}
+          priority={small2.item.src ? prioritySrcs?.has(small2.item.src) : false}
+          fill
+          sizes="(max-width: 640px) 100vw, 33vw"
+        />
+      </div>
     </div>
-  );
-
-  return (
-    <>
-      {/* Mobile */}
-      <div className="grid grid-cols-1 gap-3 sm:hidden">
-        {entries.slice(0, 3).map((entry) => (
-          <Cell
-            key={entry.item.id}
-            entry={entry}
-            priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
-            sizes="100vw"
-          />
-        ))}
-      </div>
-
-      {/* Desktop */}
-      <div
-        className={`hidden min-w-0 gap-2 sm:grid ${
-          reverse ? "grid-cols-[1fr_2fr]" : "grid-cols-[2fr_1fr]"
-        }`}
-      >
-        {reverse ? (
-          <>
-            {smallColumn}
-            {bigCell}
-          </>
-        ) : (
-          <>
-            {bigCell}
-            {smallColumn}
-          </>
-        )}
-      </div>
-    </>
   );
 });
 
@@ -368,42 +396,21 @@ const RatioRow = memo(function RatioRow({
     RATIO_ROW_SIZES[entries.length] ?? "(max-width: 640px) 100vw, 50vw";
 
   return (
-    <>
-      {/* Mobile & Tablet (< md): clean stacked or 2-col responsive layout */}
-      <div
-        className={`grid gap-3 sm:gap-2 md:hidden ${
-          isQuad
-            ? "grid-cols-1 sm:grid-cols-2"
-            : isTrio
-            ? "grid-cols-1 sm:grid-cols-2"
-            : "grid-cols-1 sm:grid-cols-2"
-        }`}
-      >
-        {entries.map((entry) => (
-          <Cell
-            key={entry.item.id}
-            entry={entry}
-            priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
-            sizes="(max-width: 640px) 100vw, 50vw"
-          />
-        ))}
-      </div>
-
-      {/* Desktop (md and above): exact proportional architectural grid */}
-      <div
-        className="hidden md:grid md:gap-2"
-        style={{ gridTemplateColumns: columns }}
-      >
-        {entries.map((entry) => (
-          <Cell
-            key={entry.item.id}
-            entry={entry}
-            priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
-            sizes={sizes}
-          />
-        ))}
-      </div>
-    </>
+    <div
+      className={`ratio-row grid gap-2 ${
+        isQuad || isTrio ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2"
+      }`}
+      style={{ "--desktop-cols": columns } as React.CSSProperties}
+    >
+      {entries.map((entry) => (
+        <Cell
+          key={entry.item.id}
+          entry={entry}
+          priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
+          sizes={sizes}
+        />
+      ))}
+    </div>
   );
 });
 

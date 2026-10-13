@@ -9,7 +9,7 @@ export const ClientsList: ClientList[] = [
   {
     id: 1,
     name: "Perkins Eastman",
-    src: "/clients/2.png",
+    src: "/clients/2.webp",
     type: "Architecture",
   },
   // {
@@ -27,37 +27,37 @@ export const ClientsList: ClientList[] = [
   // {
   //   id: 4,
   //   name: "Architecture RED",
-  //   src: "/clients/arED-01.jpg",
+  //   src: "/clients/aRED-01.webp",
   //   type: "Architecture",
   // },
   // {
   //   id: 5,
   //   name: "MOAD Studio",
-  //   src: "/clients/dasa.jpg",
+  //   src: "/clients/dasa.webp",
   //   type: "Architecture",
   // },
   {
     id: 6,
     name: "AMARA Homes",
-    src: "/clients/8.png",
+    src: "/clients/8.webp",
     type: "Real Estate",
   },
   {
     id: 7,
     name: "Sanctuary Living",
-    src: "/clients/5.png",
+    src: "/clients/5.webp",
     type: "Real Estate",
   },
   {
     id: 8,
     name: "River Bike",
-    src: "/clients/17.png",
+    src: "/clients/17.webp",
     type: "Mobility",
   },
   {
     id: 9,
     name: "Tata Engineering Services",
-    src: "/clients/3.png",
+    src: "/clients/3.webp",
     type: "Engineering",
   },
   // {
@@ -69,19 +69,19 @@ export const ClientsList: ClientList[] = [
   {
     id: 11,
     name: "Aster Hospitals",
-    src: "/clients/14.png",
+    src: "/clients/14.webp",
     type: "Healthcare",
   },
   {
     id: 12,
     name: "Hadi Tehrani",
-    src: "/clients/1.png",
+    src: "/clients/1.webp",
     type: "Architecture",
   },
   {
     id: 13,
     name: "Asian Paints",
-    src: "/clients/16.png",
+    src: "/clients/16.webp",
     type: "Paints & Interiors",
   },
   // {
@@ -93,7 +93,7 @@ export const ClientsList: ClientList[] = [
   {
     id: 15,
     name: "DLEA",
-    src: "/clients/10.png",
+    src: "/clients/10.webp",
     type: "Architecture",
   },
   // {
@@ -111,31 +111,31 @@ export const ClientsList: ClientList[] = [
   {
     id: 18,
     name: "Assetz Bangalore",
-    src: "/clients/13.png",
+    src: "/clients/13.webp",
     type: "Real Estate",
   },
   {
     id: 19,
     name: "Sattva Salapuraia",
-    src: "/clients/4.png",
+    src: "/clients/4.webp",
     type: "Real Estate",
   },
   {
     id: 20,
     name: "Brigade Properties",
-    src: "/clients/6.png",
+    src: "/clients/6.webp",
     type: "Real Estate",
   },
   {
     id: 21,
     name: "IRA Realty",
-    src: "/clients/9.png",
+    src: "/clients/9.webp",
     type: "Real Estate",
   },
   {
     id: 22,
     name: "Disha Realty",
-    src: "/clients/8.png",
+    src: "/clients/8.webp",
     type: "Real Estate",
   },
 ];

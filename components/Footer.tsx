@@ -51,6 +51,7 @@ export default function Footer() {
               src="/LogoWhite.png"
               loading="lazy"
               decoding="async"
+              style={{ aspectRatio: "160 / 40" }}
               className="h-auto w-[130px] sm:w-[150px] md:w-[170px]"
             />
           </Link>

@@ -85,6 +85,12 @@ body {
   contain: layout style;
 }
 
+@media (min-width: 768px) {
+  .ratio-row {
+    grid-template-columns: var(--desktop-cols) !important;
+  }
+}
+
 /* Reveal animation: GPU accelerated, responsive spring easing */
 .gallery-item {
   opacity: 0;
