@@ -20,8 +20,8 @@ function Sidebar({
 
   const menuItems = [
     { name: t.nav.home, href: "/" },
-    { name: t.nav.work, href: "/works" },
-    { name: t.nav.lab, href: "/works" },
+    { name: t.nav.work, href: "/work" },
+    { name: t.nav.lab, href: "/work" },
     { name: t.nav.about, href: "/about" },
     { name: t.nav.contact, href: "/about/#contact" },
   ];

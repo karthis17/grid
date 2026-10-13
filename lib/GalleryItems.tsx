@@ -856,15 +856,26 @@ export const galleryRows: GalleryRow[] = [
     rowType: "feature-left",
     items: [galleryItems[0], galleryItems[2], galleryItems[3]],
   },
+    {
+    rowType: "hero",
+    items: [galleryVidItems[3]],
+  },
   {
     rowType: "feature-right",
     items: [galleryItems[6], galleryItems[4], galleryItems[5]],
   },
-
+  {
+    rowType: "hero",
+    items: [galleryVidItems[0]],
+  },
   {
     rowType: "feature-left",
     items: [galleryItems[8], galleryItems[9], galleryItems[10]],
   },
+  {
+  rowType: "hero",
+  items: [galleryVidItems[1]],
+},
   {
     rowType: "duo",
     items: [galleryItems[11], galleryItems[12]],
@@ -890,10 +901,7 @@ export const galleryRows: GalleryRow[] = [
     rowType: "duo",
     items: [galleryItems[23], galleryItems[24]],
   },
-  {
-    rowType: "hero",
-    items: [galleryVidItems[0]],
-  },
+
   {
     rowType: "duo",
     items: [galleryItems[25], galleryItems[26]],
@@ -909,10 +917,7 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
 
-  {
-    rowType: "hero",
-    items: [galleryVidItems[1]],
-  },
+
   {
     rowType: "feature-left",
     items: [galleryItems[32], galleryItems[33], galleryItems[34]],
@@ -945,10 +950,6 @@ export const galleryRows: GalleryRow[] = [
   {
     rowType: "duo",
     items: [galleryItems[46], galleryItems[47]],
-  },
-  {
-    rowType: "hero",
-    items: [galleryVidItems[3]],
   },
   {
     rowType: "duo",
