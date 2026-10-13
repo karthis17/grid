@@ -3,9 +3,9 @@
 import React, {
   createContext,
   useContext,
-  useState,
   useEffect,
   useMemo,
+  useSyncExternalStore,
   ReactNode,
 } from "react";
 import { Dictionary, LanguageOption, Locale } from "./types";
@@ -28,52 +28,60 @@ const LanguageContext = createContext<LanguageContextType>({
 });
 
 const STORAGE_KEY = "luciddream_locale";
+const emptySubscribe = () => () => {};
+
+function getClientSnapshot(): Locale {
+  if (typeof window === "undefined") return DEFAULT_LOCALE;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY) as Locale | null;
+    if (saved === "en" || saved === "ta" || saved === "ja") return saved;
+    if (navigator.language) {
+      const l = navigator.language.toLowerCase();
+      if (l.startsWith("ta")) return "ta";
+      if (l.startsWith("ja")) return "ja";
+    }
+  } catch {}
+  return DEFAULT_LOCALE;
+}
+
+function getServerSnapshot(): Locale {
+  return DEFAULT_LOCALE;
+}
+
+let listeners: Array<() => void> = [];
+function subscribe(listener: () => void) {
+  listeners.push(listener);
+  if (typeof window !== "undefined") {
+    window.addEventListener("storage", listener);
+  }
+  return () => {
+    listeners = listeners.filter((l) => l !== listener);
+    if (typeof window !== "undefined") {
+      window.removeEventListener("storage", listener);
+    }
+  };
+}
+
+function emitChange() {
+  for (const listener of listeners) {
+    listener();
+  }
+}
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const locale = useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
 
   useEffect(() => {
-    setIsMounted(true);
-    try {
-      const savedLocale = localStorage.getItem(STORAGE_KEY) as Locale | null;
-      if (savedLocale && (savedLocale === "en" || savedLocale === "ta" || savedLocale === "ja")) {
-        setLocaleState(savedLocale);
-        document.documentElement.lang = savedLocale;
-        document.documentElement.setAttribute("data-lang", savedLocale);
-        return;
-      }
-
-      // Auto-detect browser preference if no manual choice was saved
-      if (typeof navigator !== "undefined" && navigator.language) {
-        const browserLang = navigator.language.toLowerCase();
-        if (browserLang.startsWith("ta")) {
-          setLocaleState("ta");
-          document.documentElement.lang = "ta";
-          document.documentElement.setAttribute("data-lang", "ta");
-          return;
-        }
-        if (browserLang.startsWith("ja")) {
-          setLocaleState("ja");
-          document.documentElement.lang = "ja";
-          document.documentElement.setAttribute("data-lang", "ja");
-          return;
-        }
-      }
-    } catch {
-      // Ignore localStorage errors (e.g. private browsing)
-    }
-  }, []);
+    document.documentElement.lang = locale;
+    document.documentElement.setAttribute("data-lang", locale);
+  }, [locale]);
 
   const setLocale = (newLocale: Locale) => {
-    setLocaleState(newLocale);
     try {
       localStorage.setItem(STORAGE_KEY, newLocale);
-      document.documentElement.lang = newLocale;
-      document.documentElement.setAttribute("data-lang", newLocale);
-    } catch {
-      // Ignore localStorage errors
-    }
+    } catch {}
+    emitChange();
   };
 
   const t = useMemo(() => dictionaries[locale] || dictionaries[DEFAULT_LOCALE], [locale]);

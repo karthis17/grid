@@ -1,0 +1,10 @@
+# Lucid Dream — Architecture Visualization Studio
+> Lucid Dream is a premier architecture visualization studio crafting CGI stills, films, real-time rendering, and brand storytelling for architects and design firms across India since 2012.
+## Overview
+- Website: https://luciddream.co.in
+- Studio: Architecture Visualization, Animation, Real-time CG
+- Location: Chennai & Pune, India
+## Key Pages & Portfolio
+- [Works](https://luciddream.co.in/#works): Selected architecture visualization portfolio items and case studies
+- [Clients](https://luciddream.co.in/#clients): Architecture firms and developers partnered with Lucid Dream
+- [About](https://luciddream.co.in/about): Studio capabilities, multidisciplinary practice, and team philosophy

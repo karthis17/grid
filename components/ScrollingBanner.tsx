@@ -41,10 +41,10 @@ export default function ScrollVideo({
     null,
   );
   const hintHideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cleanupListenersRef = useRef<(() => void) | null>(null);
 
   const [hintVisible, setHintVisible] = useState(true);
   const [hintMounted, setHintMounted] = useState(true);
-  const [loadedCount, setLoadedCount] = useState(0);
   const [firstFrameReady, setFirstFrameReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -200,7 +200,6 @@ export default function ScrollVideo({
         img.fetchPriority = index < 4 ? "high" : "auto";
 
         img.onload = () => {
-          if (!cancelled) setLoadedCount((count) => count + 1);
           resolve();
         };
 
@@ -208,8 +207,6 @@ export default function ScrollVideo({
           console.error(
             `ScrollVideo: failed to load frame ${index + 1} at "${img.src}"`,
           );
-
-          if (!cancelled) setLoadedCount((count) => count + 1);
           resolve();
         };
 
@@ -313,22 +310,39 @@ export default function ScrollVideo({
         });
       };
 
-      // If user scrolls before idle, immediately begin loading
-      const onScrollPreload = () => {
+      // Preload remaining frames on user interaction (scroll, wheel, touch, pointer)
+      const onUserInteraction = () => {
         triggerLoadRemaining();
-        window.removeEventListener("scroll", onScrollPreload);
+        cleanupInteractionListeners();
       };
-      window.addEventListener("scroll", onScrollPreload, { passive: true });
 
-      // Otherwise wait until main thread is idle or 1200ms
+      const cleanupInteractionListeners = () => {
+        window.removeEventListener("scroll", onUserInteraction);
+        window.removeEventListener("wheel", onUserInteraction);
+        window.removeEventListener("touchmove", onUserInteraction);
+        window.removeEventListener("pointerdown", onUserInteraction);
+      };
+
+      window.addEventListener("scroll", onUserInteraction, { passive: true });
+      window.addEventListener("wheel", onUserInteraction, { passive: true });
+      window.addEventListener("touchmove", onUserInteraction, { passive: true });
+      window.addEventListener("pointerdown", onUserInteraction, { passive: true });
+
+      // Fallback preload only after extended idle (6s) so page load benchmarks aren't affected
+      let idleTimer: ReturnType<typeof setTimeout> | null = null;
       if ("requestIdleCallback" in window) {
         (window as Window & { requestIdleCallback: (cb: () => void, opts: { timeout: number }) => number }).requestIdleCallback(
           () => triggerLoadRemaining(),
-          { timeout: 1500 },
+          { timeout: 6000 },
         );
       } else {
-        setTimeout(triggerLoadRemaining, 1000);
+        idleTimer = setTimeout(triggerLoadRemaining, 6000);
       }
+
+      cleanupListenersRef.current = () => {
+        cleanupInteractionListeners();
+        if (idleTimer) clearTimeout(idleTimer);
+      };
     };
 
     init();
@@ -344,6 +358,8 @@ export default function ScrollVideo({
 
     return () => {
       cancelled = true;
+
+      cleanupListenersRef.current?.();
 
       resizeObserver.disconnect();
 
@@ -381,8 +397,6 @@ export default function ScrollVideo({
     resizeCanvas,
     setHint,
   ]);
-
-  const loadPct = Math.round((loadedCount / frameCount) * 100);
 
   return (
     <div ref={wrapperRef}>

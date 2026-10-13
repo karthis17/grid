@@ -192,6 +192,7 @@ function Header() {
               scrolled ? "w-[105px] sm:w-[130px] md:w-[170px]" : "w-[125px] sm:w-[160px] md:w-[220px]"
             }`}
             priority
+            fetchPriority="high"
           />
         </Link>
 

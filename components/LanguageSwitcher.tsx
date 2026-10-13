@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+
 import { useLanguage } from "@/lib/i18n/LanguageContext";
-import { Locale } from "@/lib/i18n/types";
 
 interface LanguageSwitcherProps {
   variant?: "header" | "sidebar";

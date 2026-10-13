@@ -32,10 +32,12 @@ export default function SmoothScroll({
     // Smooth frame rate dips (500ms max lag, 33ms target) instead of zeroing out lagSmoothing
     gsap.ticker.lagSmoothing(500, 33);
 
-    // Initial layout stabilization
-    const refreshTimer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
+    // Refresh only when fonts are ready rather than arbitrary setTimeout
+    if (typeof document !== "undefined" && document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
 
     const onResize = () => {
       ScrollTrigger.refresh();
@@ -43,7 +45,6 @@ export default function SmoothScroll({
     window.addEventListener("resize", onResize, { passive: true });
 
     return () => {
-      clearTimeout(refreshTimer);
       window.removeEventListener("resize", onResize);
       gsap.ticker.remove(tick);
       lenis.destroy();

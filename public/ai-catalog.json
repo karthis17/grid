@@ -1,0 +1,12 @@
+{
+  "name": "Lucid Dream",
+  "description": "Lucid Dream is an architecture visualization studio crafting CGI stills, films, real-time rendering, and brand storytelling.",
+  "url": "https://luciddream.co.in",
+  "version": "1.0.0",
+  "capabilities": [
+    "Architectural Visualisation",
+    "Animation & Films",
+    "Real-time CG",
+    "Digital Experiences"
+  ]
+}

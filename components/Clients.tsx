@@ -1,22 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
 import { type ClientList } from "@/lib/ClientList";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function Clients({ clients }: { clients: ClientList[] }) {
   const { t, locale } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState<string>("all");
-
-  // Filter clients by category if user clicks a filter
-  const categories = useMemo(() => {
-    const set = new Set<string>();
-    clients.forEach((c) => {
-      if (c.type) set.add(c.type);
-    });
-    return ["all", ...Array.from(set)];
-  }, [clients]);
 
   // Split into 2 balanced rows for the dual-speed infinite marquee
   const half = Math.ceil(clients.length / 2);

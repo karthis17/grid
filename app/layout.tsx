@@ -59,6 +59,12 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
+          href="/LogoWhite.png"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
           href="/frames/frame_0001.jpg"
           fetchPriority="high"
         />
