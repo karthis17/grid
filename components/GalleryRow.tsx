@@ -1,8 +1,13 @@
 "use client";
 
-import { memo, useCallback, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { getMediaType, type GalleryItem } from "@/lib/GalleryItems";
+import Script from "next/script";
+import {
+  getMediaType,
+  type GalleryItem,
+  type VideoItem,
+} from "@/lib/GalleryItems";
 
 export type RowVariant =
   | "feature-left"
@@ -14,13 +19,33 @@ export type RowVariant =
   | "auto";
 
 export type RowEntry = {
-  item: GalleryItem;
+  item: GalleryItem | VideoItem;
   index: number;
 };
 
-function getRatio(item: GalleryItem): number {
+function getRatio(item: GalleryItem | VideoItem): number {
   if (item.width && item.height) return item.width / item.height;
   return 1.5;
+}
+
+function formatVimeoUrl(url?: string): string {
+  if (!url) return "";
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.set("background", "1");
+    parsed.searchParams.set("autoplay", "1");
+    parsed.searchParams.set("loop", "1");
+    parsed.searchParams.set("byline", "0");
+    parsed.searchParams.set("title", "0");
+    parsed.searchParams.set("portrait", "0");
+    parsed.searchParams.set("controls", "0");
+    parsed.searchParams.set("muted", "1");
+    parsed.searchParams.set("autopause", "0");
+    return parsed.toString();
+  } catch {
+    const sep = url.includes("?") ? "&" : "?";
+    return `${url}${sep}background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0`;
+  }
 }
 
 type CellProps = {
@@ -41,12 +66,83 @@ const Cell = memo(function Cell({
   sizes = "(max-width: 640px) 100vw, 66vw",
 }: CellProps) {
   const { item } = entry;
-  const isVideo = getMediaType(item) === "video";
+  const mediaType = getMediaType(item);
+  const isVimeo =
+    mediaType === "vimeo" || Boolean("vimeoUrl" in item && item.vimeoUrl);
+  const isVideo = !isVimeo && mediaType === "video";
   const videoRef = useRef<HTMLVideoElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const vimeoPlayerRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [overlayActive, setOverlayActive] = useState(false);
 
+  useEffect(() => {
+    if (!isVimeo || !iframeRef.current) return;
+
+    const init = () => {
+      const Vimeo = (window as any).Vimeo;
+      if (Vimeo?.Player && iframeRef.current && !vimeoPlayerRef.current) {
+        try {
+          const player = new Vimeo.Player(iframeRef.current);
+          vimeoPlayerRef.current = player;
+          player.on("play", () => setIsPlaying(true));
+          player.on("pause", () => setIsPlaying(false));
+        } catch {
+          // Wait for iframe
+        }
+      }
+    };
+
+    init();
+    const interval = setInterval(() => {
+      if (!vimeoPlayerRef.current) {
+        init();
+      } else {
+        clearInterval(interval);
+      }
+    }, 250);
+
+    return () => {
+      clearInterval(interval);
+      if (vimeoPlayerRef.current) {
+        try {
+          vimeoPlayerRef.current.destroy?.();
+        } catch {}
+        vimeoPlayerRef.current = null;
+      }
+    };
+  }, [isVimeo]);
+
   const togglePlay = useCallback(() => {
+    if (isVimeo) {
+      const player = vimeoPlayerRef.current;
+      if (player) {
+        player
+          .getPaused()
+          .then((paused: boolean) => {
+            if (paused) {
+              player.play().catch(() => {});
+            } else {
+              player.pause().catch(() => {});
+            }
+          })
+          .catch(() => {
+            iframeRef.current?.contentWindow?.postMessage(
+              isPlaying ? '{"method":"pause"}' : '{"method":"play"}',
+              "*",
+            );
+            setIsPlaying((prev) => !prev);
+          });
+      } else {
+        iframeRef.current?.contentWindow?.postMessage(
+          isPlaying ? '{"method":"pause"}' : '{"method":"play"}',
+          "*",
+        );
+        setIsPlaying((prev) => !prev);
+      }
+      return;
+    }
+
     const v = videoRef.current;
     if (!v) return;
 
@@ -56,15 +152,15 @@ const Cell = memo(function Cell({
     } else {
       v.pause();
     }
-  }, []);
+  }, [isVimeo, isPlaying]);
 
   const handleCellClick = useCallback(() => {
-    if (isVideo) {
+    if (isVideo || isVimeo) {
       togglePlay();
     } else {
       setOverlayActive((prev) => !prev);
     }
-  }, [isVideo, togglePlay]);
+  }, [isVideo, isVimeo, togglePlay]);
 
   const aspect = fill ? undefined : (ratio ?? getRatio(item));
 
@@ -81,7 +177,23 @@ const Cell = memo(function Cell({
           ...(aspect ? { aspectRatio: String(aspect) } : {}),
         }}
       >
-        {isVideo ? (
+        {isVimeo ? (
+          <>
+            <iframe
+              ref={iframeRef}
+              src={formatVimeoUrl(item.vimeoUrl)}
+              title={item.title || "Vimeo video"}
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              className="absolute inset-0 h-full w-full border-0 pointer-events-none"
+              allowFullScreen
+            />
+            <Script
+              src="https://player.vimeo.com/api/player.js"
+              strategy="lazyOnload"
+            />
+          </>
+        ) : isVideo ? (
           <video
             ref={videoRef}
             src={item.src}
@@ -97,8 +209,8 @@ const Cell = memo(function Cell({
           />
         ) : (
           <Image
-            src={item.src}
-            alt={item.title}
+            src={item.src ?? ""}
+            alt={item.title ?? ""}
             width={item.width ?? 1200}
             height={item.height ?? 800}
             priority={priority}
@@ -110,7 +222,7 @@ const Cell = memo(function Cell({
           />
         )}
 
-        {isVideo ? (
+        {isVideo || isVimeo ? (
           <span className="pointer-events-none absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-xs transition-transform duration-200 group-hover:scale-110">
             {isPlaying ? (
               <svg
@@ -134,7 +246,7 @@ const Cell = memo(function Cell({
               </svg>
             )}
           </span>
-        ) : (
+        ) : !isVimeo ? (
           <div
             style={{
               backgroundColor: item.overlayColor
@@ -152,12 +264,14 @@ const Cell = memo(function Cell({
               <h2 className="text-sm sm:text-base md:text-xl font-medium tracking-tight text-white drop-shadow-xs">
                 {item.title}
               </h2>
-              <span className="shrink-0 font-mono text-xs sm:text-sm md:text-base uppercase text-white/80">
-                {item.meta}
-              </span>
+              {item.meta && (
+                <span className="shrink-0 font-mono text-xs sm:text-sm md:text-base uppercase text-white/80">
+                  {item.meta}
+                </span>
+              )}
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
@@ -178,7 +292,7 @@ const FeatureRow = memo(function FeatureRow({
   const bigCell = (
     <Cell
       entry={big}
-      priority={prioritySrcs?.has(big.item.src)}
+      priority={big.item.src ? prioritySrcs?.has(big.item.src) : false}
       ratio={getRatio(big.item)}
       sizes="(max-width: 640px) 100vw, 66vw"
     />
@@ -190,7 +304,7 @@ const FeatureRow = memo(function FeatureRow({
         <Cell
           key={entry.item.id}
           entry={entry}
-          priority={prioritySrcs?.has(entry.item.src)}
+          priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
           fill
           sizes="(max-width: 640px) 100vw, 33vw"
         />
@@ -206,7 +320,7 @@ const FeatureRow = memo(function FeatureRow({
           <Cell
             key={entry.item.id}
             entry={entry}
-            priority={prioritySrcs?.has(entry.item.src)}
+            priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
             sizes="100vw"
           />
         ))}
@@ -269,7 +383,7 @@ const RatioRow = memo(function RatioRow({
           <Cell
             key={entry.item.id}
             entry={entry}
-            priority={prioritySrcs?.has(entry.item.src)}
+            priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
             sizes="(max-width: 640px) 100vw, 50vw"
           />
         ))}
@@ -284,7 +398,7 @@ const RatioRow = memo(function RatioRow({
           <Cell
             key={entry.item.id}
             entry={entry}
-            priority={prioritySrcs?.has(entry.item.src)}
+            priority={entry.item.src ? prioritySrcs?.has(entry.item.src) : false}
             sizes={sizes}
           />
         ))}
@@ -307,7 +421,11 @@ function GalleryRow({ variant, entries, prioritySrcs }: GalleryRowProps) {
       <div className="grid">
         <Cell
           entry={entries[0]}
-          priority={prioritySrcs?.has(entries[0].item.src)}
+          priority={
+            entries[0].item.src
+              ? prioritySrcs?.has(entries[0].item.src)
+              : false
+          }
           sizes="100vw"
         />
       </div>

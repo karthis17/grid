@@ -1,11 +1,15 @@
 "use client";
 
 import { useRef, useEffect, useMemo } from "react";
-import { galleryRows, type GalleryItem } from "@/lib/GalleryItems";
+import {
+  galleryRows,
+  type GalleryItem,
+  type VideoItem,
+} from "@/lib/GalleryItems";
 import GalleryRow, { RowEntry, RowVariant } from "./GalleryRow";
 
 type GalleryGridProps = {
-  items: GalleryItem[];
+  items: (GalleryItem | VideoItem)[];
   priority?: boolean;
 };
 
@@ -26,7 +30,7 @@ export default function GalleryGrid({ items, priority = false }: GalleryGridProp
         key: `row-${i}`,
         variant: row.rowType as RowVariant,
         entries: row.items
-          .filter((item): item is GalleryItem => Boolean(item))
+          .filter((item): item is GalleryItem | VideoItem => Boolean(item))
           .map((item) => ({ item, index: indexById.get(item.id) ?? -1 })),
       })),
     [indexById],
@@ -78,7 +82,9 @@ export default function GalleryGrid({ items, priority = false }: GalleryGridProp
     const set = new Set<string>();
     if (!priority) return set;
     for (const row of rows.slice(0, 1)) {
-      for (const entry of row.entries) set.add(entry.item.src);
+      for (const entry of row.entries) {
+        if (entry.item.src) set.add(entry.item.src);
+      }
     }
     return set;
   }, [rows, priority]);
@@ -86,11 +92,11 @@ export default function GalleryGrid({ items, priority = false }: GalleryGridProp
   return (
     <section
       id="works"
-      className="min-h-screen bg-[#f7f7f4] py-10 text-[#17170F]"
+      className="min-h-screen bg-[#f7f7f4] py-2 text-[#17170F]"
     >
       <div
         ref={galleryRef}
-        className="flex flex-col gap-3 px-3 pb-20 sm:gap-2 sm:px-5 md:px-7 lg:px-10"
+        className="flex flex-col gap-2 px-2 pb-10"
       >
         {rows.map((row, i) => (
           <div key={row.key} className={i < 2 ? undefined : "gallery-row"}>

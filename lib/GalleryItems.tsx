@@ -1,4 +1,23 @@
-export type MediaType = "image" | "video";
+export type MediaType = "image" | "video" | "vimeo";
+
+export type VideoItem = {
+  id: string;
+  title: string;
+  vimeoUrl: string;
+  src?: string;
+  no?: string;
+  meta?: string;
+  type?: MediaType;
+  poster?: string;
+  width?: number;
+  height?: number;
+  col?: number;
+  row?: number;
+  align?: "left" | "right";
+  mobileCol?: number;
+  mobileRow?: number;
+  overlayColor?: string;
+};
 
 export type GalleryItem = {
   id: string;
@@ -10,19 +29,22 @@ export type GalleryItem = {
   poster?: string;
   width?: number;
   height?: number;
-  col: number;
-  row: number;
+  col?: number;
+  row?: number;
   align?: "left" | "right";
   mobileCol?: number;
   mobileRow?: number;
   overlayColor?: string;
+  vimeoUrl?: string;
 };
 
 const VIDEO_EXTENSIONS = /\.(mp4|webm|mov|m4v|ogg)$/i;
 
-export function getMediaType(item: GalleryItem): MediaType {
+export function getMediaType(item: GalleryItem | VideoItem): MediaType {
   if (item.type) return item.type;
-  return VIDEO_EXTENSIONS.test(item.src) ? "video" : "image";
+  if ("vimeoUrl" in item && item.vimeoUrl) return "vimeo";
+  if (item.src && VIDEO_EXTENSIONS.test(item.src)) return "video";
+  return "image";
 }
 
 export const galleryItems: GalleryItem[] = [
@@ -473,7 +495,8 @@ export const galleryItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(56, 44, 33)",
-  },  {
+  },
+  {
     id: "35",
     src: "/gallery/13_Srivari_Ekaya_03.webp",
     width: 1440,
@@ -769,24 +792,71 @@ export const galleryItems: GalleryItem[] = [
   },
 ];
 
+export const galleryVidItems: VideoItem[] = [
+  {
+    id: "v01",
+    no: "01",
+    title: "River_4K_04",
+    vimeoUrl:
+      "https://player.vimeo.com/video/1234951199?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    width: 1920,
+    height: 1080,
+    type: "vimeo",
+    meta: "Lucid Dream, 2024",
+  },
+  {
+    id: "v02",
+    no: "02",
+    title: "Admiralty Esates",
+    vimeoUrl:
+      "https://player.vimeo.com/video/1234944354?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    width: 10000,
+    height: 4255, // padding: 42.55% (approx 2.35:1)
+    type: "vimeo",
+    meta: "Lucid Dream, 2024",
+  },
+  {
+    id: "v03",
+    no: "03",
+    title: "Yanviour factory",
+    vimeoUrl:
+      "https://player.vimeo.com/video/1234039788?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    width: 1920,
+    height: 1080,
+    type: "vimeo",
+    meta: "Lucid Dream, 2024",
+  },
+  {
+    id: "v04",
+    no: "04",
+    title: "Project_TAHR",
+    vimeoUrl:
+      "https://player.vimeo.com/video/1230933095?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    width: 1920,
+    height: 1080,
+    type: "vimeo",
+    meta: "Lucid Dream, 2024",
+  },
+];
+
+// Alias for singular name
+export const galleryVidItem = galleryVidItems;
+
 export type GalleryRow = {
   rowType: string;
-  items: GalleryItem[];
+  items: (GalleryItem | VideoItem)[];
 };
 
 export const galleryRows: GalleryRow[] = [
   {
-    rowType: "duo",
-    items: [galleryItems[0], galleryItems[1]],
+    rowType: "feature-left",
+    items: [galleryItems[0], galleryItems[2], galleryItems[3]],
   },
   {
-    rowType: "quad",
-    items: [galleryItems[2], galleryItems[3], galleryItems[4], galleryItems[5]],
+    rowType: "feature-right",
+    items: [galleryItems[6], galleryItems[4], galleryItems[5]],
   },
-  {
-    rowType: "duo",
-    items: [galleryItems[6], galleryItems[7]],
-  },
+
   {
     rowType: "feature-left",
     items: [galleryItems[8], galleryItems[9], galleryItems[10]],
@@ -809,12 +879,16 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
-    rowType: "feature-left",
+    rowType: "feature-right",
     items: [galleryItems[20], galleryItems[21], galleryItems[22]],
   },
   {
     rowType: "duo",
     items: [galleryItems[23], galleryItems[24]],
+  },
+  {
+    rowType: "hero",
+    items: [galleryVidItems[0]],
   },
   {
     rowType: "duo",
@@ -833,25 +907,22 @@ export const galleryRows: GalleryRow[] = [
 
   {
     rowType: "hero",
-    items: [galleryItems[31]],
+    items: [galleryVidItems[1]],
   },
   {
-    rowType: "feature-right",
+    rowType: "feature-left",
     items: [galleryItems[32], galleryItems[33], galleryItems[34]],
   },
-  {
-    rowType: "hero",
-    items: [galleryItems[35]],
-  },
 
-    {
+  {
     rowType: "duo",
     items: [galleryItems[36], galleryItems[37]],
   },
   {
     rowType: "hero",
-    items: [galleryItems[38]],
+    items: [galleryVidItems[2]],
   },
+
   {
     rowType: "quad",
     items: [
@@ -863,29 +934,24 @@ export const galleryRows: GalleryRow[] = [
   },
 
   {
-    rowType: "duo",
-    items: [galleryItems[43], galleryItems[44]],
+    rowType: "feature-right",
+    items: [galleryItems[45], galleryItems[43], galleryItems[44]],
   },
 
-  {
-    rowType: "hero",
-    items: [galleryItems[45]],
-  },
   {
     rowType: "duo",
     items: [galleryItems[46], galleryItems[47]],
   },
   {
     rowType: "hero",
-    items: [galleryItems[48]],
+    items: [galleryVidItems[3]],
   },
   {
-    rowType: "quad",
-    items: [
-      galleryItems[49],
-      galleryItems[50],
-      galleryItems[51],
-      galleryItems[52],
-    ],
+    rowType: "duo",
+    items: [galleryItems[48], galleryItems[49]],
+  },
+  {
+    rowType: "feature-left",
+    items: [galleryItems[50], galleryItems[51], galleryItems[52]],
   },
 ];
