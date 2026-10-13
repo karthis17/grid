@@ -132,7 +132,7 @@ const Cell = memo(function Cell({
       if (vimeoPlayerRef.current) {
         try {
           vimeoPlayerRef.current.destroy?.();
-        } catch {}
+        } catch { }
         vimeoPlayerRef.current = null;
       }
     };
@@ -150,9 +150,9 @@ const Cell = memo(function Cell({
           .getPaused()
           .then((paused: boolean) => {
             if (paused) {
-              player.play().catch(() => {});
+              player.play().catch(() => { });
             } else {
-              player.pause().catch(() => {});
+              player.pause().catch(() => { });
             }
           })
           .catch(() => {
@@ -177,7 +177,7 @@ const Cell = memo(function Cell({
 
     if (v.paused) {
       if (v.preload === "none") v.preload = "auto";
-      v.play().catch(() => {});
+      v.play().catch(() => { });
     } else {
       v.pause();
     }
@@ -196,9 +196,8 @@ const Cell = memo(function Cell({
   return (
     <div
       ref={cellRef}
-      className={`gallery-item group min-h-0 min-w-0 cursor-pointer select-none ${
-        fill ? "h-full" : ""
-      }`}
+      className={`gallery-item group min-h-0 min-w-0 cursor-pointer select-none ${fill ? "h-full" : ""
+        }`}
       onClick={handleCellClick}
     >
       <div
@@ -220,9 +219,8 @@ const Cell = memo(function Cell({
               quality={75}
               decoding="async"
               sizes={sizes}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out group-hover:scale-[1.02] ${
-                shouldLoadVimeo ? "opacity-0 pointer-events-none" : "opacity-100"
-              }`}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out group-hover:scale-[1.02] ${shouldLoadVimeo ? "opacity-0 pointer-events-none" : "opacity-100"
+                }`}
             />
             {shouldLoadVimeo && (
               <>
@@ -303,13 +301,12 @@ const Cell = memo(function Cell({
                 : "rgba(23, 23, 15, 0.85)",
             }}
             onMouseLeave={() => setOverlayActive(false)}
-            className={`absolute inset-0 flex items-center justify-center p-4 transition-opacity duration-300 ${
-              overlayActive
+            className={`absolute inset-0 flex items-center justify-center p-4 transition-opacity duration-300 ${overlayActive
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none group-hover:pointer-events-auto"
-            }`}
+              }`}
           >
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 text-center px-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-center px-2">
               <h2 className="text-sm sm:text-base md:text-xl font-medium tracking-tight text-white drop-shadow-xs">
                 {item.title}
               </h2>
@@ -340,9 +337,8 @@ const FeatureRow = memo(function FeatureRow({
 
   return (
     <div
-      className={`grid min-w-0 grid-cols-1 gap-2 ${
-        reverse ? "sm:grid-cols-[1fr_2fr]" : "sm:grid-cols-[2fr_1fr]"
-      }`}
+      className={`grid min-w-0 grid-cols-1 gap-2 ${reverse ? "sm:grid-cols-[1fr_2fr]" : "sm:grid-cols-[2fr_1fr]"
+        }`}
     >
       <div className={`min-w-0 ${reverse ? "order-1 sm:order-2" : "order-1"}`}>
         <Cell
@@ -353,9 +349,8 @@ const FeatureRow = memo(function FeatureRow({
         />
       </div>
       <div
-        className={`grid min-h-0 min-w-0 grid-cols-1 gap-2 sm:grid-rows-2 ${
-          reverse ? "order-2 sm:order-1" : "order-2"
-        }`}
+        className={`grid min-h-0 min-w-0 grid-cols-1 gap-2 sm:grid-rows-2 ${reverse ? "order-2 sm:order-1" : "order-2"
+          }`}
       >
         <Cell
           key={small1.item.id}
@@ -397,9 +392,8 @@ const RatioRow = memo(function RatioRow({
 
   return (
     <div
-      className={`ratio-row grid gap-2 ${
-        isQuad || isTrio ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2"
-      }`}
+      className={`ratio-row grid gap-2 ${isQuad || isTrio ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2"
+        }`}
       style={{ "--desktop-cols": columns } as React.CSSProperties}
     >
       {entries.map((entry) => (
