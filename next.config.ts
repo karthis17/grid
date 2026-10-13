@@ -33,6 +33,15 @@ const nextConfig = (phase: string): NextConfig => {
     ...(isDev || isStaticExport
       ? {}
       : {
+          async redirects() {
+            return [
+              {
+                source: "/works",
+                destination: "/work",
+                permanent: true,
+              },
+            ];
+          },
           async headers() {
             return [
               {
@@ -78,5 +87,3 @@ const nextConfig = (phase: string): NextConfig => {
 };
 
 export default nextConfig;
-
-

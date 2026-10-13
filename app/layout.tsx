@@ -34,14 +34,115 @@ export const viewport: Viewport = {
   themeColor: "#000000",
 };
 
+const siteUrl = "https://luciddream.co.in";
+const defaultOgImage = `${siteUrl}/gallery/01_MOAD_Tahr_01.webp`;
+
 export const metadata: Metadata = {
-  title: "Lucid Dream — Architecture Visualization Studio",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Lucid Dream — Architecture Visualization Studio",
+    template: "%s | Lucid Dream",
+  },
   description:
     "Lucid Dream is a premier architecture visualization studio crafting CGI stills, films, real-time rendering, and brand storytelling for architects across India since 2012.",
-  metadataBase: new URL("https://luciddream.co.in"),
+  keywords: [
+    "architecture visualization",
+    "3D architectural rendering",
+    "CGI architecture",
+    "real-time CG",
+    "archviz India",
+    "architectural animation",
+    "architecture films Chennai",
+    "architectural storytelling",
+    "3D visualization Pune",
+    "Lucid Dream studio",
+  ],
+  authors: [{ name: "Arun Babu", url: siteUrl }],
+  creator: "Lucid Dream",
+  publisher: "Lucid Dream",
+  applicationName: "Lucid Dream",
+  category: "Architecture & Design",
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: siteUrl,
+    siteName: "Lucid Dream",
+    title: "Lucid Dream — Architecture Visualization Studio",
+    description:
+      "A creative studio crafting compelling architectural visuals — CGI stills, animation, real-time rendering, and brand identity for architects since 2012.",
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1440,
+        height: 1440,
+        alt: "Lucid Dream — Architecture Visualization Studio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lucid Dream — Architecture Visualization Studio",
+    description:
+      "Architecture visualization, CGI, and animation studio working with architects across India since 2012.",
+    images: [defaultOgImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/favicon.ico",
   },
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Lucid Dream",
+  alternateName: "Lucid Dream Studio",
+  url: siteUrl,
+  logo: `${siteUrl}/LogoWhite.png`,
+  image: defaultOgImage,
+  description:
+    "Lucid Dream is a premier architecture visualization studio crafting CGI stills, films, real-time rendering, and brand storytelling for architects across India since 2012.",
+  foundingDate: "2012",
+  founder: {
+    "@type": "Person",
+    name: "Arun Babu",
+    jobTitle: "Founder & Partner-Architect",
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Chennai",
+    addressRegion: "Tamil Nadu",
+    addressCountry: "IN",
+  },
+  email: "info@luciddream.co.in",
+  sameAs: [
+    "https://www.instagram.com/luciddream_studio",
+    "https://www.behance.net/Luciddream_ar",
+    "https://vimeo.com/user5118274",
+    "https://linkedin.com/company/luciddream",
+  ],
+  priceRange: "$$$",
+  knowsAbout: [
+    "Architecture Visualization",
+    "3D Rendering",
+    "Architectural Animation",
+    "Real-time CGI",
+    "Architectural CGI",
+    "Brand Storytelling",
+  ],
 };
 
 export default function RootLayout({
@@ -67,6 +168,12 @@ export default function RootLayout({
           as="image"
           href="/frames/frame_0001.jpg"
           fetchPriority="high"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
         />
       </head>
       <body className="bg-[#f7f7f4] text-[#17170F] antialiased selection:bg-[#ff5a36] selection:text-white overflow-x-hidden min-h-screen">

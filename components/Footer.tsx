@@ -45,14 +45,13 @@ export default function Footer() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              width={160}
-              height={40}
+              width={233}
+              height={42}
               alt="Lucid Dream"
               src="/LogoWhite.png"
               loading="lazy"
               decoding="async"
-              style={{ aspectRatio: "160 / 40" }}
-              className="h-auto w-[130px] sm:w-[150px] md:w-[170px]"
+              className="h-auto w-[130px] sm:w-[150px] md:w-[170px] object-contain"
             />
           </Link>
 

@@ -12,8 +12,7 @@ const ogImage = `${siteUrl}${galleryItems[0].src}`;
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Lucid Dream — Architecture Visualization Studio",
-    template: "%s | Lucid Dream",
+    absolute: "Lucid Dream — Architecture Visualization Studio",
   },
   description:
     "Lucid Dream is a Chennai-based architecture visualization studio crafting CGI stills, films, real-time rendering, and brand storytelling for architects and design firms across India since 2012.",
@@ -61,12 +60,6 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
 
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
-
   alternates: {
     canonical: siteUrl,
   },
@@ -77,13 +70,36 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      "max-video-preview": -1,
       "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Lucid Dream",
+  url: siteUrl,
+  description:
+    "Architecture visualization, CGI stills, films, and real-time studio for architects across India.",
+  publisher: {
+    "@type": "Organization",
+    name: "Lucid Dream",
+    logo: `${siteUrl}/LogoWhite.png`,
+  },
+};
+
 export default function DPage() {
   return (
     <div className="relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteSchema),
+        }}
+      />
       <ScrollVideo />
       <section className="relative z-10">
         <GalleryGrid items={galleryItems} />
