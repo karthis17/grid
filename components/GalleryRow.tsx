@@ -252,10 +252,13 @@ const Cell = memo(function Cell({
     }
   }, [isVideo, isVimeo]);
 
-  const aspect = fill ? undefined : (ratio ?? getRatio(item));
+  const naturalRatio = ratio ?? getRatio(item);
   const aspectStyle = useMemo(
-    () => (aspect ? { aspectRatio: String(aspect) } : undefined),
-    [aspect],
+    () =>
+      fill
+        ? ({ "--item-ratio": String(naturalRatio) } as React.CSSProperties)
+        : ({ aspectRatio: String(naturalRatio) }),
+    [fill, naturalRatio],
   );
 
   const formattedVimeoUrl = useMemo(
@@ -267,12 +270,14 @@ const Cell = memo(function Cell({
     <div
       ref={cellRef}
       className={`gallery-item group min-h-0 min-w-0 cursor-pointer select-none ${
-        fill ? "h-full" : ""
+        fill ? "sm:h-full" : ""
       }`}
       onClick={handleCellClick}
     >
       <div
-        className={`relative overflow-hidden ${fill ? "h-full" : ""}`}
+        className={`relative overflow-hidden ${
+          fill ? "feature-fill-cell sm:h-full" : ""
+        }`}
         style={aspectStyle}
       >
         {isVimeo ? (

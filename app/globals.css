@@ -85,6 +85,19 @@ body {
   contain: layout style;
 }
 
+/* Feature row small cells: natural aspect ratio on mobile (1 by 1), stretch to parent column on desktop */
+.feature-fill-cell {
+  aspect-ratio: var(--item-ratio);
+  height: auto;
+}
+
+@media (min-width: 640px) {
+  .feature-fill-cell {
+    aspect-ratio: auto !important;
+    height: 100% !important;
+  }
+}
+
 @media (min-width: 768px) {
   .ratio-row {
     grid-template-columns: var(--desktop-cols) !important;
