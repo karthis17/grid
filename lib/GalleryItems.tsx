@@ -24,7 +24,7 @@ export type GalleryItem = {
   src: string;
   no: string;
   title: string;
-  meta: string;
+  meta?: string;
   type?: MediaType;
   poster?: string;
   width?: number;
@@ -54,8 +54,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "01",
-    title: "Haditehrani, Office",
-    meta: "Pune, 2023",
+    title: "MOAD, Tahr",
+
     col: 4,
     row: 2,
     mobileCol: 2,
@@ -68,8 +68,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 617,
     no: "02",
-    title: "Courtyard House",
-    meta: "Pune, 2022",
+    title: "MOAD, Tahr",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -82,8 +82,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "03",
-    title: "Garden Residence",
-    meta: "Pune, 2022",
+    title: "MOAD, Tahr",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -96,8 +96,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "04",
-    title: "Coastal Pavilion",
-    meta: "Åland, 2021",
+    title: "MOAD, Tahr",
+
     col: 6,
     row: 1,
     mobileCol: 2,
@@ -110,8 +110,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "05",
-    title: "Forest Retreat",
-    meta: "Sarek, 2023",
+    title: "Cabin Study",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -124,8 +124,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "06",
-    title: "Stone House",
-    meta: "Öland, 2020",
+    title: "Cabin Study",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -138,8 +138,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "07",
-    title: "Timber Pavilion",
-    meta: "Öland, 2020",
+    title: "Cabin Study",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -152,8 +152,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "08",
-    title: "Pine Facade",
-    meta: "Halland, 2019",
+    title: "Cabin Study",
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -166,8 +165,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "09",
-    title: "Reflection House",
-    meta: "Malmö, 2024",
+    title: "Concordia, Admiralty Estates",
     col: 6,
     row: 2,
     mobileCol: 2,
@@ -180,8 +178,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "10",
-    title: "Brick Residence",
-    meta: "Skåne, 2023",
+    title: "Concordia, Admiralty Estates",
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -194,8 +191,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1080,
     height: 1440,
     no: "11",
-    title: "Lake House",
-    meta: "Uppsala, 2022",
+    title: "Concordia, Admiralty Estates",
     col: 3,
     row: 1,
     mobileCol: 2,
@@ -208,8 +204,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 960,
     no: "12",
-    title: "Boat Jetty",
-    meta: "Archipelago, 2021",
+    title: "Perkins & Eastman, Genet City",
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -222,8 +217,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 960,
     no: "13",
-    title: "Reef Pavilion",
-    meta: "Coastal Site, 2024",
+    title: "Perkins & Eastman, Genet City",
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -236,8 +230,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1080,
     height: 1440,
     no: "14",
-    title: "Pine Residence",
-    meta: "Värmland, 2022",
+    title: "RBTA, Brigade Sevilla",
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -250,8 +243,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1080,
     height: 1440,
     no: "15",
-    title: "Reflection House",
-    meta: "Lake Site, 2020",
+    title: "RBTA, Brigade Sevilla",
     col: 6,
     row: 1,
     mobileCol: 2,
@@ -264,8 +256,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1080,
     height: 1440,
     no: "16",
-    title: "Covered Porch",
-    meta: "Dalarna, 2023",
+    title: "RBTA, Brigade Sevilla",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -278,8 +270,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1399,
     no: "17",
-    title: "Oak House",
-    meta: "Bangalore, 2024",
+    title: "Disha, Harmony",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -292,8 +284,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "18",
-    title: "Linear Residence",
-    meta: "Chennai, 2023",
+    title: "Disha, Harmony",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -306,8 +298,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "19",
-    title: "Cedar Villa",
-    meta: "Goa, 2024",
+    title: "Disha, Harmony",
+
     col: 6,
     row: 1,
     mobileCol: 2,
@@ -320,8 +312,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "20",
-    title: "Atrium House",
-    meta: "Hyderabad, 2022",
+    title: "Disha, Harmony",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -334,8 +326,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 960,
     no: "21",
-    title: "Terrace Residence",
-    meta: "Mumbai, 2023",
+    title: "Assetz, The Secret Lake",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -348,8 +340,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "22",
-    title: "Courtyard Villa",
-    meta: "Kochi, 2024",
+    title: "Assetz, The Secret Lake",
+
     col: 4,
     row: 2,
     mobileCol: 2,
@@ -362,8 +354,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 960,
     no: "23",
-    title: "Concrete Pavilion",
-    meta: "Pondicherry, 2022",
+    title: "Assetz, The Secret Lake",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -376,8 +368,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "24",
-    title: "Sunken Garden",
-    meta: "Bangalore, 2023",
+    title: "PSP, Resort",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -390,8 +382,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "25",
-    title: "Monsoon House",
-    meta: "Kerala, 2024",
+    title: "Rain Studio, GCE",
+
     col: 6,
     row: 2,
     mobileCol: 2,
@@ -404,8 +396,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "26",
-    title: "Quiet Courtyard",
-    meta: "Chennai, 2021",
+    title: "ISKCON, Hyderabad",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -418,8 +410,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 904,
     no: "27",
-    title: "Terracotta House",
-    meta: "Jaipur, 2023",
+    title: "ISKCON, Hyderabad",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -432,8 +424,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "28",
-    title: "Limestone Villa",
-    meta: "Goa, 2022",
+    title: "Assetz, Canvas & Cove",
+
     col: 3,
     row: 1,
     mobileCol: 2,
@@ -446,8 +438,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1214,
     no: "29",
-    title: "Shadow Pavilion",
-    meta: "Delhi, 2024",
+    title: "Assetz, Canvas & Cove",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -460,8 +452,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1439,
     height: 1440,
     no: "30",
-    title: "Courtyard Studio",
-    meta: "Pune, 2024",
+    title: "Assetz, Canvas & Cove",
+
     col: 6,
     row: 1,
     mobileCol: 2,
@@ -474,8 +466,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "31",
-    title: "Riverside House",
-    meta: "Rishikesh, 2022",
+    title: "Assetz, Canvas & Cove",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -488,8 +480,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1439,
     no: "32",
-    title: "Open Frame House",
-    meta: "Bangalore, 2024",
+    title: "ANA, Zion",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -502,8 +494,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 810,
     no: "35",
-    title: "Granite Residence",
-    meta: "Coimbatore, 2022",
+    title: "Srivari, Ekaya",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -516,8 +508,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "33",
-    title: "Tropical Retreat",
-    meta: "Goa, 2023",
+    title: "Srivari, Ekaya",
+
     col: 4,
     row: 2,
     mobileCol: 2,
@@ -530,8 +522,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1246,
     no: "34",
-    title: "Glass Pavilion",
-    meta: "Mumbai, 2024",
+    title: "Srivari, Ekaya",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -544,8 +536,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 960,
     no: "36",
-    title: "Forest Courtyard",
-    meta: "Munnar, 2023",
+    title: "Hadi Tehrani, Pune Office",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -558,8 +550,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "37",
-    title: "Stone Courtyard",
-    meta: "Ooty, 2021",
+    title: "MOAD, Sanctuary",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -572,8 +564,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "38",
-    title: "Skyline Residence",
-    meta: "Mumbai, 2023",
+    title: "MOAD, Sanctuary",
+
     col: 6,
     row: 1,
     mobileCol: 2,
@@ -586,8 +578,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 810,
     no: "39",
-    title: "Palm House",
-    meta: "Goa, 2022",
+    title: "Avani, House",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -600,8 +592,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "40",
-    title: "Minimalist Villa",
-    meta: "Bangalore, 2024",
+    title: "Amara, Ahana",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -614,8 +606,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "41",
-    title: "Lightwell House",
-    meta: "Chennai, 2023",
+    title: "Amara, Ahana",
+
     col: 4,
     row: 2,
     mobileCol: 2,
@@ -628,8 +620,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "42",
-    title: "Red Earth Residence",
-    meta: "Pune, 2022",
+    title: "Hadi Tehrani, Pune Office",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -642,8 +634,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "43",
-    title: "Canopy House",
-    meta: "Kerala, 2024",
+    title: "Hadi Tehrani, Pune Office",
+
     col: 2,
     row: 1,
     mobileCol: 1,
@@ -656,8 +648,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1079,
     no: "44",
-    title: "Horizon Pavilion",
-    meta: "Alibaug, 2023",
+    title: "Arun Nalapat & Karl Princic, Valley",
+
     col: 6,
     row: 2,
     mobileCol: 2,
@@ -670,8 +662,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 616,
     no: "45",
-    title: "Courtyard Loft",
-    meta: "Hyderabad, 2024",
+    title: "Arun Nalapat & Karl Princic, Valley",
+
     col: 3,
     row: 1,
     mobileCol: 1,
@@ -684,8 +676,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 956,
     no: "46",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "Arun Nalapat & Karl Princic, Valley",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -698,8 +690,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 810,
     no: "47",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "MOAD, Cove",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -712,8 +704,7 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "48",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "MOAD, Cove",
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -726,8 +717,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1080,
     no: "49",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "MYVN, Jeyalakshmi",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -740,8 +731,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1080,
     no: "50",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "MYVN, Jeyalakshmi",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -754,8 +745,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 810,
     no: "51",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "RED, The Arc",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -768,8 +759,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "52",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "Amara, Sesha",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -782,8 +773,8 @@ export const galleryItems: GalleryItem[] = [
     width: 1440,
     height: 1440,
     no: "53",
-    title: "Walled Garden",
-    meta: "Kochi, 2023",
+    title: "Midori Architects, Notion Of Steel",
+
     col: 3,
     row: 2,
     mobileCol: 1,
@@ -798,7 +789,7 @@ export const galleryVidItems: VideoItem[] = [
     no: "01",
     title: "River_4K_04",
     vimeoUrl:
-      "https://player.vimeo.com/video/1234951199?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+      "https://player.vimeo.com/video/1234951199",
     poster: "/gallery/vimeo_1234951199.webp",
     width: 1920,
     height: 1080,
@@ -810,7 +801,7 @@ export const galleryVidItems: VideoItem[] = [
     no: "02",
     title: "Admiralty Esates",
     vimeoUrl:
-      "https://player.vimeo.com/video/1234944354?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+      "https://player.vimeo.com/video/1234944354",
     poster: "/gallery/vimeo_1234944354.webp",
     width: 10000,
     height: 4255, // padding: 42.55% (approx 2.35:1)
@@ -822,7 +813,7 @@ export const galleryVidItems: VideoItem[] = [
     no: "03",
     title: "Yanviour factory",
     vimeoUrl:
-      "https://player.vimeo.com/video/1234039788?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+      "https://player.vimeo.com/video/1234039788",
     poster: "/gallery/vimeo_1234039788.webp",
     width: 1920,
     height: 1080,
@@ -833,8 +824,7 @@ export const galleryVidItems: VideoItem[] = [
     id: "v04",
     no: "04",
     title: "Project_TAHR",
-    vimeoUrl:
-      "https://player.vimeo.com/video/1230933095?background=1&autoplay=1&loop=1&byline=0&title=0&portrait=0&controls=0&muted=1&autopause=0",
+    vimeoUrl:"https://player.vimeo.com/video/1235721464?h=f42167b0ff",
     poster: "/gallery/vimeo_1230933095.webp",
     width: 1920,
     height: 1080,
@@ -856,7 +846,7 @@ export const galleryRows: GalleryRow[] = [
     rowType: "feature-left",
     items: [galleryItems[0], galleryItems[2], galleryItems[3]],
   },
-    {
+  {
     rowType: "hero",
     items: [galleryVidItems[3]],
   },
@@ -873,9 +863,9 @@ export const galleryRows: GalleryRow[] = [
     items: [galleryItems[8], galleryItems[9], galleryItems[10]],
   },
   {
-  rowType: "hero",
-  items: [galleryVidItems[1]],
-},
+    rowType: "hero",
+    items: [galleryVidItems[1]],
+  },
   {
     rowType: "duo",
     items: [galleryItems[11], galleryItems[12]],
@@ -902,10 +892,6 @@ export const galleryRows: GalleryRow[] = [
     items: [galleryItems[23], galleryItems[24]],
   },
 
-  {
-    rowType: "duo",
-    items: [galleryItems[25], galleryItems[26]],
-  },
 
   {
     rowType: "quad",
@@ -917,7 +903,10 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
 
-
+  {
+    rowType: "hero",
+    items: [galleryVidItems[2]],
+  },
   {
     rowType: "feature-left",
     items: [galleryItems[32], galleryItems[33], galleryItems[34]],
@@ -927,10 +916,7 @@ export const galleryRows: GalleryRow[] = [
     rowType: "duo",
     items: [galleryItems[36], galleryItems[37]],
   },
-  {
-    rowType: "hero",
-    items: [galleryVidItems[2]],
-  },
+
 
   {
     rowType: "quad",
@@ -960,3 +946,7 @@ export const galleryRows: GalleryRow[] = [
     items: [galleryItems[50], galleryItems[51], galleryItems[52]],
   },
 ];
+
+
+
+
