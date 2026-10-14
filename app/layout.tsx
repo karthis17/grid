@@ -154,6 +154,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
       className={`${fraunces.variable} ${helvetica.variable} ${playfair.variable}`}
     >
       <head>
@@ -176,7 +177,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-[#f7f7f4] text-[#17170F] antialiased selection:bg-[#ff5a36] selection:text-white overflow-x-hidden min-h-screen">
+      <body
+        suppressHydrationWarning
+        className="bg-[#f7f7f4] text-[#17170F] antialiased selection:bg-[#ff5a36] selection:text-white overflow-x-hidden min-h-screen"
+      >
         <LanguageProvider>
           <Header />
           <SmoothScrollProvider>

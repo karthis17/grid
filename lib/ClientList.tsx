@@ -24,18 +24,18 @@ export const ClientsList: ClientList[] = [
   //   src: "/clients/logo.svg",
   //   type: "Architecture",
   // },
-  // {
-  //   id: 4,
-  //   name: "Architecture RED",
-  //   src: "/clients/aRED-01.webp",
-  //   type: "Architecture",
-  // },
-  // {
-  //   id: 5,
-  //   name: "MOAD Studio",
-  //   src: "/clients/dasa.webp",
-  //   type: "Architecture",
-  // },
+  {
+    id: 4,
+    name: "Architecture RED",
+    src: "/clients/15.webp",
+    type: "Architecture",
+  },
+  {
+    id: 5,
+    name: "MOAD Studio",
+    src: "/clients/1.png",
+    type: "Architecture",
+  },
   {
     id: 6,
     name: "AMARA Homes",
@@ -51,7 +51,7 @@ export const ClientsList: ClientList[] = [
   {
     id: 8,
     name: "River Bike",
-    src: "/clients/17.webp",
+    src: "/clients/4.png",
     type: "Mobility",
   },
   {
@@ -60,12 +60,12 @@ export const ClientsList: ClientList[] = [
     src: "/clients/3.webp",
     type: "Engineering",
   },
-  // {
-  //   id: 10,
-  //   name: "Karl Princic, Bali",
-  //   src: "/clients/san.avif",
-  //   type: "Architecture",
-  // },
+  {
+    id: 10,
+    name: "Karl Princic, Bali",
+    src: "/clients/3.png",
+    type: "Architecture",
+  },
   {
     id: 11,
     name: "Aster Hospitals",
@@ -84,12 +84,12 @@ export const ClientsList: ClientList[] = [
     src: "/clients/16.webp",
     type: "Paints & Interiors",
   },
-  // {
-  //   id: 14,
-  //   name: "KSM Architecture",
-  //   src: "/clients/ksm.svg",
-  //   type: "Architecture",
-  // },
+  {
+    id: 14,
+    name: "KSM Architecture",
+    src: "/clients/2.png",
+    type: "Architecture",
+  },
   {
     id: 15,
     name: "DLEA",
