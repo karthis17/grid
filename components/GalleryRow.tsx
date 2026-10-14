@@ -19,7 +19,6 @@ export type RowVariant =
 
 export type RowEntry = {
   item: GalleryItem | VideoItem;
-  index: number;
 };
 
 function getRatio(item: GalleryItem | VideoItem): number {

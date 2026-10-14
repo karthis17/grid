@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import GalleryGrid from "@/components/GalleryGrid";
-import { galleryItems } from "@/lib/GalleryItems";
+import { galleryRows } from "@/lib/GalleryItems";
 
 const siteUrl = "https://luciddream.co.in";
 const worksOgImage = `${siteUrl}/gallery/01_MOAD_Tahr_01.webp`;
@@ -94,7 +94,7 @@ export default function Works() {
           __html: JSON.stringify(worksJsonLd),
         }}
       />
-      <GalleryGrid items={galleryItems} priority />
+      <GalleryGrid rows={galleryRows} priority />
     </div>
   );
 }

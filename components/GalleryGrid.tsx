@@ -2,42 +2,27 @@
 
 import { useRef, useEffect, useMemo } from "react";
 import {
-  galleryRows,
   type GalleryItem,
   type VideoItem,
 } from "@/lib/GalleryItems";
 import GalleryRow, { RowEntry, RowVariant } from "./GalleryRow";
 
 type GalleryGridProps = {
-  items: (GalleryItem | VideoItem)[];
+  rows: { rowType: string; items: (GalleryItem | VideoItem)[] }[];
   priority?: boolean;
 };
 
 type Row = { key: string; variant: RowVariant; entries: RowEntry[] };
 
-export default function GalleryGrid({ items, priority = false }: GalleryGridProps) {
+export default function GalleryGrid({
+  rows,
+  priority = false,
+}: GalleryGridProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
 
-  const indexById = useMemo(() => {
-    const map = new Map<string, number>();
-    items.forEach((item, i) => map.set(item.id, i));
-    return map;
-  }, [items]);
-
-  const rows: Row[] = useMemo(
-    () =>
-      galleryRows.map((row, i) => ({
-        key: `row-${i}`,
-        variant: row.rowType as RowVariant,
-        entries: row.items
-          .filter((item): item is GalleryItem | VideoItem => Boolean(item))
-          .map((item) => ({ item, index: indexById.get(item.id) ?? -1 })),
-      })),
-    [indexById],
-  );
 
   const rowsKey = useMemo(
-    () => rows.map((r) => r.entries.map((e) => e.item.id).join(",")).join("|"),
+    () => rows.map((r) => r.items.map((e) => e.id).join(",")).join("|"),
     [rows],
   );
 
@@ -82,8 +67,8 @@ export default function GalleryGrid({ items, priority = false }: GalleryGridProp
     const set = new Set<string>();
     if (!priority) return set;
     for (const row of rows.slice(0, 1)) {
-      for (const entry of row.entries) {
-        if (entry.item.src) set.add(entry.item.src);
+      for (const entry of row.items) {
+        if (entry.src) set.add(entry.src);
       }
     }
     return set;
@@ -99,10 +84,10 @@ export default function GalleryGrid({ items, priority = false }: GalleryGridProp
         className="flex flex-col gap-2 px-2 pb-10"
       >
         {rows.map((row, i) => (
-          <div key={row.key} className={i < 2 ? undefined : "gallery-row"}>
+          <div key={i} className={i < 2 ? undefined : "gallery-row"}>
             <GalleryRow
-              variant={row.variant}
-              entries={row.entries}
+              variant={row.rowType as RowVariant}
+              entries={row.items.map((item) => ({ item }))}
               prioritySrcs={prioritySrcs}
             />
           </div>

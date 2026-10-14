@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import GalleryGrid from "@/components/GalleryGrid";
-import { galleryItems } from "@/lib/GalleryItems";
+import { galleryItems, galleryRows } from "@/lib/GalleryItems";
 import { ClientsList } from "@/lib/ClientList";
 import Clients from "@/components/Clients";
 import ScrollVideo from "@/components/ScrollingBanner";
@@ -102,7 +102,7 @@ export default function DPage() {
       />
       <ScrollVideo />
       <section className="relative z-10">
-        <GalleryGrid items={galleryItems} />
+        <GalleryGrid rows={galleryRows} />
         <Clients clients={ClientsList} />
         <HomeIntro />
       </section>
