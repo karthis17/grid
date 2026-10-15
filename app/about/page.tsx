@@ -312,7 +312,7 @@ export default function AboutPage() {
     >
       <section className="relative min-h-[90vh] overflow-hidden bg-black text-white">
         <Image
-          src="/gallery/01_MOAD_Tahr_01.webp"
+          src="/gallery/01_MOAD_Tahr_02.webp"
           alt="LucidDream creative studio"
           fill
           priority
@@ -327,13 +327,12 @@ export default function AboutPage() {
 
           <div>
             <h1
-              className={`max-w-300 overflow-hidden font-medium ${
-                locale === "ta"
-                  ? "text-[10vw] sm:text-[8vw] lg:text-[6.5vw] leading-[1.12] tracking-normal"
-                  : locale === "ja"
+              className={`max-w-300 overflow-hidden font-medium ${locale === "ta"
+                ? "text-[10vw] sm:text-[8vw] lg:text-[6.5vw] leading-[1.12] tracking-normal"
+                : locale === "ja"
                   ? "text-[11vw] sm:text-[9vw] lg:text-[7vw] leading-[1.08] tracking-[-0.02em]"
                   : "text-[16vw] sm:text-[13vw] lg:text-[10vw] leading-[0.78] tracking-[-0.07em]"
-              }`}
+                }`}
             >
               <span className="hero-title-line block">{t.about.heroTitleLine1}</span>
               <span className="hero-title-line block mb-2">{t.about.heroTitleLine2}</span>
@@ -362,13 +361,12 @@ export default function AboutPage() {
 
           <div className="lg:col-span-9">
             <h2
-              className={`reveal-heading max-w-5xl font-medium ${
-                locale === "ta"
-                  ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-5.5xl leading-[1.3] tracking-normal"
-                  : locale === "ja"
+              className={`reveal-heading max-w-5xl font-medium ${locale === "ta"
+                ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-5.5xl leading-[1.3] tracking-normal"
+                : locale === "ja"
                   ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.25] tracking-[-0.02em]"
                   : "text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-[-0.045em]"
-              }`}
+                }`}
             >
               {t.about.sec1Heading}
             </h2>
@@ -389,7 +387,7 @@ export default function AboutPage() {
       <section className="px-5 md:px-10 lg:px-16">
         <div className="image-reveal relative h-[55vh] overflow-hidden md:h-[75vh]">
           <Image
-            src="/gallery/04_Perkins&Eastman_Genet_City_01.webp"
+            src="/lab-image/Group_photo_web.webp"
             alt="LucidDream studio"
             fill
             sizes="(max-width: 768px) 100vw, 90vw"
@@ -397,8 +395,8 @@ export default function AboutPage() {
           />
 
           <div className="absolute bottom-0 left-0 flex w-full justify-between bg-gradient-to-t from-black/70 to-transparent p-6 pt-20 text-xs uppercase tracking-[0.2em] text-white md:p-8">
-            <span>{t.about.studioName}</span>
-            <span>{t.about.studioCountry}</span>
+            <span>{t.about.teamLabel}</span>
+            {/* <span>{t.about.studioCountry}</span> */}
           </div>
         </div>
       </section>
@@ -423,13 +421,12 @@ export default function AboutPage() {
                   </span>
 
                   <h3
-                    className={`transition-transform duration-500 ease-out group-hover:translate-x-3 ${
-                      locale === "ta"
-                        ? "text-xl sm:text-2xl md:text-3xl tracking-normal"
-                        : locale === "ja"
+                    className={`transition-transform duration-500 ease-out group-hover:translate-x-3 ${locale === "ta"
+                      ? "text-xl sm:text-2xl md:text-3xl tracking-normal"
+                      : locale === "ja"
                         ? "text-xl sm:text-2xl md:text-3.5xl tracking-normal"
                         : "text-2xl md:text-4xl tracking-[-0.03em]"
-                    }`}
+                      }`}
                   >
                     {item}
                   </h3>
@@ -456,13 +453,12 @@ export default function AboutPage() {
             </p>
 
             <h2
-              className={`collab-heading max-w-5xl font-medium ${
-                locale === "ta"
-                  ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-5.5xl leading-[1.3] tracking-normal"
-                  : locale === "ja"
+              className={`collab-heading max-w-5xl font-medium ${locale === "ta"
+                ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-5.5xl leading-[1.3] tracking-normal"
+                : locale === "ja"
                   ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.25] tracking-[-0.02em]"
                   : "text-4xl md:text-6xl lg:text-7xl leading-[1.08] tracking-[-0.045em]"
-              }`}
+                }`}
             >
               {t.about.collabHeading}
             </h2>
@@ -488,13 +484,12 @@ export default function AboutPage() {
 
           <div className="mt-10 flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
             <h2
-              className={`cta-heading max-w-4xl font-medium ${
-                locale === "ta"
-                  ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-7xl leading-[1.1] tracking-normal"
-                  : locale === "ja"
+              className={`cta-heading max-w-4xl font-medium ${locale === "ta"
+                ? "text-2.5xl sm:text-4xl md:text-5xl lg:text-7xl leading-[1.1] tracking-normal"
+                : locale === "ja"
                   ? "text-3xl sm:text-4.5xl md:text-6xl lg:text-7.5xl leading-[1.05] tracking-[-0.02em]"
                   : "text-3.5xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.98] tracking-[-0.05em]"
-              }`}
+                }`}
             >
               {t.about.ctaHeading1}
               <br />

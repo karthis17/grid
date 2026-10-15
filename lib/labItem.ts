@@ -23,7 +23,7 @@ export const labItems: GalleryItem[] = [
     id: "lab-00",
     no: "00",
     title: "Lab 00",
-    src: "/lab/Lab_00.mp4",
+    src: "/lab-image/Lab_00.mp4",
     type: "video",
     width: 1080,
     height: 1920,
@@ -32,13 +32,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 2,
     overlayColor: "rgb(40, 40, 40)",
-    
+
   },
   {
     id: "lab-01",
     no: "01",
     title: "Lab 01",
-    src: "/lab/Lab_01.webp",
+    src: "/lab-image/Lab_01.webp",
     type: "image",
     width: 1920,
     height: 1920,
@@ -47,13 +47,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(71, 70, 70)",
-    
+
   },
   {
     id: "lab-02",
     no: "02",
     title: "Lab 02",
-    src: "/lab/Lab_02.webp",
+    src: "/lab-image/Lab_02.webp",
     type: "image",
     width: 1920,
     height: 1920,
@@ -62,13 +62,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(35, 36, 40)",
-    
+
   },
   {
     id: "lab-03",
     no: "03",
     title: "Lab 03",
-    src: "/lab/Lab_03.mp4",
+    src: "/lab-image/Lab_03.mp4",
     type: "video",
     width: 832,
     height: 464,
@@ -77,13 +77,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 2,
     mobileRow: 1,
     overlayColor: "rgb(45, 45, 45)",
-    
+
   },
   {
     id: "lab-04",
     no: "04",
     title: "Lab 04",
-    src: "/lab/Lab_04.webp",
+    src: "/lab-image/Lab_04.webp",
     type: "image",
     width: 2048,
     height: 2048,
@@ -92,13 +92,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(63, 61, 56)",
-    
+
   },
   {
     id: "lab-05",
     no: "05",
     title: "Lab 05",
-    src: "/lab/Lab_05.webp",
+    src: "/lab-image/Lab_05.webp",
     type: "image",
     width: 2048,
     height: 2048,
@@ -107,13 +107,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(49, 51, 36)",
-    
+
   },
   {
     id: "lab-07",
     no: "07",
     title: "Lab 07",
-    src: "/lab/Lab_07.webp",
+    src: "/lab-image/Lab_07.webp",
     type: "image",
     width: 1920,
     height: 1918,
@@ -122,13 +122,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(67, 70, 58)",
-    
+
   },
   {
     id: "lab-08",
     no: "08",
     title: "Lab 08",
-    src: "/lab/Lab_08.mp4",
+    src: "/lab-image/Lab_08.mp4",
     type: "video",
     width: 624,
     height: 624,
@@ -137,13 +137,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(50, 50, 50)",
-    
+
   },
   {
     id: "lab-09",
     no: "09",
     title: "Lab 09",
-    src: "/lab/Lab_09.mp4",
+    src: "/lab-image/Lab_09.mp4",
     type: "video",
     width: 624,
     height: 624,
@@ -152,13 +152,13 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(50, 50, 50)",
-    
+
   },
   {
     id: "lab-10",
     no: "10",
     title: "Lab 10",
-    src: "/lab/Lab_010.webp",
+    src: "/lab-image/Lab_010.webp",
     type: "image",
     width: 2048,
     height: 2048,
@@ -167,7 +167,7 @@ export const labItems: GalleryItem[] = [
     mobileCol: 1,
     mobileRow: 1,
     overlayColor: "rgb(56, 59, 65)",
-    
+
   },
 ];
 
@@ -194,7 +194,7 @@ export const labRows: LabRow[] = [
         id: "lab-09",
         no: "09",
         title: "Lab 09",
-        src: "/lab/Lab_00.mp4",
+        src: "/lab-image/Lab_00.mp4",
         type: "video",
         width: 524,
         height: 924,
@@ -203,12 +203,12 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(50, 50, 50)",
-        
+
       }, {
         id: "lab-04",
         no: "04",
         title: "Sketch, cabin study",
-        src: "/lab/Lab_04.webp",
+        src: "/lab-image/Lab_04.webp",
         type: "image",
         width: 1920,
         height: 1920,
@@ -217,7 +217,7 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(71, 70, 70)",
-        
+
       },
     ]
   },
@@ -229,7 +229,7 @@ export const labRows: LabRow[] = [
         id: "lab-03",
         no: "03",
         title: "Lab 03",
-        src: "/lab/Lab_03.mp4",
+        src: "/lab-image/Lab_03.mp4",
         type: "video",
         width: 832,
         height: 464,
@@ -238,7 +238,7 @@ export const labRows: LabRow[] = [
         mobileCol: 2,
         mobileRow: 1,
         overlayColor: "rgb(45, 45, 45)",
-        
+
       },
     ],
   },
@@ -250,7 +250,7 @@ export const labRows: LabRow[] = [
         id: "lab-04",
         no: "04",
         title: "Sketch, ISKON, Hyderabad",
-        src: "/lab/Lab_02.webp",
+        src: "/lab-image/Lab_02.webp",
         type: "image",
         width: 1920,
         height: 1920,
@@ -259,13 +259,13 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(63, 61, 56)",
-        
+
       },
       {
         id: "lab-05",
         no: "05",
         title: "Sketch, cabin study",
-        src: "/lab/Lab_05.webp",
+        src: "/lab-image/Lab_05.webp",
         type: "image",
         width: 2048,
         height: 2048,
@@ -274,7 +274,7 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(49, 51, 36)",
-        
+
       },
     ],
   },
@@ -285,7 +285,7 @@ export const labRows: LabRow[] = [
         id: "lab-10",
         no: "10",
         title: "Sketch, cabin study X kill bill",
-        src: "/lab/Lab_010.webp",
+        src: "/lab-image/Lab_010.webp",
         type: "image",
         width: 2048,
         height: 2048,
@@ -294,13 +294,13 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(56, 59, 65)",
-        
+
       },
       {
         id: "lab-07",
         no: "07",
         title: "MOAD TAHR, illustration",
-        src: "/lab/Lab_07.webp",
+        src: "/lab-image/Lab_07.webp",
         type: "image",
         width: 1920,
         height: 1918,
@@ -309,13 +309,13 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(67, 70, 58)",
-        
+
       },
       {
         id: "lab-08",
         no: "08",
         title: "Lab 08",
-        src: "/lab/Lab_08.mp4",
+        src: "/lab-image/Lab_08.mp4",
         type: "video",
         width: 624,
         height: 624,
@@ -324,7 +324,7 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(50, 50, 50)",
-        
+
       },
     ]
   },
@@ -336,7 +336,7 @@ export const labRows: LabRow[] = [
         id: "lab-09",
         no: "09",
         title: "Lab 09",
-        src: "/lab/Lab_09.mp4",
+        src: "/lab-image/Lab_09.mp4",
         type: "video",
         width: 624,
         height: 624,
@@ -345,13 +345,13 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(50, 50, 50)",
-        
+
       },
       {
         id: "lab-01",
         no: "01",
         title: "Sketch, HADI TEHRANI, office",
-        src: "/lab/Lab_01.webp",
+        src: "/lab-image/Lab_01.webp",
         type: "image",
         width: 1920,
         height: 1918,
@@ -360,13 +360,13 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(67, 70, 58)",
-        
+
       },
       {
         id: "lab-02",
         no: "02",
         title: "Sketch, Nilaya, Asian paints",
-        src: "/lab/Lab_011.webp",
+        src: "/lab-image/Lab_011.webp",
         type: "image",
         width: 1920,
         height: 1920,
@@ -375,7 +375,7 @@ export const labRows: LabRow[] = [
         mobileCol: 1,
         mobileRow: 1,
         overlayColor: "rgb(35, 36, 40)",
-        
+
       },
 
     ],

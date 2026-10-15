@@ -28,6 +28,7 @@ export const en: Dictionary = {
     clientsHeading: "Our Clients",
   },
   about: {
+    teamLabel: "Our Team",
     heroTag: "LucidDream Studio",
     heroTitleLine1: "We’re",
     heroTitleLine2: "LucidDream",
