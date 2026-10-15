@@ -188,6 +188,41 @@ export const galleryVidItem = labVidItems;
 
 export const labRows: LabRow[] = [
   {
+    rowType: "duo",
+    items: [
+      {
+        id: "lab-09",
+        no: "09",
+        title: "Lab 09",
+        src: "/lab/Lab_00.mp4",
+        type: "video",
+        width: 524,
+        height: 924,
+        col: 2,
+        row: 2,
+        mobileCol: 1,
+        mobileRow: 1,
+        overlayColor: "rgb(50, 50, 50)",
+        meta: "Lucid Dream Lab",
+      }, {
+        id: "lab-04",
+        no: "04",
+        title: "Lab 04",
+        src: "/lab/Lab_04.webp",
+        type: "image",
+        width: 1920,
+        height: 1920,
+        col: 2,
+        row: 2,
+        mobileCol: 1,
+        mobileRow: 1,
+        overlayColor: "rgb(71, 70, 70)",
+        meta: "Lucid Dream Lab",
+      },
+    ]
+  },
+
+  {
     rowType: "hero",
     items: [
       {
@@ -210,7 +245,7 @@ export const labRows: LabRow[] = [
   {
     rowType: "duo",
     items: [
-      
+
       {
         id: "lab-04",
         no: "04",
@@ -244,58 +279,23 @@ export const labRows: LabRow[] = [
     ],
   },
   {
-    rowType: "feature-left",
-    items: [
+    rowType:"feature-right",
+    items:[
       {
-        id: "lab-00",
-        no: "00",
-        title: "Lab 00",
-        src: "/lab/Lab_00.mp4",
-        type: "video",
-        width: 1080,
-        height: 1920,
-        col: 2,
-        row: 2,
-        mobileCol: 1,
-        mobileRow: 2,
-        overlayColor: "rgb(40, 40, 40)",
-        meta: "Lucid Dream Lab",
-      },
-         {
-        id: "lab-01",
-        no: "01",
-        title: "Lab 01",
-        src: "/lab/Lab_01.webp",
+        id: "lab-10",
+        no: "10",
+        title: "Lab 10",
+        src: "/lab/Lab_010.webp",
         type: "image",
-        width: 1920,
-        height: 1920,
+        width: 2048,
+        height: 2048,
         col: 2,
         row: 2,
         mobileCol: 1,
         mobileRow: 1,
-        overlayColor: "rgb(71, 70, 70)",
+        overlayColor: "rgb(56, 59, 65)",
         meta: "Lucid Dream Lab",
       },
-      {
-        id: "lab-02",
-        no: "02",
-        title: "Lab 02",
-        src: "/lab/Lab_02.webp",
-        type: "image",
-        width: 1920,
-        height: 1920,
-        col: 2,
-        row: 2,
-        mobileCol: 1,
-        mobileRow: 1,
-        overlayColor: "rgb(35, 36, 40)",
-        meta: "Lucid Dream Lab",
-      },
-    ],
-  },
-  {
-    rowType: "trio",
-    items: [
       {
         id: "lab-07",
         no: "07",
@@ -326,7 +326,13 @@ export const labRows: LabRow[] = [
         overlayColor: "rgb(50, 50, 50)",
         meta: "Lucid Dream Lab",
       },
-      {
+    ]
+  },
+
+  {
+    rowType: "feature-left",
+    items: [
+            {
         id: "lab-09",
         no: "09",
         title: "Lab 09",
@@ -341,26 +347,37 @@ export const labRows: LabRow[] = [
         overlayColor: "rgb(50, 50, 50)",
         meta: "Lucid Dream Lab",
       },
-    ],
-  },
-  {
-    rowType: "hero",
-    items: [
       {
-        id: "lab-10",
-        no: "10",
-        title: "Lab 10",
-        src: "/lab/Lab_010.webp",
+        id: "lab-01",
+        no: "01",
+        title: "Lab 01",
+        src: "/lab/Lab_01.webp",
         type: "image",
-        width: 2048,
-        height: 2048,
+        width: 1920,
+        height: 1918,
         col: 2,
         row: 2,
         mobileCol: 1,
         mobileRow: 1,
-        overlayColor: "rgb(56, 59, 65)",
+        overlayColor: "rgb(67, 70, 58)",
         meta: "Lucid Dream Lab",
       },
+      {
+        id: "lab-02",
+        no: "02",
+        title: "Lab 02",
+        src: "/lab/Lab_02.webp",
+        type: "image",
+        width: 1920,
+        height: 1920,
+        col: 2,
+        row: 2,
+        mobileCol: 1,
+        mobileRow: 1,
+        overlayColor: "rgb(35, 36, 40)",
+        meta: "Lucid Dream Lab",
+      },
+
     ],
   },
 ];
