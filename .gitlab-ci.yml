@@ -2,31 +2,23 @@ stages:
   - build
   - deploy
 
-variables:
-  # Enables static export (output: "export") defined in next.config.ts
-  OUTPUT_EXPORT: "true"
-
-cache:
-  key:
-    files:
-      - package-lock.json
-  paths:
-    - .npm/
-    - .next/cache/
-
 build:
   stage: build
   image: node:20-alpine
   variables:
+    OUTPUT_EXPORT: "true"
     npm_config_cache: "$CI_PROJECT_DIR/.npm"
-  before_script:
-    - npm ci --prefer-offline
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
   script:
+    - npm ci --prefer-offline
     - npm run build:export
-    # Fail early if the export folder was not produced
-    - test -d out && ls out | head
+    - ls out
   artifacts:
-    name: "static-export-$CI_COMMIT_SHORT_SHA"
     paths:
       - out/
     expire_in: 1 day
@@ -36,47 +28,20 @@ build:
 deploy:
   stage: deploy
   image: alpine:latest
-  needs: ["build"]
+  needs:
+    - build
   variables:
-    # Override in GitLab CI/CD Variables if cPanel uses a custom port (e.g. 2222)
     SSH_PORT: "22"
   before_script:
-    - apk add --no-cache openssh-client rsync bash
-
-    # Verify required variables exist (fails with a clear message instead of a cryptic error)
-    - |
-      for v in SSH_PRIVATE_KEY SSH_HOST SSH_USER DEPLOY_DIR; do
-        eval "val=\${$v}"
-        if [ -z "$val" ]; then
-          echo "ERROR: CI/CD variable $v is empty or not set."
-          echo "Check it exists, has the right type, and that 'Protected' matches this branch."
-          exit 1
-        fi
-      done
-
-    - eval $(ssh-agent -s)
+    - apk add --no-cache openssh-client rsync
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-
-    # SSH_PRIVATE_KEY should be a File-type variable (works with a plain Variable too)
-    - |
-      if [ -f "$SSH_PRIVATE_KEY" ]; then
-        tr -d '\r' < "$SSH_PRIVATE_KEY" | ssh-add -
-      else
-        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-      fi
-
-    # Trust the server's host key (no "|| true" so failures are visible)
-    - ssh-keyscan -p "${SSH_PORT}" -H "$SSH_HOST" >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+    - tr -d '\r' < "$SSH_PRIVATE_KEY" > ~/.ssh/id_key
+    - echo >> ~/.ssh/id_key
+    - chmod 600 ~/.ssh/id_key
   script:
-    # Debug: confirm connection and that rsync exists on the server
-    - echo "Deploying to $SSH_USER@$SSH_HOST:${DEPLOY_DIR%/}/ (port ${SSH_PORT})"
-    - ssh -p "${SSH_PORT}" "$SSH_USER@$SSH_HOST" "echo connected && which rsync"
-
-    # Sync static export to the cPanel document root
-    # --chmod gives cPanel-friendly permissions (755 dirs, 644 files)
-    # --delete removes remote files not present in out/ (test on a subfolder first!)
-    - rsync -avz --delete --chmod=D755,F644 -e "ssh -p ${SSH_PORT}" out/ "$SSH_USER@$SSH_HOST:${DEPLOY_DIR%/}/"
+    - echo "Host=$SSH_HOST User=$SSH_USER Port=$SSH_PORT Dir=$DEPLOY_DIR"
+    - ssh -i ~/.ssh/id_key -p "$SSH_PORT" -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_HOST" "echo connected; which rsync"
+    - rsync -avz --delete --chmod=D755,F644 -e "ssh -i ~/.ssh/id_key -p $SSH_PORT -o StrictHostKeyChecking=accept-new" out/ "$SSH_USER@$SSH_HOST:$DEPLOY_DIR/"
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
