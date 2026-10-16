@@ -12,17 +12,17 @@ type GalleryGridProps = {
   priority?: boolean;
 };
 
-type Row = { key: string; variant: RowVariant; entries: RowEntry[] };
-
 export default function GalleryGrid({
-  rows,
+  rows = [],
   priority = false,
 }: GalleryGridProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
 
-
   const rowsKey = useMemo(
-    () => rows.map((r) => r.items.map((e) => e.id).join(",")).join("|"),
+    () =>
+      rows
+        .map((r) => (r.items || []).map((e) => e?.id).join(","))
+        .join("|"),
     [rows],
   );
 
@@ -65,10 +65,10 @@ export default function GalleryGrid({
 
   const prioritySrcs = useMemo(() => {
     const set = new Set<string>();
-    if (!priority) return set;
+    if (!priority || !rows) return set;
     for (const row of rows.slice(0, 1)) {
-      for (const entry of row.items) {
-        if (entry.src) set.add(entry.src);
+      for (const entry of row?.items || []) {
+        if (entry?.src) set.add(entry.src);
       }
     }
     return set;
@@ -87,7 +87,7 @@ export default function GalleryGrid({
           <div key={i} className={i < 2 ? undefined : "gallery-row"}>
             <GalleryRow
               variant={row.rowType as RowVariant}
-              entries={row.items.map((item) => ({ item }))}
+              entries={(row.items || []).map((item) => ({ item }))}
               prioritySrcs={prioritySrcs}
             />
           </div>

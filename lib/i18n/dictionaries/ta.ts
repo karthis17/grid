@@ -28,6 +28,7 @@ export const ta: Dictionary = {
     clientsHeading: "எங்கள் வாடிக்கையாளர்கள்",
   },
   about: {
+    teamLabel: "எங்கள் குழு",
     heroTag: "LucidDream ஸ்டுடியோ",
     heroTitleLine1: "நாங்கள்",
     heroTitleLine2: "LucidDream",

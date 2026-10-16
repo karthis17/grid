@@ -28,6 +28,7 @@ export const ja: Dictionary = {
     clientsHeading: "クライアント",
   },
   about: {
+    teamLabel: "私たちのチーム",
     heroTag: "LucidDream スタジオ",
     heroTitleLine1: "私たちは",
     heroTitleLine2: "LucidDream",

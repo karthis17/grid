@@ -3,7 +3,7 @@ import GalleryGrid from "@/components/GalleryGrid";
 import { labItems, labRows } from "@/lib/labItem";
 
 const siteUrl = "https://luciddream.co.in";
-const labOgImage = `${siteUrl}/lab/Lab_01.webp`;
+const labOgImage = `${siteUrl}/lab-image/Lab_01.webp`;
 
 export const metadata: Metadata = {
   title: "Lab",

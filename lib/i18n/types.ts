@@ -34,6 +34,7 @@ export interface Dictionary {
     clientsHeading: string;
   };
   about: {
+    teamLabel: string;
     heroTag: string;
     heroTitleLine1: string;
     heroTitleLine2: string;
