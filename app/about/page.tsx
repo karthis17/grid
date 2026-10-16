@@ -351,7 +351,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-5 py-24 md:px-10 lg:px-16 lg:py-36">
+      <section className="px-5 py-10 md:px-10 lg:px-16 lg:py-36">
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="section-label lg:col-span-3">
             <p className="text-xs uppercase tracking-[0.25em] text-black/45">
@@ -384,8 +384,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-5 md:px-10 lg:px-16">
-        <div className="image-reveal relative h-[55vh] overflow-hidden md:h-[75vh]">
+      <section className="p-2 md:px-10 lg:px-16">
+        <div className="image-reveal relative aspect-1920/822">
           <Image
             src="/lab-image/Group_photo_web.webp"
             alt="LucidDream studio"
@@ -401,7 +401,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-5 py-24 md:px-10 lg:px-16 lg:py-36">
+      <section className="px-5 py-10 md:px-10 lg:px-16 lg:py-36">
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="section-label lg:col-span-3">
             <p className="text-xs uppercase tracking-[0.25em] text-black/45">

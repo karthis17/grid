@@ -7,7 +7,7 @@ const nextConfig = (phase: string): NextConfig => {
   const isStaticExport = process.env.OUTPUT_EXPORT === "true";
 
   return {
-    ...(isStaticExport ? { output: "export" } : {}),
+    ...(isStaticExport ? { output: "export", trailingSlash: true } : {}),
     compress: true,
     images: {
       formats: ["image/avif", "image/webp"],
