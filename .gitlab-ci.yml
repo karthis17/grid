@@ -2,30 +2,59 @@ stages:
   - build
   - deploy
 
+variables:
+  # Enables static export (output: "export") defined in next.config.ts
+  OUTPUT_EXPORT: "true"
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+    - .next/cache/
+
 build:
   stage: build
   image: node:20-alpine
+  variables:
+    npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  before_script:
+    - npm ci --prefer-offline
   script:
-    - npm ci
-    - npm run build
+    - npm run build:export
   artifacts:
+    name: "static-export-$CI_COMMIT_SHORT_SHA"
     paths:
       - out/
-    expire_in: 1 hour
+    expire_in: 1 day
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
 
 deploy:
   stage: deploy
   image: alpine:latest
+  variables:
+    # Default port is 22; override in GitLab CI/CD Variables if cPanel uses a custom port (e.g. 2222)
+    SSH_PORT: "22"
   before_script:
-    - apk add --no-cache openssh-client rsync
+    - apk add --no-cache openssh-client rsync bash
     - eval $(ssh-agent -s)
-    - chmod 400 "$SSH_PRIVATE_KEY"
-    - ssh-add "$SSH_PRIVATE_KEY"
     - mkdir -p ~/.ssh
-    - ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+    - chmod 700 ~/.ssh
+    # Support both GitLab File variable type and regular Variable string
+    - |
+      if [ -f "$SSH_PRIVATE_KEY" ]; then
+        tr -d '\r' < "$SSH_PRIVATE_KEY" | ssh-add -
+      else
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+      fi
+    # Scan host key for the configured SSH port
+    - ssh-keyscan -p "${SSH_PORT:-22}" -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+    - chmod 644 ~/.ssh/known_hosts
   script:
-    - rsync -avz --delete out/ "$SSH_USER@$SSH_HOST:$DEPLOY_DIR/"
+    # Synchronize static export directory to cPanel document root
+    # --chmod ensures proper cPanel web permissions (755 for directories, 644 for files)
+    - rsync -avz --delete --chmod=D755,F644 -e "ssh -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new" out/ "$SSH_USER@$SSH_HOST:${DEPLOY_DIR%/}/"
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
