@@ -1,3 +1,24 @@
+# ----------------------------------------
+# Prevent Directory Browsing & Default Index
+# ----------------------------------------
+Options -Indexes
+DirectoryIndex index.html index.php
+
+# ----------------------------------------
+# MIME types
+# ----------------------------------------
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+  AddType image/avif .avifs
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+  AddType application/javascript .js
+  AddType text/css .css
+</IfModule>
+
+# ----------------------------------------
+# Caching
+# ----------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
 
