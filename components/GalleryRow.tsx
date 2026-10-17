@@ -379,8 +379,8 @@ const Cell = memo(function Cell({
             }`}
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-center px-2">
-              <h2 className="text-sm sm:text-base md:text-xl font-medium tracking-tight text-white drop-shadow-xs">
-                {item.title}
+              <h2 className="text-sm sm:text-base md:text-xl font-medium tracking-tight text-white drop-shadow-xs" >
+                <p dangerouslySetInnerHTML={{ __html: item.title }} />
               </h2>
               {item.meta && (
                 <span className="shrink-0 font-mono text-xs sm:text-sm md:text-base uppercase text-white/80">

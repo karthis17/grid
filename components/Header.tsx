@@ -27,7 +27,7 @@ function Sidebar({
   ];
 
   const mounted = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false
   );
@@ -39,11 +39,10 @@ function Sidebar({
       {/* Overlay */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 bg-black/60 backdrop-blur-xs z-40 transition-opacity duration-300 ${
-          isOpen
+        className={`fixed inset-0 bg-black/60 backdrop-blur-xs z-40 transition-opacity duration-300 ${isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
       />
 
       {/* Sliding panel */}
@@ -71,7 +70,7 @@ function Sidebar({
             </button>
           </div>
 
-        <div className="flex w-full flex-col items-start justify-start gap-4">
+          <div className="flex w-full flex-col items-start justify-start gap-4">
             {menuItems.map((item, index) => (
               <div
                 key={item.href + item.name}
@@ -84,8 +83,8 @@ function Sidebar({
                 `}
                 style={{
                   transitionDelay: isOpen
-                  ? `${300 + index * 120}ms`
-                  : `${index * 50}ms`,
+                    ? `${300 + index * 120}ms`
+                    : `${index * 50}ms`,
                 }}
               >
                 <div
@@ -96,25 +95,23 @@ function Sidebar({
                   className="nav-item relative inline-flex w-auto max-w-full flex-col cursor-pointer overflow-hidden"
                 >
                   <div
-                    className={`nav-main font-bold text-white transition-transform duration-300 whitespace-nowrap ${
-                      locale === "ta"
+                    className={`nav-main font-bold text-white transition-transform duration-300 whitespace-nowrap ${locale === "ta"
                         ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-normal leading-tight font-sans"
                         : locale === "ja"
-                        ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-tight leading-tight font-sans"
-                        : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-helvetica tracking-tight"
-                    }`}
+                          ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-tight leading-tight font-sans"
+                          : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-helvetica tracking-tight"
+                      }`}
                   >
                     {item.name}
                   </div>
 
                   <div
-                    className={`nav-sub absolute left-0 top-0 flex items-center font-bold text-yellow-300 whitespace-nowrap ${
-                      locale === "ta"
+                    className={`nav-sub absolute left-0 top-0 flex items-center font-bold text-yellow-300 whitespace-nowrap ${locale === "ta"
                         ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-normal leading-tight font-sans"
                         : locale === "ja"
-                        ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-tight leading-tight font-sans"
-                        : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-playfair tracking-tight"
-                    }`}
+                          ? "text-2.5xl sm:text-3.5xl md:text-4xl tracking-tight leading-tight font-sans"
+                          : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-playfair tracking-tight"
+                      }`}
                   >
                     <span className="nav-sub-text">{item.name}</span>
                   </div>
@@ -126,9 +123,8 @@ function Sidebar({
 
         {/* Multilingual Switcher inside Sidebar */}
         <div
-          className={`transform transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            isOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-          }`}
+          className={`transform transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
           style={{ transitionDelay: isOpen ? "650ms" : "0ms" }}
         >
           <LanguageSwitcher variant="sidebar" className="mt-8" />
@@ -188,9 +184,9 @@ function Header() {
             height={50}
             width={230}
             alt="Lucid Dream Logo"
-            className={`transition-transform duration-300 ease-out origin-left h-auto w-[120px] sm:w-[150px] md:w-[200px] ${
-              scrolled ? "scale-90" : "scale-100"
-            }`}
+            loading="eager"
+            className={`transition-transform duration-300 ease-out origin-left h-auto w-[120px] sm:w-[150px] md:w-[200px] ${scrolled ? "scale-90" : "scale-100"
+              }`}
             priority
             fetchPriority="high"
           />
