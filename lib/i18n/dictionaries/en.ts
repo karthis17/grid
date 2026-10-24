@@ -46,11 +46,27 @@ export const en: Dictionary = {
     studioCountry: "India",
     sec2Label: "02 / What we do",
     disciplines: [
-      "Architecture Visualisation",
-      "Animation",
-      "Real-time CG",
-      "Digital Experiences",
-      "Games & Interactive",
+      {
+        title: "Architectural Stills",
+        description: "Photoreal exterior and interior images, composed with an architect’s eye and finished with in-house matte painting and post-production."
+      },
+      {
+        title: "Architectural Films",
+        description: "Cinematic walkthroughs and story-led films for launches, competitions and marketing, covering everything from script and storyboard to the final grade."
+      },
+      {
+        title: "Concept & Competition Visuals",
+        description: "Fast mood images, atmospheric studies and illustrated views that help architects sell an idea before the design is fixed."
+      },
+      {
+        title: "Real Estate Launch Campaigns",
+        description: "Hero images, films and social media content for developers, all in one consistent style from pre-launch to handover."
+      },
+      {
+        title: "Real-time & AI-driven Visuals",
+        description: "Unreal Engine walkthroughs, interactive views and AI-assisted concept films for quick exploration and engaging presentations."
+      },
+     
     ],
     sec3Label: "03 / Collaboration",
     collabTag: "Collab × LucidDream",

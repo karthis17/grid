@@ -47,7 +47,7 @@ export interface Dictionary {
     studioName: string;
     studioCountry: string;
     sec2Label: string;
-    disciplines: string[];
+    disciplines: { title: string; description: string }[];
     sec3Label: string;
     collabTag: string;
     collabHeading: string;

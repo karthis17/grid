@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -12,6 +12,14 @@ gsap.registerPlugin(ScrollTrigger);
 export default function AboutPage() {
   const { t, locale } = useLanguage();
   const pageRef = useRef<HTMLDivElement>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const toggleItem = (index: number) => {
+    setOpenIndex((prev) => (prev === index ? null : index));
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 350);
+  };
 
   useLayoutEffect(() => {
     const page = pageRef.current;
@@ -410,29 +418,83 @@ export default function AboutPage() {
           </div>
 
           <div className="disciplines-list lg:col-span-9">
-            {t.about.disciplines.map((item, index) => (
-              <div
-                key={index}
-                className="discipline-item group flex cursor-default items-center justify-between border-t border-black/20 py-5 md:py-7"
-              >
-                <div className="flex items-center gap-5 md:gap-10">
-                  <span className="text-xs text-black/30">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+            {t.about.disciplines.map((item, index) => {
+              const isOpen = openIndex === index;
 
-                  <h3
-                    className={`transition-transform duration-500 ease-out group-hover:translate-x-3 ${locale === "ta"
-                      ? "text-xl sm:text-2xl md:text-3xl tracking-normal"
-                      : locale === "ja"
-                        ? "text-xl sm:text-2xl md:text-3.5xl tracking-normal"
-                        : "text-2xl md:text-4xl tracking-[-0.03em]"
-                      }`}
+              return (
+                <div
+                  key={index}
+                  className="discipline-item border-t border-black/20"
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleItem(index)}
+                    aria-expanded={isOpen}
+                    aria-controls={`discipline-content-${index}`}
+                    id={`discipline-heading-${index}`}
+                    className="group flex w-full cursor-pointer items-center justify-between py-5 text-left md:py-7 transition-colors"
                   >
-                    {item}
-                  </h3>
+                    <div className="flex items-center gap-5 md:gap-10">
+                      <span className="text-xs text-black/30">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <h3
+                        className={`transition-transform duration-500 ease-out group-hover:translate-x-3 ${
+                          isOpen ? "translate-x-3 text-black font-medium" : "text-black/85"
+                        } ${
+                          locale === "ta"
+                            ? "text-xl sm:text-2xl md:text-3xl tracking-normal"
+                            : locale === "ja"
+                              ? "text-xl sm:text-2xl md:text-3.5xl tracking-normal"
+                              : "text-2xl md:text-4xl tracking-[-0.03em]"
+                        }`}
+                      >
+                        {item.title}
+                      </h3>
+                    </div>
+
+                    <div
+                      className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 md:h-10 md:w-10 ${
+                        isOpen
+                          ? "border-black bg-black text-white"
+                          : "border-black/15 text-black/60 group-hover:border-black/40 group-hover:text-black"
+                      }`}
+                    >
+                      <span
+                        className={`absolute h-[1.5px] w-3.5 bg-current transition-transform duration-300 md:w-4 ${
+                          isOpen ? "rotate-45" : "rotate-0"
+                        }`}
+                      />
+                      <span
+                        className={`absolute h-[1.5px] w-3.5 bg-current transition-transform duration-300 md:w-4 ${
+                          isOpen ? "-rotate-45" : "rotate-90"
+                        }`}
+                      />
+                    </div>
+                  </button>
+
+                  <div
+                    id={`discipline-content-${index}`}
+                    role="region"
+                    aria-labelledby={`discipline-heading-${index}`}
+                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                      isOpen
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="pb-6 pl-9 pr-4 md:pb-8 md:pl-14">
+                        <p className="max-w-2xl text-sm text-black/65 md:text-lg ">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             <div className="border-t border-black/20" />
           </div>
