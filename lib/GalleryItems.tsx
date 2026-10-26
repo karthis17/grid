@@ -809,6 +809,48 @@ export const galleryItems: GalleryItem[] = [
     mobileRow: 2,
     overlayColor: "rgb(56, 60, 49)",
   },
+  {
+    id: "56",
+    src: "/gallery/BR_006-Elevation_Steps_V2_3K.webp",
+    width: 1920,
+    height: 1920,
+    no: "56",
+    title: "Resort at Ubud, Bali",
+
+    col: 6,
+    row: 2,
+    mobileCol: 2,
+    mobileRow: 2,
+    overlayColor: "rgb(50, 53, 42)",
+  },
+  {
+    id: "57",
+    src: "/gallery/BR_007-Hut_Stream_V2_3K.webp",
+    width: 1920,
+    height: 1920,
+    no: "57",
+    title: "Resort at Ubud, Bali",
+
+    col: 3,
+    row: 1,
+    mobileCol: 1,
+    mobileRow: 1,
+    overlayColor: "rgb(39, 43, 39)",
+  },
+  {
+    id: "58",
+    src: "/gallery/BR_008-Buffalo_Stream_V2_3K.webp",
+    width: 1920,
+    height: 1920,
+    no: "58",
+    title: "Resort at Ubud, Bali",
+
+    col: 3,
+    row: 1,
+    mobileCol: 2,
+    mobileRow: 2,
+    overlayColor: "rgb(48, 54, 51)",
+  },
 ];
 
 export const galleryVidItems: VideoItem[] = [
@@ -975,6 +1017,50 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
+    rowType: "feature-left",
+    items: [
+      {
+        id: "56",
+        src: "/gallery/BR_006-Elevation_Steps_V2_3K.webp",
+        width: 1920,
+        height: 1920,
+        no: "56",
+        title: "Resort at Ubud, Bali",
+        col: 6,
+        row: 2,
+        mobileCol: 2,
+        mobileRow: 2,
+        overlayColor: "rgb(50, 53, 42)",
+      },
+      {
+        id: "57",
+        src: "/gallery/BR_007-Hut_Stream_V2_3K.webp",
+        width: 1920,
+        height: 1920,
+        no: "57",
+        title: "Resort at Ubud, Bali",
+        col: 3,
+        row: 1,
+        mobileCol: 1,
+        mobileRow: 1,
+        overlayColor: "rgb(39, 43, 39)",
+      },
+      {
+        id: "58",
+        src: "/gallery/BR_008-Buffalo_Stream_V2_3K.webp",
+        width: 1920,
+        height: 1920,
+        no: "58",
+        title: "Resort at Ubud, Bali",
+        col: 3,
+        row: 1,
+        mobileCol: 2,
+        mobileRow: 2,
+        overlayColor: "rgb(48, 54, 51)",
+      },
+    ],
+  },
+  {
     rowType: "hero",
     items: [
       {
@@ -991,7 +1077,7 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
-    rowType: "feature-left",
+    rowType: "feature-right",
     items: [
       {
         id: "09",
@@ -1183,7 +1269,7 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
-    rowType: "feature-right",
+    rowType: "feature-left",
     items: [
       {
         id: "21",
@@ -1331,7 +1417,7 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
-    rowType: "feature-left",
+    rowType: "feature-right",
     items: [
       {
         id: "35",
@@ -1463,7 +1549,7 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
-    rowType: "feature-right",
+    rowType: "feature-left",
     items: [
       {
         id: "46",
@@ -1569,7 +1655,7 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
-    rowType: "feature-left",
+    rowType: "feature-right",
     items: [
       {
         id: "39",
@@ -1644,7 +1730,7 @@ export const galleryRows: GalleryRow[] = [
     ],
   },
   {
-    rowType: "feature-right",
+    rowType: "feature-left",
     items: [
       {
         id: "51",

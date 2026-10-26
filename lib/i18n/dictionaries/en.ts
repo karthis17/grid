@@ -21,7 +21,7 @@ export const en: Dictionary = {
     brandPrefix: "We’re Lucid",
     brandSuffix: "Dream",
     introParagraph:
-      "We are a creative company, a small and talented team crafting extraordinary and unique work across many disciplines - from video content and animation, to real time CG, branding, websites, design, games and strategy. We work across different sectors, from the built environment, to arts and culture, events and placemaking.",
+      "We are a CGI studio that turns architecture into stories. Founded by an architect and powered by a tight team of artists, we craft cinematic stills, films and real-time experiences that help developers, architects and designers sell their vision before a single brick is laid. From residences and hospitality to large-scale masterplans, every frame we make is built to be felt, not just seen.",
     founderName: "Arun Babu",
     founderRole: "Founder and Partner-Architect",
     clientsTrusted: "// TRUSTED ACROSS THE INDUSTRY",
