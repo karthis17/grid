@@ -18,12 +18,12 @@ export const ClientsList: ClientList[] = [
   //   src: "/clients/btda.svg",
   //   type: "Architecture",
   // },
-  // {
-  //   id: 3,
-  //   name: "CNT Architects",
-  //   src: "/clients/logo.svg",
-  //   type: "Architecture",
-  // },
+  {
+    id: 3,
+    name: "CNT Architects",
+    src: "/clients/18.webp",
+    type: "Architecture",
+  },
   {
     id: 4,
     name: "Architecture RED",
