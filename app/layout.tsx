@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import SmoothScrollProvider from "@/components/SmothScrollProvider";
 import localFont from "next/font/local";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
+import Script from "next/script";
 
 const helvetica = localFont({
   src: "./fonts/HelveticaNeueCyr-Bold.woff2",
@@ -181,6 +182,19 @@ export default function RootLayout({
         suppressHydrationWarning
         className="bg-[#f7f7f4] text-[#17170F] antialiased selection:bg-[#ff5a36] selection:text-white overflow-x-hidden min-h-screen"
       >
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-1YENHB8E0S"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-1YENHB8E0S');
+          `}
+        </Script>
         <LanguageProvider>
           <Header />
           <SmoothScrollProvider>
