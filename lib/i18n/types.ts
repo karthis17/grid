@@ -62,4 +62,14 @@ export interface Dictionary {
     copyright: string;
     allRightsReserved: string;
   };
+  faq: {
+    label: string;
+    items: {
+      id: number;
+      question: string;
+      answer: string;
+      list?: string[];
+      category?: string;
+    }[];
+  };
 }

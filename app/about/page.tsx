@@ -6,6 +6,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import FAQ from "@/components/FAQ";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -537,6 +538,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <FAQ  />
 
       <section className="px-5 py-5 md:px-10 md:py-10 lg:px-16 lg:py-16">
         <div className="cta-box relative overflow-hidden bg-[#d8ff3e] px-6 py-16 md:px-10 md:py-24 lg:px-14">

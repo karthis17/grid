@@ -1,4 +1,5 @@
 import { Dictionary } from "../types";
+import { faqJa, faqLabelsByLocale } from "@/lib/faqData";
 
 export const ja: Dictionary = {
   locale: "ja",
@@ -83,5 +84,9 @@ export const ja: Dictionary = {
   footer: {
     copyright: "無断転載を禁じます",
     allRightsReserved: "- Luciddream",
+  },
+  faq: {
+    label: faqLabelsByLocale.ja,
+    items: faqJa,
   },
 };

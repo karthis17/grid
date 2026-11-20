@@ -135,7 +135,6 @@ const organizationSchema = {
     "https://vimeo.com/user5118274",
     "https://linkedin.com/company/luciddream",
   ],
-  priceRange: "$$$",
   knowsAbout: [
     "Architecture Visualization",
     "3D Rendering",
